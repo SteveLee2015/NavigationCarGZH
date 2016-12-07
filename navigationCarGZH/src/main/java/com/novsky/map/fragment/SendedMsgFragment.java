@@ -1,15 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import android.R.integer;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
@@ -28,8 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -44,10 +32,18 @@ import com.mapabc.android.activity.R;
 import com.novsky.map.main.Item;
 import com.novsky.map.main.MsgZhuanFaActivity;
 import com.novsky.map.main.SendMsgAdapter;
-import com.novsky.map.main.SendMsgAdapter.OnCheckBoxClickLinstener;
 import com.novsky.map.util.DatabaseHelper.CustomColumns;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 北斗短信箱
@@ -67,7 +63,7 @@ public class SendedMsgFragment extends Fragment {
 	 *绑定在ListView组件的所有短信数据适配器对象  
 	 */
 	private SendMsgAdapter adapter=null;
-	private List<Item> items=null;
+	private List<Item> items = new ArrayList<Item>();;
 	List<Item> toRemoveItems = new ArrayList<Item>();
     private TextView noMessagePrompt=null;	
 	private int  pageFirstIndex=0;
@@ -78,6 +74,20 @@ public class SendedMsgFragment extends Fragment {
 	private Button btn_select_all;
 	private Button btn_cancel_all;
 	LinearLayout ll_checked_title ;
+
+	private BDCommManager mBDCommManager=null;
+
+	private Button queryBtn=null;
+
+	private EditText queryCondEditText=null;
+	private DatabaseOperation operation;
+
+	private TextView tv_msg_sum;
+	private TextView tv_unread_msg_sum;
+	private TextView tv_sended_msg_sum;
+
+
+	List<Map<String,Object>> list;
 
     private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){
 		@Override
@@ -99,6 +109,7 @@ public class SendedMsgFragment extends Fragment {
 	private BroadcastReceiver receiver=new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			// 数据更新
 			long rowId=intent.getLongExtra("ROWID", 0);
 			DatabaseOperation operation=new DatabaseOperation(getActivity());
 			Cursor cursor=operation.get(rowId);
@@ -121,16 +132,7 @@ public class SendedMsgFragment extends Fragment {
 		}
 	};
 
-	private BDCommManager mBDCommManager=null;
-	
-	private Button queryBtn=null;
-	
-	private EditText queryCondEditText=null;
-	private DatabaseOperation operation;
-	
-	private TextView tv_msg_sum;
-	private TextView tv_unread_msg_sum;
-	private TextView tv_sended_msg_sum;
+
 	
 	/**
 	 * 转化为item对象
@@ -188,29 +190,11 @@ public class SendedMsgFragment extends Fragment {
 		tv_msg_sum = (TextView) headerView.findViewById(R.id.tv_msg_sum);
 		tv_unread_msg_sum = (TextView) headerView.findViewById(R.id.tv_unread_msg_sum);
 		tv_sended_msg_sum = (TextView) headerView.findViewById(R.id.tv_sended_msg_sum);
-		
-		/*1.从数据库中查询所有的短信数据,如果数据库没有数据则发送指令请求最新插入的数据*/
-		Cursor cursor=operation.getAll();
-		if(cursor.getCount()>1000){
-			AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-			builder.setTitle("提示");
-			builder.setMessage("短信数量超过1000条,请删除不必要的短信!");
-			builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			});
-			builder.create().show();
-		}
-		showListView(cursor);
-		cursor.close();
-		operation.close();
-		
+
 		//关键字查询
 		queryCondEditText=(EditText)headerView.findViewById(R.id.message_condit_query);
 		queryBtn=(Button)headerView.findViewById(R.id.query_message_btn);
-		
+
 		initListener();
 		
 		return rootView;
@@ -297,6 +281,61 @@ public class SendedMsgFragment extends Fragment {
 			}
 		});
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			/*增加选项*/
+		//单击
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id) {
+				int temp=position-1;
+				String rowId=String.valueOf(list.get(temp).get("COLUMNN_ID"));
+					/*转发功能*/
+				Intent intent=new Intent();
+				intent.putExtra("MSG_DEL_ID",rowId);
+				intent.setClass(getActivity(),MsgZhuanFaActivity.class);
+				getActivity().startActivity(intent);
+			}
+		});
+		//长按
+		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+										   int index, long arg3) {
+				final int temp=index-1;
+				//final int temp=index;
+				AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
+				alert.setTitle("删除短信");
+				alert.setMessage("是否删除该条短信?");
+				alert.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int index1) {
+						if (operation==null) {
+							operation=new DatabaseOperation(getActivity().getApplicationContext());
+						}
+						int id=Integer.valueOf(String.valueOf(list.get(temp).get("COLUMNN_ID")));
+						boolean istrue=operation.delete(id);
+						if(istrue){
+							list.remove(temp);
+							adapter.notifyDataSetChanged();
+							onResume();
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.bd_msg_del_success), Toast.LENGTH_SHORT).show();
+						}else{
+							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.bd_msg_del_fail), Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+				alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+					}
+				});
+				alert.show();
+				return true;
+			}
+		});
+
+
+
+
 	}
 
 
@@ -330,12 +369,13 @@ public class SendedMsgFragment extends Fragment {
 		
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		//注册广播
+		IntentFilter filter=new IntentFilter("com.bd.action.MESSAGE_ACTION");
+		getActivity().registerReceiver(receiver, filter);
 
-	public void onResume() {
-		super.onResume();
-		if (items==null) {
-			items=new ArrayList<Item>();
-		}
 		try {
 			mBDCommManager.addBDEventListener(mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
@@ -343,14 +383,36 @@ public class SendedMsgFragment extends Fragment {
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public void onResume() {
+		super.onResume();
+
+
+		/*1.从数据库中查询所有的短信数据,如果数据库没有数据则发送指令请求最新插入的数据*/
+		Cursor cursor=operation.getAll();
+		if(cursor.getCount()>1000){
+			AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+			builder.setTitle("提示");
+			builder.setMessage("短信数量超过1000条,请删除不必要的短信!");
+			builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			builder.create().show();
+		}
+		showListView(cursor);
+		cursor.close();
+		operation.close();
+
 		//设置已读未读短信条数
 		
 		setMsgInfo();
-		
-		//注册广播
-		IntentFilter filter=new IntentFilter("com.bd.action.MESSAGE_ACTION");
-		getActivity().registerReceiver(receiver, filter);
+
+
 		
 		//销毁 notification
 		if (Utils.destoryNotification!=null) {
@@ -370,8 +432,8 @@ public class SendedMsgFragment extends Fragment {
 	
 	
 	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStop() {
+		super.onStop();
 		getActivity().unregisterReceiver(receiver);
 		try {
 			mBDCommManager.removeBDEventListener(mBDRNSSLocationListener);
@@ -381,7 +443,7 @@ public class SendedMsgFragment extends Fragment {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private List<Map<String,Object>> build(Cursor mcursor){
 		List<Map<String,Object>> templist=new ArrayList<Map<String,Object>>();
 		Calendar calendar=Calendar.getInstance();
@@ -472,7 +534,7 @@ public class SendedMsgFragment extends Fragment {
 	
 	private void showListView(Cursor cursor){
 		if(cursor!=null&&cursor.getCount()>0){
-			final List<Map<String,Object>> list=build(cursor);
+			list = build(cursor);
 			//把数据转为  item对象 放到items集合中
 			Item item = null;
 			items.clear();
@@ -483,82 +545,43 @@ public class SendedMsgFragment extends Fragment {
 				items.add(item);
 				
 			}
-			if (adapter!=null) {
-				adapter.notifyDataSetChanged();
-				return;
-			}
+//
+//			if (adapter!=null) {
+//				adapter.notifyDataSetChanged();
+//				return;
+//			}
+
 			/*2.把数据转换成List*/
 			adapter=new SendMsgAdapter(getActivity(), items);
-			
+
+			listView.setAdapter(adapter);
+
+
+
 			//回调
-			adapter.setOnCheckBoxClickLinstener(new OnCheckBoxClickLinstener() {
-				
+			adapter.setOnCheckBoxClickLinstener(new SendMsgAdapter.OnCheckBoxClickLinstener() {
+
 				@Override
 				public void onCheckBoxClicked(int positon,List<Item> items) {
 
 					for (Item item : items) {
-						
+
 						if (item.checked) {
-							
+
 							ll_checked_title.setVisibility(View.VISIBLE);
 							return;
 						}
 					}
-					
+
 					ll_checked_title.setVisibility(View.GONE);
-					
+
 				}
 			});
+
 			
-			listView.setAdapter(adapter);
-			/*增加选项*/
-			//单击
-			listView.setOnItemClickListener(new OnItemClickListener() {
-				
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					int temp=position-1;
-					String rowId=String.valueOf(list.get(temp).get("COLUMNN_ID"));
-					/*转发功能*/
-					Intent intent=new Intent();
-					intent.putExtra("MSG_DEL_ID",rowId);
-					intent.setClass(getActivity(),MsgZhuanFaActivity.class);
-					getActivity().startActivity(intent);
-				}
-			});
-			//长按
-			listView.setOnItemLongClickListener(new OnItemLongClickListener(){
-				public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-						 int index, long arg3) {
-					final int temp=index-1;
-					AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
-					alert.setTitle("删除短信");
-					alert.setMessage("是否删除该条短信?");
-					alert.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface arg0, int index1) {
-							if (operation==null) {
-								operation=new DatabaseOperation(getActivity().getApplicationContext());
-							}
-							int id=Integer.valueOf(String.valueOf(list.get(temp).get("COLUMNN_ID")));  
-							boolean istrue=operation.delete(id);
-							if(istrue){
-								list.remove(temp);
-								adapter.notifyDataSetChanged();
-							    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.bd_msg_del_success), Toast.LENGTH_SHORT).show();  
-							}else{
-							   Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.bd_msg_del_fail), Toast.LENGTH_SHORT).show();   
-							}
-						}
-					});
-					alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface arg0, int arg1) {
-						}
-					});
-					alert.show();
-					return false;
-				}
-			});
+
 		}else{
+			items.clear();
 			noMessagePrompt.setText("当前没有北斗短信！");
 			noMessagePrompt.setVisibility(View.VISIBLE);
 		}
