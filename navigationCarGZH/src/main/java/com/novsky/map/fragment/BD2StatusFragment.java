@@ -1,11 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,11 +7,9 @@ import android.graphics.Color;
 import android.location.BDParameterException;
 import android.location.BDRNSSManager.LocationStrategy;
 import android.location.BDUnknownException;
-import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +30,11 @@ import com.novsky.map.main.BDAvailableStatelliteManager;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.main.VerticalProgressBar;
 import com.novsky.map.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 北斗II代卫星状态
@@ -129,7 +126,6 @@ public class BD2StatusFragment extends Fragment {
 	 * 半径
 	 */
 	private int dwR = 110;
-	private LocationManager locationManager = null;
 	private BDCommManager mBDCommManager=null;
 	private GpsStatus mGpsStatus = null;
 	private List<Integer> statellites=new ArrayList<Integer>();
@@ -166,101 +162,6 @@ public class BD2StatusFragment extends Fragment {
 			mHandler.sendMessage(message);
 		}
 	};
-	private GpsStatus.Listener mGpslistener = new GpsStatus.Listener() {
-		public void onGpsStatusChanged(int event) {
-			if(locationManager!=null){
-			mGpsStatus = locationManager.getGpsStatus(null);
-			switch (event) {
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				Iterable<GpsSatellite> allStatellites = mGpsStatus.getSatellites();
-				Iterator<GpsSatellite> it = allStatellites.iterator();			
-				int count = 0;
-				int index = 0;
-				StringBuffer sb=new StringBuffer();
-				//初始化所有的数据
-				while (it.hasNext()) {
-					GpsSatellite satellite = it.next();
-					float azimuth = satellite.getAzimuth();//航向，方位角
-					float elevation = satellite.getElevation();//仰角
-					int statelliteID = satellite.getPrn();// ID
-					float zaizaobi = satellite.getSnr();// 载噪比
-					boolean isUsed = bdAvailableStatelliteManager.usedInFix(statelliteID);//是否参与定位
-					sb.append(statelliteID+",");
-					if (count <= 11){
-						if (statelliteID >= 160) {
-							statelliteID = statelliteID -160;
-							/*1.在载噪比图表上显示载噪比,载噪比必须大于0*/
-							if (zaizaobi > 0){
-								int flag=-1;					
-								/*如果在当前星图上已显示该卫星的载噪比,则更新载噪比的值*/
-								if((flag=checkExists(statelliteID))!=-1){
-									listProgress.get(flag).setProgress(Utils.getProgressValue(zaizaobi));
-									listTextView.get(flag).setText(statelliteID + "");
-								    zaizaobiList.get(flag).setText(String.valueOf((int) zaizaobi));
-								}else{
-								/*如果在当前星图上没有显示该卫星的载噪比,
-								 * 则首先在statellites对象中增加卫星号并进行排序,然后取出该卫星号的index值，
-								 * 并根据index值显示载噪比*/
-									statellites.add(statelliteID);
-									Collections.sort(statellites,new Comparator<Integer>(){
-										public int compare(Integer arg0,Integer arg1) {
-											if(arg0>arg1){
-												return 1;
-											}else if(arg0==arg1){
-												return 0;
-											}
-											return -1;
-										}
-									});	
-									int k=checkExists(statelliteID);
-									//然后排序，根据返回的statelliteID的Index
-									listProgress.get(k).setProgress(Utils.getProgressValue(zaizaobi));
-									listTextView.get(k).setText(statelliteID + "");
-							        zaizaobiList.get(k).setText(String.valueOf((int) zaizaobi));
-								}
-							}else{
-								int flag=-1;
-								if((flag=checkExists(statelliteID))!=-1){
-									listProgress.get(flag).setProgress(0);
-									listTextView.get(flag).setText("");
-									zaizaobiList.get(flag).setText("");
-								    statellites.remove(flag);
-								    initStatelliteData();
-								}
-							}
-							// 2.在星图上显示卫星方位
-							TextView map = mapList.get(count);
-							// 得到坐标
-							double r = dwR * (1.0 - (elevation / 90.0)); // 高度角
-							double x = iCenterX+ (r * Math.sin(2.0 * M_PI * azimuth/ 360.0)); // 方位角
-							double y = iCenterY- (r * Math.cos(2.0 * M_PI * azimuth/ 360.0));
-							AbsoluteLayout.LayoutParams param = (AbsoluteLayout.LayoutParams) map.getLayoutParams();
-							param.x = Utils.dip2px(mContext, x);
-							param.y = Utils.dip2px(mContext, y);
-							map.setLayoutParams(param);
-							map.setVisibility(View.VISIBLE);
-							if (isUsed&&zaizaobi>5) {
-								map.setBackgroundDrawable(mContext.getResources()
-										.getDrawable(R.drawable.satellite_strong_signal_bg));
-								map.setTextColor(Color.BLACK);
-							} else {
-								map.setBackgroundDrawable(mContext.getResources()
-										.getDrawable(R.drawable.satellite_week_signal_bg));
-								map.setTextColor(Color.WHITE);
-							}
-							map.setText("" + statelliteID);
-						}
-					}
-					count++;
-				}
-				//bdAvailableStatelliteManager.removeAllDatas();
-				break;
-			default:
-				break;
-			}
-		}
-		}
-		};
 
 	private Handler mHandler=new Handler(){
 		@Override
@@ -450,15 +351,6 @@ public class BD2StatusFragment extends Fragment {
 			 locationStatus.setText("未定位");
 		}		
 		
-		
-//		mBD2LinearLayout=(LinearLayout)contentView.findViewById(R.id.bd2_status_linearlayout);
-//		mBD2LinearLayout.setOnClickListener(new OnClickListener(){
-//			@Override
-//			public void onClick(View arg0) {
-//				CopyOfBD2StatusActivity.this.finish();
-//			}
-//		});
-		
 		return contentView;
 	}
 
@@ -583,11 +475,7 @@ public class BD2StatusFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		if("S500".equals(Utils.DEVICE_MODEL)){
-			locationManager =(LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-			// 如果GPS未打开，提示打开GPS
-			locationManager.addGpsStatusListener(mGpslistener);
-			 /* 查找到服务信息 */
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0,locationListener);
+
 		}else{
 			mBDCommManager=BDCommManager.getInstance(mContext);
 			try {
@@ -605,10 +493,7 @@ public class BD2StatusFragment extends Fragment {
 	public void onStop() {
 		super.onStop();
 		if("S500".equals(Utils.DEVICE_MODEL)){
-			if(locationManager!=null){
-				locationManager.removeUpdates(locationListener);
-				locationManager.removeGpsStatusListener(mGpslistener);
-			}
+
 		}else{
 			try {
 				mBDCommManager.removeBDEventListener(mBDSatelliteListener,mBDRNSSLocationListener);
