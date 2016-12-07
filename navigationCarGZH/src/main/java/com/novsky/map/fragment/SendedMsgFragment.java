@@ -87,7 +87,7 @@ public class SendedMsgFragment extends Fragment {
 	private TextView tv_sended_msg_sum;
 
 
-	List<Map<String,Object>> list;
+	List<Map<String,Object>> mapList;
 
     private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){
 		@Override
@@ -109,12 +109,20 @@ public class SendedMsgFragment extends Fragment {
 	private BroadcastReceiver receiver=new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context context, Intent intent) {
+
+			onResume();
+
+			//return;
+			/**
+			 *
 			// 数据更新
 			long rowId=intent.getLongExtra("ROWID", 0);
+
 			DatabaseOperation operation=new DatabaseOperation(getActivity());
 			Cursor cursor=operation.get(rowId);
-			List<Map<String,Object>> mlist=build(cursor);
-			Map<String,Object> map=mlist.get(0);
+			mapList=build(cursor);
+			//List<Map<String,Object>> mlist=build(cursor);
+			Map<String,Object> map=mapList.get(0);
 			
 			
 			//将查询到的数据封装到item对象中
@@ -122,13 +130,14 @@ public class SendedMsgFragment extends Fragment {
 			toItemObject(map, item);
 			items.add(0, item);
 			adapter.notifyDataSetChanged();
-			
+
 			if(cursor!=null){
 				cursor.close();
 			}
 			if(operation!=null){
 			    operation.close();
 			}
+			 */
 		}
 	};
 
@@ -290,7 +299,7 @@ public class SendedMsgFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 									int position, long id) {
 				int temp=position-1;
-				String rowId=String.valueOf(list.get(temp).get("COLUMNN_ID"));
+				String rowId=String.valueOf(mapList.get(temp).get("COLUMNN_ID"));
 					/*转发功能*/
 				Intent intent=new Intent();
 				intent.putExtra("MSG_DEL_ID",rowId);
@@ -312,10 +321,10 @@ public class SendedMsgFragment extends Fragment {
 						if (operation==null) {
 							operation=new DatabaseOperation(getActivity().getApplicationContext());
 						}
-						int id=Integer.valueOf(String.valueOf(list.get(temp).get("COLUMNN_ID")));
+						int id=Integer.valueOf(String.valueOf(mapList.get(temp).get("COLUMNN_ID")));
 						boolean istrue=operation.delete(id);
 						if(istrue){
-							list.remove(temp);
+							mapList.remove(temp);
 							adapter.notifyDataSetChanged();
 							onResume();
 							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.bd_msg_del_success), Toast.LENGTH_SHORT).show();
@@ -392,6 +401,7 @@ public class SendedMsgFragment extends Fragment {
 
 		/*1.从数据库中查询所有的短信数据,如果数据库没有数据则发送指令请求最新插入的数据*/
 		Cursor cursor=operation.getAll();
+
 		if(cursor.getCount()>1000){
 			AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 			builder.setTitle("提示");
@@ -411,7 +421,6 @@ public class SendedMsgFragment extends Fragment {
 		//设置已读未读短信条数
 		
 		setMsgInfo();
-
 
 		
 		//销毁 notification
@@ -534,11 +543,11 @@ public class SendedMsgFragment extends Fragment {
 	
 	private void showListView(Cursor cursor){
 		if(cursor!=null&&cursor.getCount()>0){
-			list = build(cursor);
+			mapList = build(cursor);
 			//把数据转为  item对象 放到items集合中
 			Item item = null;
 			items.clear();
-			for (Map<String, Object> map : list) {
+			for (Map<String, Object> map : mapList) {
 				
 				item = new Item();
 				toItemObject(map, item);
@@ -578,7 +587,7 @@ public class SendedMsgFragment extends Fragment {
 				}
 			});
 
-			
+			noMessagePrompt.setVisibility(View.GONE);
 
 		}else{
 			items.clear();
