@@ -1,7 +1,5 @@
 package com.novsky.map.main;
 
-import java.util.HashMap;
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -26,6 +24,8 @@ import com.novsky.map.fragment.LocationModelFragment;
 import com.novsky.map.fragment.ManagerInfoFragment;
 import com.novsky.map.fragment.OverspeedFragment;
 import com.novsky.map.fragment.RelayStationManagerFragment;
+
+import java.util.HashMap;
 
 /**
  * 横屏 的更多功能
@@ -131,6 +131,8 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 //			   getFragmentManager().beginTransaction()
 //				.replace(R.id.message_detail_container, fragment)
 //				.commit();
+
+
 			   trx.hide(fragments.get(lastIndex));
 			   if (!fragments.get(4).isAdded()){
 	                trx.add(R.id.message_detail_container, fragments.get(4));
@@ -145,12 +147,14 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 //			   getFragmentManager().beginTransaction()
 //			   .replace(R.id.message_detail_container, fragment)
 //			   .commit();
-			   trx.hide(fragments.get(lastIndex));
-			   if (!fragments.get(5).isAdded()){
-	                trx.add(R.id.message_detail_container, fragments.get(5));
-	           }
-			   trx.show(fragments.get(5)).commit();
-			   lastIndex=5;
+
+				trx.hide(fragments.get(lastIndex));
+				if (!fragments.get(5).isAdded()){
+				trx.add(R.id.message_detail_container, fragments.get(5));
+				}
+				trx.show(fragments.get(5)).commit();
+				lastIndex=5;
+
 			   break;
 		   case 6:
 //			   getFragmentManager().beginTransaction().remove(fragment);

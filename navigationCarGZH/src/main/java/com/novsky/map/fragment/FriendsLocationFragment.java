@@ -1,14 +1,12 @@
 package com.novsky.map.fragment;
 
-import java.util.List;
-import java.util.Map;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +17,12 @@ import android.widget.Toast;
 
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
-import com.mapabc.android.activity.utils.ToolsUtils;
 import com.novsky.map.main.FriendsLoctionAdapter;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 import com.novsky.map.util.Utils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 友邻位置 用ListView显示所有的数据,并通过
@@ -38,6 +38,7 @@ public class FriendsLocationFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.e(TAG,"onCreateView");
 		View view = inflater.inflate(R.layout.activity_friends_location, null);
 		listView = (ListView) view.findViewById(R.id.friends_loc_listview);
 		return view;
@@ -46,7 +47,7 @@ public class FriendsLocationFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		Log.e(TAG,"onStart");
 		// 清除notification
 		// 销毁 notification
 //		if (Utils.destoryNotification != null) {
@@ -148,7 +149,7 @@ public class FriendsLocationFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		Log.e(TAG,"onResume");
 		//清除 notification
 		if (Utils.destoryNotification != null) {
 			Utils.destoryFriendLocationNotification(getActivity());
@@ -242,5 +243,12 @@ public class FriendsLocationFragment extends Fragment {
 				return false;
 			}
 		});
+	}
+
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.e(TAG,"onDestroy");
 	}
 }
