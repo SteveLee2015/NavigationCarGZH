@@ -1,8 +1,5 @@
 package com.novsky.map.main;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Context;
@@ -22,10 +19,14 @@ import android.widget.TabHost;
 
 import com.bd.comm.protocal.BDCommManager;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.util.BDLocationTabManager;
 import com.novsky.map.util.FriendsLocation;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 import com.novsky.map.util.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 北斗定位Tab页面
@@ -53,6 +54,11 @@ public class BDLocationPortActivity extends TabActivity {
 					.getLongitude()));
 			/* 2.采用NotificationManager来显示 */
 			Utils.mShowLocationReportNotification(mContext, report);
+
+			/*3 广播通知 数据更新****/
+			Intent intent1 = new Intent();
+			intent1.setAction(ReceiverAction.ACTION_RD_REPORT);
+			mContext.sendBroadcast(intent1);
 		}
 	};
 	

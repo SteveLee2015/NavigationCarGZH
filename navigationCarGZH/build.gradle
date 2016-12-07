@@ -25,6 +25,10 @@ android {
         jniLibs.srcDir 'libs'
         jni.srcDirs = []
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {

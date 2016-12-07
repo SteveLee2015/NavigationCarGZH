@@ -3,8 +3,11 @@ package com.novsky.map.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.main.FriendsLoctionAdapter;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 import com.novsky.map.util.Utils;
@@ -41,7 +45,16 @@ public class FriendsLocationFragment extends Fragment {
 		Log.e(TAG,"onCreateView");
 		View view = inflater.inflate(R.layout.activity_friends_location, null);
 		listView = (ListView) view.findViewById(R.id.friends_loc_listview);
+		// 监听广播
+		addReceiver();
 		return view;
+	}
+
+	private void addReceiver() {
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ReceiverAction.ACTION_RD_REPORT);
+		getActivity().registerReceiver(newMessageReceiver,filter);
 	}
 
 	@Override
@@ -249,6 +262,26 @@ public class FriendsLocationFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		getActivity().unregisterReceiver(newMessageReceiver);
 		Log.e(TAG,"onDestroy");
 	}
+
+	/**
+	 * 数据更新广播
+	 */
+	BroadcastReceiver newMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			String action = intent.getAction();
+			switch (action){
+				case ReceiverAction.ACTION_RD_REPORT:{
+					//更新数据
+					onStart();
+					break;
+				}
+			}
+
+		}
+	};
 }

@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bd.comm.protocal.BDCommManager;
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.util.BDMSG;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.FriendsLocation;
@@ -372,6 +373,11 @@ public class SMSReceiver extends BroadcastReceiver {
 						if (Utils.checkNaviMap) {
                             ReportPosManager.receiverReportPos(report);
                         }
+					/*3 广播通知更新数据***/
+						Intent intent1 = new Intent();
+						intent1.setAction(ReceiverAction.ACTION_RD_REPORT);
+						context.sendBroadcast(intent1);
+
 					} catch (Exception e) {
 						e.printStackTrace();
 						Toast.makeText(mContext, "自定义位置报告解析失败", Toast.LENGTH_SHORT).show();
