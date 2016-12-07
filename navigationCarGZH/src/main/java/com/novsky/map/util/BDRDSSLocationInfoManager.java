@@ -1,8 +1,5 @@
 package com.novsky.map.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.location.BDLocation;
 
 /**
@@ -46,7 +43,11 @@ public class BDRDSSLocationInfoManager {
 		bdlocation.setLatitude(Utils
 				.changeLonLatMinuteToDegree(location.mLatitude));
 		bdlocation.setEarthHeight(location.earthHeight);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		bdlocation.mLocationTime=sdf.format(new Date());
+		/**
+		 * 系统时间
+		 */
+		//SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//bdlocation.mLocationTime=sdf.format(new Date());
+		bdlocation.mLocationTime=location.mLocationTime;
 	}
 }

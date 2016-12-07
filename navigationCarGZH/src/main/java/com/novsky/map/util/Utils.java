@@ -2333,6 +2333,8 @@ public class Utils{
 		default:
 			break;
 		}
+
+		coodrinate.mLocationTime = bdlocation.mLocationTime;
 		return coodrinate;
 	}
 

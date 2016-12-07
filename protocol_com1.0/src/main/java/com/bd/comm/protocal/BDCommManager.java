@@ -980,6 +980,7 @@ public class BDCommManager {
 
 					location.setUserAddress(userId);
 					location.setMsgType(locType);
+					location.mLocationTime = locTime;//增加 定位时间  add by llg 20161207
 					location.setLongitude(Double.valueOf(lon));
 					location.setLongitudeDir(lonDir);
 					location.setLatitude(Double.valueOf(lat));
