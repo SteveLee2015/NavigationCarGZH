@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_location_send">LocationSendActivity</string>
+    <string name="title_activity_map">位置信息</string>
+    <string name="title_activity_msg_usal_word">短语删除</string>
+    <string name="title_activity_bdmanager">BDManagerActivity</string>
+
+    <!-- 本机信息 -->
+    <string name="title_activity_local_machine_info">本机信息</string>
+    <string name="local_address">本机地址</string>
+    <string name="local_ic_card_status">IC卡状态</string>
+    <string name="serial_num">序 列 号</string>
+    <string name="service_feq">服务频度</string>
+    <string name="comunication_level">通信等级</string>
+    <string name="card_type">是否加密</string>
+    <string name="local_is_silence">是否静默</string>
+    <string name="card_save_status">存储状态</string>
+    <string name="prm_status">PRM状态</string>
+    <string name="machine_version"> 版  本 </string>
+    <string name="progress_dialog_msg">正在读取本机信息,请稍等...</string>
+    <string name="title_activity_error">ErrorActivity</string>
+    <string name="title_local_machine">本机信息</string>
+    <string name="key_local_mach_pref">COM.NOVSKY.LOCAL_MACHINEN_INFO</string>
+    <string name="summary_local_mach">显示北斗设备的基本信息</string>
+    <string name="get_base_info">获取信息</string>
+    <string name="bd2_location_status">状态:</string>
+    <string name="gps_satellite_map_str">GPS星图</string>
+    <string name="gps_satellite_map">GPS卫星状态</string>
+    <string name="bd_satellite_map">北斗卫星状态</string>
+    <string name="title_activity_bdalarm">报警</string>
+    <string name="alarm_type">报警类型</string>
+    <string name="start_alarm">开始</string>
+    <string name="stop_alarm">停止</string>
+    <string name="cancle_alarm">取消</string>
+    <string name="title_activity_bdassist_alarm">协助救援</string>
+    
+        <string name="bdloc_common_loc_str">开始定位</string>
+    <string name="bdloc_immediate_loc_str">紧急定位</string>
+    <string name="bdloc_save_road_flag_name_str">名称</string>
+    <string name="bdloc_save_road_flag_lon_str">经度</string>
+    <string name="bdloc_save_road_flag_lat_str">纬度</string>
+    <string name="bdloc_save_road_flag_height_str">高程</string>
+    <string name="bdloc_save_road_flag_note_str">注释</string>
+    <string name="bdloc_msg_tools">北斗短报文工具</string>
+    <string name="bdloc_set_success">定位设置成功</string>
+    <string name="bdloc_set_fail">定位设置失败</string>
+    <string name="bdloc_set_loc">请先设置定位参数!</string>
+    <string name="bdloc_save_flag_success">保存路标成功!</string>
+    <string name="bdloc_save_flag_fail">保存路标失败!</string>
+    <string name="bdloc_1_img_msg">RDSS定位</string>
+    <string name="bdloc_2_img_msg">RNSS定位</string>
+    <string name="bdloc_gbs_img_msg">GPS定位</string>
+    <string name="bdloc_jr_img_msg">兼容定位</string>
+    <string name="bdloc_1_top_tab_msg">RDSS定位</string>
+    <string name="bdloc_2_top_tab_msg">RNSS定位</string>
+    <string name="bdloc_gps_top_tab_msg">GPS</string>
+    <string name="bdloc_jr_top_tab_msg">兼容</string>
+    <string name="bd1_loc_type">定位方式</string>
+    
+       <!-- BD Location -->
+    <string name="title_activity_bdlocation">北斗定位</string>
+    <string name="serial_id">序列号</string>
+    <string name="local_mach_id">本机ID</string>
+    <string name="msg_type">信息类别</string>
+    <string name="research_address">查询地址</string>
+    <string name="location_time">定位时刻</string>
+    <string name="lon_value">经度</string>
+    <string name="lat_value">纬度</string>
+    <string name="height">高程</string>
+    <string name="height_wc">高程误差</string>
+    <string name="accuracy_value">精度</string>
+    <string name="location_wc">定位误差</string>
+    <string name="bdloc_start_loc_str">开始定位</string>
+    <string name="bdloc_stop_loc_str">结束定位</string>
+    <string name="bdloc_set_str">定位设置</string>
+    <string name="bdloc_loc_report_str">位置报告</string>
+    <string name="bdloc_save_roadflag_str">保存路标</string>
+    <string name="location_type">类型</string>
+    
+    <string name="title_activity_add_contact">AddContactActivity</string>
+    <string name="title_activity_bdnavi_success_prompt">BDNaviSuccessPromptActivity</string>
+    <string name="title_activity_bdnavi_fail_prompt">BDNaviFailPromptActivity</string>
+    <string name="title_activity_report">ReportActivity</string>
+    <string name="title_activity_sos_launcher">SOS</string>
+    <string name="location_report_cycle">结束报位</string>
+    
+    <string name="nameMapBarSta0">"地 图"</string>
+    <string name="nameMapBarSta1">"导 航"</string>
+    <string name="nameMapBarSta2">"通 讯"</string>
+    <string name="nameMapBarSta3">"更 多"</string>
+    <string name="nameRouBarSta0">"返回"</string>
+    <string name="nameRouBarSta1">"详情"</string>
+    <string name="nameRouBarSta2">"起点"</string>
+    <string name="nameRouBarSta3">"终点"</string>
+    <string name="nameRouBarSta4">"导航"</string>
+    <string name="namePrvBarSta0">"关闭"</string>
+    <string name="namePrvBarSta1">"删除"</string>
+    <string name="namePrvBarSta2">"速度"</string>
+    <string name="nameNaviBarSta0">"放弃"</string>
+    <string name="nameNaviBarSta1">"导航"</string>
+    <string name="inputInitStr">"搜索地点"</string>
+    
+    <string name="home_tab2_title">通讯</string>
+    <string name="home_tope_title_bd1">RDSS</string>
+    <string name="home_tope_title_bd2">RNSS</string>
+
+    <string name="title_activity_bdtime">军用标准时间</string>
+    <string name="bd_check_time">北斗校时</string>
+    
+    
+    <string name="location_pd"> 定位频度</string>
+    <string name="test_height_type">测高方式</string>
+    <string name="tianxian_height">天线高</string>
+    <string name="msg_serial_id">序号</string>
+    <string name="title_activity_bdmanager_horizontal">BDManagerHorizontalActivity</string>
+    
+    
+    <!-- 定位模式 -->
+    <string name="title_location_model">定位模式</string>
+    <string name="key_location_model">COM.NOVSKY.LOCATION_MODEL</string>
+    <string name="summary_location_model">切换单北斗,单GPS,混合定位模式</string>
+    <string name="title_activity_location_model">定位模式</string>
+    
+     <string-array name="bdloc_type_array">
+        <item>单次定位</item>
+        <item>连续定位</item>
+    </string-array>
+    <string-array name="test_height_spinner">
+        <item>有高程</item>
+        <item>无高程</item>
+        <item>测高一</item>
+        <item>测高二</item>
+    </string-array>
+    
+     <string name="height_no_empty">高程不能为空!</string>
+     <string name="tixian_no_empty">天线高不能为空!</string>
+     <string name="title_activity_location_report">位置报告</string>
+    
+      <string name="manager_error_prompt">请正确输入管理信息!</string>
+      <string name="write_manager_info_success">成功设置管理信息!</string>
+      <string name="write_serial_num_success">成功写入序列号!</string>
+      <string name="serial_num_is_null">序号不能为空!</string>
+      
+      <string name="title_activity_bdsend_msg_land_scape">BDSendMsgLandScapeActivity</string>
+      <string name="title_activity_bdcontact">BDContactActivity</string>
+      
+
+    <!-- 短语管理 -->
+    <string name="title_words_manager">短语管理</string>
+    <string name="key_words_manager">COM.NOVSKY.WORDS_MANAGER</string>
+    <string name="summary_words_manager">增加/删除短信常用短信</string>
+    <string name="title_activity_words_manager">短语管理</string>
+    <string name="my_position_str">我的位置</string>
+    <string name="title_activity_sos">SOSActivity</string>
+    <!-- 中继站号码 -->
+    <string name="key_relay_station_manager">COM.NOVSKY.RELAY_STATION_MANAGER</string>
+    <string name="summary_relay_station_manager">管理中继站号码信息</string>
+
+      <!-- BD Manager -->
+    <string name="bd_device_info">北斗设备信息</string>
+    <string name="bd_system_check_str">系统查看</string>
+    
+    <!-- RDSS定位 -->
+    <string name="key_rdss_location_manager">COM.NOVSKY.RDSS_LOCATION_MANAGER</string>
+    <string name="summary_rdss_location_manager">获取北斗定位信息</string>
+    <!-- RDSS设置 -->
+    <string name="key_rdss_setting_manager">COM.NOVSKY.RDSS_SETTING_MANAGER</string>
+    <string name="summary_rdss_setting_manager">设置RDSS定位信息</string>
+    <string name="title_rdss_setting_manager">RDSS定位设置</string>
+    <!-- 北斗定位 -->
+    <string name="key_bd_location_manager">COM.NOVSKY.BD_LOCATION_MANAGER</string>
+    <string name="summary_bd_location_manager">RNSS定位信息</string>
+    <string name="title_bd_location_manager">RNSS定位</string>
+    <!-- 位置报告 -->
+    <string name="key_location_report_manager">COM.NOVSKY.LOCATION_REPORT_MANAGER</string>
+    <string name="summary_location_report_manager">发送位置报告</string>
+    <string name="key_friend_location_manager">COM.NOVSKY.FRIEND_LOCATION_MANAGER</string>
+    <string name="summary_friend_location_manager">查看友邻位置信息</string>
+    
+    <!-- 自检输出 -->
+    <string name="title_auto_check">RDSS波束状态</string>
+    <string name="key_auto_check">COM.NOVSKY.AUTO_CHECK</string>
+    <string name="summary_auto_check">当前北斗RDSS卫星状态信息</string>
+    <string name="title_activity_auto_checked">RDSS波束状态</string>
+    <string name="auto_check_tx_label">频度</string>
+    <string name="auto_check_access_btn">读取</string>
+    <string name="auto_check_check_gonglv">功率检测</string>
+  
+       <!-- 北斗二号卫星状态 -->
+    <string name="title_bd2_satelite_status">北斗卫星状态</string>
+    <string name="key_bd2_satelite_status">COM.NOVSKY.BD2_SATELATE_STATUS</string>
+    <string name="summary_bd2_satelite_status">查看北斗卫星状态信息</string>
+
+    <!-- GPS卫星状态- -->
+    <string name="title_gps_status">GPS卫星状态</string>
+    <string name="key_gps_status">COM.NOVSKY.GPS_SATELATE_STATUS</string>
+    <string name="summary_gps_status">查看GPS卫星状态信息</string>
+    
+     <string name="system_set">系统设置</string>
+     
+    
+    <string name="key_bd_check_time">COM.BD.CHECK.TIME</string>
+    <string name="summary_bd_check_time">通过北斗卫星进行校时</string>
+    <string name="bd_instr_comm">指令导航</string>
+    <string name="bd_line_comm">路线导航</string>
+    <string name="friend_Location_comm">友邻位置</string>
+    
+     <!-- 作战时间 -->
+    <string name="bd_zuozhan_time">作战时间</string>
+    <string name="key_zuozhan_time">COM.NOVSKY.ZUOZHAN_TIME</string>
+    <string name="summary_zuozhan_time">显示作战时间</string>
+    
+    <!-- 管理信息 -->
+    <string name="title_manager_info">管理信息</string>
+    <string name="key_manager_info">COM.NOVSKY.MANAGER_INFO</string>
+    <string name="summary_manager_info">设置管理信息</string>
+    <string name="title_activity_manager_info">管理信息</string>
+    <string name="manager_read_btn">读取..</string>
+    <string name="manager_set_btn">设置...</string>
+
+    <string name="about_software">关于</string>
+    <string name="key_about_software">COM.NOVSKY.ABOUTSOFTWARE</string>
+    <string name="summary_about_software">显示当前软件版本以及更新</string>
+    
+    <string name="title_activity_soft_about">版本</string>
+    <string name="software_about_name">北斗导航应用</string>
+    <string name="software_about_version">版本: V1.0.2</string>
+    <string name="software_about_date">2015-12-7</string>
+    
+    <string name="title_activity_bdlocation_port">北斗定位</string>
+    <string name="title_activity_bd1_loc">BD1LocActivity</string>
+    <string name="title_activity_location_set">定位设置</string>
+    
+  	<string name="button_confirm">确定</string>
+  	<string name="button_cancle">取消</string>
+</resources>

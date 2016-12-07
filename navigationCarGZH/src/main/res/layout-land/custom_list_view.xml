@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="fill_parent"  
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
+    android:padding="0dp"
+    >
+    <LinearLayout  
+	    android:layout_width="wrap_content"  
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:gravity="right">
+	    
+	    <!-- 显示上一列的操作-->
+	    <ImageView android:id="@+id/custom_list_lef_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:minWidth="48dp"
+	        android:minHeight="48dp"
+	        android:src="@drawable/custom_listview_left"
+	        android:contentDescription="@string/custom_list_left_msg"
+	        />
+   </LinearLayout> 
+   
+   <LinearLayout  
+	    android:layout_width="0dp"  
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_weight="5"
+	>
+	    <!-- 显示内容 -->
+	    <TextView
+	        android:id="@+id/custom_list_content"
+	        android:layout_width="fill_parent"
+	        android:layout_height="51dp"
+	        android:minHeight="48dp"
+	        android:gravity="center"
+	        android:textColor="@color/black"
+	        android:textSize="@dimen/txtSize"
+	        android:background="@drawable/custom_listview_content" />
+    </LinearLayout>
+    <LinearLayout  
+	    android:layout_width="0dp"  
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_weight="1"
+	    android:gravity="left" >
+     <!-- 显示下一列的操作-->
+    <ImageView android:id="@+id/custom_list_right_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        android:src="@drawable/custom_listview_right"
+        android:contentDescription="@string/custom_list_right_msg"/>
+    </LinearLayout>
+    
+</LinearLayout>  

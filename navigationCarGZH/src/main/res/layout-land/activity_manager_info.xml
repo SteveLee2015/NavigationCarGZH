@@ -1,0 +1,562 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manager_info_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/function_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/msg_serial_id"
+            android:textSize="@dimen/txtSize" />
+
+        <EditText
+            android:id="@+id/serial_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="6"
+            android:background="@drawable/msg_received_address"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="text"
+            android:textSize="@dimen/txtSize" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical" >
+            <Button
+                android:id="@+id/write_serial_num"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_bg_selector"
+                android:text="写入"
+                android:textSize="@dimen/txtSize"
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="管信"
+                android:textSize="@dimen/txtSize" />
+
+            <Button
+                android:id="@+id/manager_read_manage_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:text="读取"
+                android:textSize="@dimen/txtSize"
+                android:background="@drawable/btn_bg_selector"
+                 />
+
+            <Button
+                android:background="@drawable/btn_bg_selector"
+                android:id="@+id/manager_set_manage_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:textSize="@dimen/txtSize"
+                android:text="写入" />
+            
+            <Button
+                android:id="@+id/send_broadcast_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="路线导航"
+                android:visibility="invisible"
+                android:textSize="@dimen/txtSize" />
+            
+            <Button
+                android:id="@+id/send_cmd_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="指令导航"
+                android:visibility="invisible"
+                android:textSize="@dimen/txtSize" />
+
+            <Button
+                android:id="@+id/send_report_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="位置报告"
+                android:visibility="invisible"
+                android:textSize="@dimen/txtSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_weight="8"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal" >
+                
+                <EditText
+                    android:id="@+id/manager_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/manager_info9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info13"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info15"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/manager_info17"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info18"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info19"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info20"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info21"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info22"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info23"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/manager_info25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info26"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info27"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info28"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info29"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info31"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+
+                <EditText
+                    android:id="@+id/manager_info32"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/msg_received_address"
+                    android:digits="0123456789ABCDEFabcdef"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:maxLength="2" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="提示:请设置完序号和管理信息后,重启机器!"
+                android:textColor="#FF0000"
+                android:textSize="@dimen/txtSize" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

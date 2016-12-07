@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="color_msg_about">#5198ed</color>
+	<color name="color_bg">#B8CAE3</color>
+	<color name="color_black">#000000</color>
+	<color name="color_gray">#808080</color>
+	<color name="color_red">#FF0000</color>
+	<color name="bisque">#FFE4C4</color>
+	<color name="black">#000000</color>
+	<color name="white">#FFFFFF</color>
+	<color name="green">#48ff00</color>
+    <color name="local_mach_line_color">#CDC0B0</color>
+    <color name="bg_color">#7FFFD4</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_background">#00000000</color>
+    <!-- 首页Tab的颜色 -->
+    <color  name="tab_un_fouces">#CECECE</color>
+    <color  name="tab_on_presse">#FF0000</color>
+    <color  name="tab_pressed">#63bcec</color>
+    <color  name="tab_title_font_color">#000000</color>
+    <!-- 北斗定位 -->
+    <color  name="bd_tab_top_backgroud">#0078b8</color>
+    
+    <!-- HomeActivity -->
+    <color name="bd1_signal_none">#000000</color>
+    <color name="bd1_signal_weak">#FF0000</color>
+    <color name="bd1_signal_normal">#919191</color>
+    
+    <color name="bd2_enable_loc">#919191</color>
+    <color name="bd2_unenable_loc">#FF0000</color>
+    
+    <color name="dark_gray">#404040</color>
+    
+    <!-- 波速的颜色-->
+    <color name="bs_signal_light">#1eff00</color>
+    <color name="bs_signal_un_light">#535353</color>
+    <color name="blue">#0000FF</color>
+    
+    <color name="dialog_btn_submit_border_color">#60C8C8C8</color>
+    
+    <color name="dialog_btn_border_color">#888888</color>
+    <color name="dialog_btn_submit_press_color">#AA5017</color>
+    <color name="msg_btn_bg_color">#3f51b5</color>
+    <color name="msg_title_bg_color">#00000000</color>
+    <color name="msg_title_bg_selected_color">#40000000</color>
+    
+    <color name="bd_manager_divider_color">#121212</color>
+    
+    
+</resources>

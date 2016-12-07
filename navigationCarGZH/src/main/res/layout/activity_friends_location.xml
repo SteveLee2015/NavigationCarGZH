@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:id="@+id/friend_loc_layout"
+    android:background="@drawable/bd_loc_bg"
+    >
+  <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="36dp"
+        style="@style/CustomWindowTitleBackground"
+     >
+    <ImageView 
+        android:id="@+id/home_title_flag_img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"  
+        android:src="@drawable/title_loc_flag"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+    />
+    <TextView 
+        android:id="@+id/home_title_content"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:gravity="left|center_vertical"
+        android:text="@string/title_activity_friends_location"
+        android:layout_weight="8"
+     />    
+     
+</LinearLayout>
+    
+   <ListView android:id="@+id/friends_loc_listview" android:layout_height="wrap_content"  
+         android:layout_width="fill_parent"></ListView>  
+  
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="armeabi-v7a,armeabi"
+    api-level="17"
+    density="ldpi"
+    format="8"
+    plugin-version="2.2.2"
+    timestamp="6343830881496"
+    token="1652615535180923149"
+    verifier="FULL_BUILD_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="1261" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="13" />
+    <task
+        name="verifier"
+        duration="3" />
+
+    <artifact
+        location="F:\as_wordspace\NavigationCarGZH\navigationCarGZH\build\outputs\apk\navigationCarGZH-debug.apk"
+        type="MAIN" />
+
+    <build
+        timestamp="6343830881496"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="F:\as_wordspace\NavigationCarGZH\navigationCarGZH\build\outputs\apk\navigationCarGZH-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>

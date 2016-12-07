@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alarm_items">
+      <item>紧急救援</item>
+      <item>火灾</item>
+      <item>人员落水</item>
+      <item>船舶碰撞</item>
+      <item>船舶故障</item>
+      <item>恐怖袭击</item>
+      <item>人员抓扣</item>
+      <item>追赶</item>
+      <item>船舶搁浅</item>
+      <item>船舶风灾</item>
+      <item>人员伤病</item>
+      <item>船舶进水</item>
+      <!-- 
+      <item>断电报警</item> -->
+    </string-array>
+</resources>

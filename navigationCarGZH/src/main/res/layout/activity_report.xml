@@ -1,0 +1,204 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingTop="30dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:id="@+id/activity_loc_report"
+    android:background="@drawable/bd_loc_bg"
+    >
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:text="@string/bdloc_userAddress_str"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:background="@drawable/txt_bg" 
+       />
+        
+       <LinearLayout 
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_weight="5"
+	        android:background="@drawable/edit_txt_bg"
+	        android:gravity="center"
+        > 
+	        <EditText 
+	            android:id="@+id/bdloc_userAddress_et"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:inputType="number"
+	            android:layout_weight="4"
+	            android:gravity="center"
+	            android:textSize="14sp"
+	            android:background="@null"/>
+	        
+	        <ImageView
+	          android:id="@+id/bdloc_linker"
+	          android:layout_width="0dp"
+	          android:layout_height="wrap_content"
+	          android:contentDescription="@string/kou_lin_linker_str" 
+	          android:layout_weight="1"
+	          android:src="@drawable/msg_select_address"
+	          android:padding="0dp"
+	        />
+        </LinearLayout>
+    </LinearLayout>
+
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:id="@+id/set_cycle_loc"
+        android:visibility="gone"
+        >
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/bdloc_report_feq_str"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:background="@drawable/txt_bg" 
+            />
+         <LinearLayout 
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:layout_weight="5"
+             android:background="@drawable/edit_txt_bg"
+             android:gravity="center"
+         >
+	        <EditText android:id="@+id/bdloc_report_feq"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:inputType="number"
+	            android:layout_weight="4"
+	            android:text="0"
+	            android:background="@null"
+	            android:gravity="center"
+	            android:textSize="14sp"
+                    android:maxLength="10" 
+	            />
+	         <TextView
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:text="@string/common_second"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:textColor="#000000"
+	            />
+        </LinearLayout>
+        
+    </LinearLayout>
+    <TextView 
+		          android:id="@+id/counter_tv"
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:text=""
+		          android:textColor="#000000"
+		          android:padding="8dp"
+		          android:visibility="gone"
+		        /> 
+	        <LinearLayout
+            android:id="@+id/bdloc_coodr" 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            
+            <TextView 
+                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:text="@string/report_location_type_str"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:background="@drawable/txt_bg" 
+            />
+            
+            <com.novsky.map.main.CustomListView
+                android:id="@+id/bd_coodr_type" 
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                >
+            </com.novsky.map.main.CustomListView>
+         </LinearLayout>	        
+ 
+     <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+         
+         <Button android:id="@+id/bdloc_report_setting_btn"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:text="@string/location_auto_send_setting"
+            android:background="@drawable/btn_bg_selector"
+            android:textSize="14sp"
+            android:layout_marginRight="8dp"
+          />
+         
+        <Button android:id="@+id/bdloc_report_submit_btn"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:text="@string/loc_auto_start_btn_str"
+            android:background="@drawable/btn_bg_selector"
+            android:textSize="14sp"
+          />
+        <!-- 
+         <Button android:id="@+id/bdloc_report_cancle_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="取消报位"
+            android:background="@drawable/btn_bg_selector"
+            android:textSize="14sp"
+            android:enabled="false"
+            android:visibility="gone"
+          />-->
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+         
+         <Button android:id="@+id/send_shouquan_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="授权"
+            android:textSize="14sp"
+            android:layout_marginRight="8dp"
+          />
+         
+        <Button android:id="@+id/send_report_cfg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="修改报告参数"
+            android:textSize="14sp"
+            android:layout_marginRight="8dp"
+          />
+
+    </LinearLayout>
+     
+</LinearLayout>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 常用 -->
+    <string name="app_name">北斗导航软件</string>
+    <string name="app_name_1">北斗导航</string>
+	<string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_btn_negative">否</string>
+    <string name="common_btn_positive">是</string>
+    <string name="common_tip">提示</string>
+    <string name="common_nonetwork">没有可连接的网络,请检查...</string>
+    <string name="common_no_data">没有数据</string>
+    <string name="commmon_loading_data">数据搜索中,请稍候...</string>
+    <string name="common_total">共</string>
+    <string name="common_record">条</string>
+    <string name="common_result">搜索结果</string>
+    <!-- 专用 -->
+    <string name="navilogo_welcomevoice">欢迎使用北斗导航软件</string>
+    <string name="txtSearchResult">SearchResult</string>
+    <string name="navisplash_nosdcard_tip">SD卡未找到,程序将关闭!</string>
+    <string name="navisplash_disclaimer">敬告</string>
+    <string name="navisplash_disclaimer_content">1.本产品所计算的路径仅供参考，请不要据此作为您行驶的唯一依据，并请注意及时更新导航电子地图数据。\r\n2.在驾驶时请避免操作导航仪，以防发生危险。\r\n3.本软件在使用过程中，可能会产生网络流量费用，该费用由无线运营商收取，产生费用参看运营商的收费标准。\r\n4.因违反上述忠告而发生交通事故或遭受其他损失，本产品的开发、生成、销售者均不承担任何责任。</string>
+    <string name="navisplash_disclaimer_tip">下次启动时不再提示此对话框！</string>    
+    <string name="navisplash_refuse">拒绝</string>
+    <string name="navistudio_startGPSTitle">启用</string>
+    <string name="navistudio_GPSTipMessage">北斗位置服务尚未启用，是否启用？</string>
+    <string name="navistudio_road_has_no_name">未知道路</string>
+    <string name="navilogo_txtLoading">载入中...</string>
+    <string name="navistudio_txtExit">退出</string>
+    <string name="navistudio_txtExitDesc">是否退出导航系统?</string>
+    <string name="menu_openTMC">打开实时路况</string>
+    <string name="menu_closeTMC">关闭实时路况</string>
+    <string name="menu_locationSearch">地点查找</string>
+    <string name="menu_routeManager">路径管理</string>
+    <string name="menu_more">系统</string>
+    <string name="menu_exit">退出</string>
+    <string name="otherfunction_title">系统</string>
+    <string name="otherfunction_helpfile">/MapABC/Resource/syshelp.pdf</string>
+    <string name="aboutautonavi_group">中国导航电子地图AutoNavi系列</string>
+    <string name="aboutautonavi_name">AutoNavi®Mapabc®导航地理信息系统</string>
+    <string name="aboutautonavi_cpname"></string>
+    <string name="aboutautonavi_shenTu">审图号：</string>
+    <string name="aboutautonavi_softnum">软件版本：v2.1.53_130609_release</string>
+    <string name="autonavisplashacticity_update_msg">有更高的版本（?）可以下载升级,数据大小为?MB，您是否需要下载最新程序？</string>
+    <string name="atuonavisplashactivity_getversion">正在检测新版本...</string>
+    <string name="autonavisplashacticity_getnewversion_failed">获取最新版本失败，原因：</string>
+    <string name="autonavisplashacticity_load_no_path">存储路径不正确！</string>
+    <string name="autonavisplashacticity_load_no_enough_storage">存储空间不足！</string>
+    <string name="autonavisplashacticity_load_no_net">网络异常！</string>
+    <string name="autonavisplashacticity_load_timeout">连接超时！</string>
+    <string name="autonavisplashacticity_load_ok">下载成功，安装文件下载路径：?，点确定，进行安装；点取消，进入导航系统。</string>
+    <string name="autonavisplashacticity_hasnoversioninfo">版本数据错误</string>
+    <string name="autonavisplashacticity_lastversioninfo">未检测到更新的软件版本！</string>
+    <string name="aboutautonavi_drivenum">引擎版本：</string>
+    <string name="aboutautonavi_datanum">数据版本：</string>
+    <string name="aboutautonavi_author">版权所有：(C)2007-2013公司保留所有权利</string>
+    <string name="aboutautonavi_desc">本光盘地图上的各级界限示意性表示，不作为划界依据。钓鱼岛、
+	赤尾屿及海南诸岛等中国岛屿已在地图数据库中表示。台湾省详细交通资料暂缺。
+	</string>
+	<string name="gpsinfo_title">GPS信息</string>
+	<string name="bdsinfo_title">北斗信息</string>
+    <string name="gpsinfo_badstate">无效定位</string>
+    <string name="gpsinfo_goodstate">有效定位</string>
+    <string name="gpsinfo_date">日期：</string>
+    <string name="gpsinfo_time">时间：</string>
+    <string name="gpsinfo_count">颗数：</string>
+    <string name="gpsinfo_direct">航向：</string>
+    <string name="gpsinfo_speed">速度：</string>
+    <string name="asyncforward_registe_tip">该设备未注册，请将MapABC目录下的文件“device.dat”发送给供货商，注册设备！</string>    
+    <string name="search_enter_keyword">请输入关键字</string>
+    <string name="search_enter_firstalpha">请输入首字母</string>
+    <string name="choosecity_topic">请选择城市</string>
+    <string name="searchpoiresult_distance">距离</string>
+    <string name="searchpoiresult_unit">公里</string>
+    <string name="searchpoiresult_unit_m">m</string>
+    <string name="searchpoiresult_unit_km">km</string>
+    <string-array name="distances">
+        <item>0.5</item>
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>6</item>
+    </string-array>
+    <string name="searchpoiresult_location">查图</string>
+    <string name="searchpoiresult_del">删除</string>
+    <string name="searchpoiresult_edit">编辑</string>
+    <string name="searchpoiresult_fav">收藏</string>
+    <string name="searchpoiresult_startPoint">设起点</string>
+    <string name="searchpoiresult_endPoint">设终点</string>
+    <string name="searchpoiresult_strTel">电话：</string>
+    <string name="searchpoiresult_strAddr">地址：</string>
+    <string name="searchpoiresult_strArea">区域：</string>
+    <string name="searchpoibykeyword_app_id">500e1986</string>
+    <string name="navicontrol_no_gps_location">当前北斗未定位，是否计算路径 ？</string>
+    <string name="navicontrol_calculate_path">正在计算路径，请稍候...</string>
+    <string name="crossingview_calculate">偏航，路径重算当中</string>
+    <string name="crossingview_start_point">出发地</string>
+    <string name="crossingview_end_point">目的地</string>
+    <string name="crossingview_current_route">当前路段：</string>    
+    <string name="crossingview_remainder_route">剩余路段：</string>    
+        
+    <string name="favorite_full_tip">收藏夹已满，请及时清理多余数据！</string>
+    <string name="favorite_successfully">收藏成功</string>
+    <string name="favorite_successfail">收藏失败</string>
+    <string name="navicontrol_find_path_failed">路径计算失败</string>
+     <string name="navigate_end_title">导航结束</string>
+    <string name="navigate_end_message">点击确定,结束导航!!</string>
+    <string name="navicontrol_not_find_path">未找到路径！</string>
+    <string name="navicontrol_recalculate_path">是否采用本地算路方式重新计算路径？</string>
+    <string name="navicontrol_select">请选择</string>
+    <string name="navicontrol_bd_state">北斗卫星状态</string>
+    <string name="navicontrol_gps_state">GPS卫星状态</string>
+    <string name="navicontrol_deletepath">删除路径</string>
+    <string name="navicontrol_navi">导航</string>
+    <string name="navicontrol_continue_route_failed">续航失败！</string>
+    <string name="sethome">已设置为家</string>
+    <string name="sethomefail">设置失败</string>
+    <string name="currentpoint_add_passpoint_fail">途经点已满</string>
+    <string name="currentpoint_add_avoidpoint_fail">避让点已满</string>
+    <string name="favorite_full_tip1">历史目的地收藏夹已满，请及时清理多余数据！</string>
+    <string name="roadname_null">道路名称为空，收藏失败！</string>
+    <string name="lonlat_null">位置不正确！</string>
+    <string name="trace_list">轨迹列表</string>
+    <string name="trace_list_delete_trace">您确定要删除该条轨迹吗？</string>
+    <string name="navistudioactivity_loadingrealtimetraffic">正在加载实时交通...</string>
+        
+        
+        
+    <string name="searcharound">周边查询</string>
+    <string name="searchresult_district">未知</string>
+    <string name="menu_deleteAll">清空</string>
+    <string name="myfavorites_delete_poi_message">您确定要全部删除吗？</string>
+    <string name="myfavorites_delete_success">数据已删除！</string>
+    <string name="myfavorites_delete_fail">删除失败！</string>
+    <string name="myfavorites_tip_message">是否删除该条记录？</string>
+    <string name="editpoiinfo_upload">提交</string>
+    <string name="editpoiinfo_topic">编辑点信息</string>
+    <string name="routemanager_delete_route">您确定要删除路径吗？</string>
+    <string name="routemanager_delete_friend_location">您确定要友邻位置吗？</string>
+    <string name="navimaptouchlistener_noroadname">无名路</string>
+    <string name="routemanager_routeplan_tip">路线规划原则已改变，是否重新计算路径？</string>
+    <string name="searcharoundtype_topic">请选择类别</string>
+    <string name="navicontrol_overspeed">您已超速</string>
+     <string-array name="searcharound_type_icons">
+		<item>searcharound_type_1</item>
+		<item>searcharound_type_2</item>
+		<item>searcharound_type_3</item>
+		<item>searcharound_type_4</item>
+		<item>searcharound_type_5</item>
+		<item>searcharound_type_6</item>
+		<item>searcharound_type_7</item>
+		<item>searcharound_type_8</item>
+    </string-array>
+    <string-array name="search_icons">
+        <item>searchlocation_name_byfirstalpha</item>
+        <item>searchlocation_bykeyword</item>
+        <item>searchlocation_result_byfirstalpha</item>
+        <item>searchlocation_aroundpoi</item>
+        <item>searchlocation_myfavorites</item>
+        <item>searchlocation_historyarrive</item>
+        <item>searchlocation_gohome</item>
+        <item>searchlocation_usereye</item>
+    </string-array>
+    <string name="navicontrol_gpsfixed">北斗已定位</string>
+    <string name="navicontrol_hasnogps">北斗未定位</string>
+    <string name="editusereye_topic">编辑电子眼</string>
+    <string name="editusereye_name">名称：</string>
+    <string name="editusereye_type">类型：</string>
+    <string name="editusereye_direct">角度：</string>
+    <string name="editusereye_direction">距离正北顺时针角度：</string>
+    <string name="editusereye_speed">限速：</string>
+    <string name="addusereye_successfully">添加电子眼成功</string>
+    <string name="addusereye_successfail">添加电子眼失败</string>
+    <string name="currentpoint_addavoidline_failed">添加避让点失败</string>
+    <string name="currentpoint_addsamplepasspointtip">不能添加相同的途经点</string>
+    <string name="navicontrol_simnavistoped">本次导航结束</string>
+    <string name="editeusereye_angle_error_tip">角度信息错误</string>
+    <string name="trace_notrace">没有轨迹!</string>
+    <string name="searchlocationactivity_has_no_homepostion">您还没有设置家的位置</string>
+    <string name="choosecityactivity_select_taiwan">台湾目前不支持搜索功能，请见谅！</string>
+    <string name="navicontrol_startnavi">开始导航</string>
+    <string name="otherfunctionactivity_openpdffailed">未能正常打开，请检查是否安装了PDF浏览器</string>
+    <!-- *****************当前点********************* -->
+    <string name="currentpoint_set_home">设为家</string>
+    <string name="currentpoint_add_to_favorite">添加到收藏夹</string>
+    <string name="currentpoint_usereye">添加到电子眼</string>
+    <string name="currentpoint_tothis">到此地</string>
+    <string name="currentpoint_get_net_route">网络算路</string>
+    <string name="currentpoint_jingguothis">途径此地</string>
+    <string name="currentpoint_avoidpoint">避让此地</string>
+    <string name="currentpoint_fromthis">从这里出发</string>
+    <!-- *****************位置通模块********************* -->
+    <string name="wzt_no_data">没有数据</string>
+    
+    
+    
+     <string name="reset_tip">是否恢复出厂设置？</string>
+     
+      <string name="msg_received_address">收信人:</string>
+    <string name="common_input_str">输入内容</string>
+    <string name="common_send_str">发送</string>
+    <!-- 通信查询 -->
+    <string name="bdcom_research_cond">查询条件</string>
+    <string name="kou_lin_linker_str">通讯录</string>
+    <string name="lou_lin_submit_btn">确认</string>
+    <string name="have_not_bd_sim">未安装北斗SIM卡</string>
+    <string name="bd_address_no_content">用户地址不能为空!</string>
+    <string name="msg_comm_reqeust">新建短信</string>
+    <string name="bd_msg_list">收件箱</string>
+    <string name="common_address_book">发件箱</string>
+    <string name="msg_comm_research">短语管理</string>
+    <string name="custom_list_left_msg">显示上一个List的值</string>
+    <string name="custom_list_right_msg">显示下一个List的值</string>
+    <string name="title_activity_msg_delete">删除短信提示</string>
+    <string name="title_activity_msg_zhuan_fa">短信转发</string>
+    <string name="title_activity_msg_open">短信</string>
+    <string name="bd_msg_no_content">短信内容不能为空!</string>
+    <string name="bd_fequency_no_content">频度不能为空!</string>
+
+    <!-- 反馈信息 -->
+    <string name="cmd_success">CMD发送成功!</string>
+    <string name="cmd_fail">CMD发送失败!</string>
+    <string name="signal_un_lock">信号未锁定!</string>
+    <string name="no_power">电量不足,发射抑制!</string>
+    <string name="service_feq_no">"请耐心等待,还需要TIME秒可以发送!"</string>
+    <string name="en_un_pwd">加解密错误!</string>
+    <string name="crc_error">CRC错误!</string>
+    <string name="system_un_launch">系统抑制!</string>
+    <string name="wireless_silence">无线静默!</string>
+    <string name="no_mark_info">无标识信息!</string>
+    <string name="no_navi_info">无导航信息!</string>
+    <string name="bd_del_msg_str">删除</string>
+    <string name="bd_msg_save_title">保存短信提示</string>
+    <string name="bd_msg_save_content">是否保存当前未发送短信?</string>
+    <string name="bd_msg_del_content">确认是否删除当前短信?</string>
+    <string name="bd_msg_del_success">短信删除成功!</string>
+    <string name="bd_msg_del_fail">短信删除失败!</string>
+    <string name="common_submit_btn">确    认</string>
+    <string name="common_cancle_btn">取   消</string>
+    <string name="title_activity_send_msg_request">新建电文</string>
+    <string name="title_activity_bdcom_research">通讯查询</string>
+    <string name="title_activity_bdsend_msg_port">BDSendMsgPortActivity</string>
+    <string name="title_activity_sended_msg">发件箱</string>
+    <string name="get_other_location_info">已获得经纬度,正在发送位置报告!</string>
+    <string name="set_success_cycle_report">设置循环位置报告成功!</string>
+    <string name="bdloc_report_type">报告类型</string>
+    <string name="bdloc_report_feq_str">报告频度</string>
+    <string name="bdloc_report_checkbox_str">启用连续位置报告</string> 
+    <string name="bdloc_userAddress_str">收方地址</string>
+    <string name="common_second">秒</string>
+    
+    <string-array name="msg_research_array">
+        <item>回执查询</item>
+        <item>按发信方地址查询</item>
+        <item>按最新存入查询</item>
+    </string-array>
+    <!-- 短信常用短语 -->
+    <string-array name="bd_msg_usual_word">
+        <item>我现在有事情，一会儿再联系。</item>
+        <item>我很快就到，请稍微等一会儿。</item>
+        <item>你现在在哪里?</item>
+    </string-array>
+     <string-array name="bd_report_type_array">
+        <item>单次报送</item>
+        <item>循环报送</item>
+    </string-array>
+    <string-array name="bdloc_zuobiao_array">
+        <item>2000大地坐标</item>
+        <item>高斯平面坐标</item>
+        <item>麦卡托平面坐标</item>
+        <item>空间直角坐标</item>
+        <item>beijing54</item>
+    </string-array>
+     <string name="common_dadi_heigh_value">0.00m | 0.0</string>
+     <string name="bdloc_zuobiao_str">坐标类型</string>
+     <string name="bdloc_lon_str">经        度</string>
+    <string name="bdloc_lat_str">纬        度</string>
+    <string name="bdloc_height_str">高        程</string>
+    <string name="bdloc_time_str">时        间</string>
+     <string name="common_lon_value">000°00\'00″</string>
+    <string name="common_lat_value">00°00\'00″</string>
+    <string name="common_height_value">0.00m</string>
+    <string name="common_time_value">00:00:00</string>
+     
+    
+    <string name="common_lon_str">经    度:</string>
+    <string name="common_lat_str">纬    度:</string>
+    <string name="common_height_str">高    程:</string>
+    <string name="common_time_str">时    间:</string>
+    
+    <string name="common_year_value">0000</string>
+    <string name="common_month_value">00</string>
+    <string name="common_day_value">00</string>
+    <string name="common_z_cood">Z  坐    标:</string>
+    <string name="common_x_cood">X  坐    标:</string>
+    <string name="common_y_cood">Y  坐    标:</string>
+    <string name="common_x_value">0.00</string>
+    <string name="common_y_value">0.00</string>
+    <string name="common_z_value">0.00m</string>
+    <string name="common_metre">米</string>
+    <string name="common_hour_value">时</string>
+    <string name="common_minute_value">分</string>
+    <string name="common_second_value">秒</string>
+    
+    <string name="bdloc_friend_loc_str">位置报告</string>
+     <string name="title_activity_friends_location">位置报告</string>
+    <string name="friend_ID">友邻ID</string>
+    <string name="friend_report_time">报告时间</string>
+    <string name="friend_lon">经度</string>
+    <string name="friend_lat">纬度</string>
+    <string name="friend_height">高程</string>
+    
+    <string-array name="friend_loc_oper">
+        <item>地图显示</item>
+        <item>删除</item>
+    </string-array>
+    <string name="friend_loc_del_success">友邻位置删除成功!</string>
+    <string name="friend_loc_del_fail">友邻位置删除失败!</string>
+    <string name="auto_check_bs_1">波束1</string>
+    <string name="auto_check_bs_2">波束2</string>
+    <string name="auto_check_bs_3">波束3</string>
+    <string name="auto_check_bs_4">波束4</string>
+    <string name="auto_check_bs_5">波束5</string>
+    <string name="auto_check_bs_6">波束6</string>
+    <string name="auto_check_bs_7">波束7</string>
+    <string name="auto_check_bs_8">波束8</string>
+    <string name="auto_check_bs_9">波束9</string>
+    <string name="auto_check_bs_10">波束10</string>
+    
+     <string name="bd2_satellite_map_str">北斗星图</string>
+    <string name="bd2_satellite_zaizaobi">载噪比</string>
+    <string name="title_activity_relay_station_manager">中继站管理</string>
+    <string name="location_auto_send_setting">设置</string>
+    <string name="loc_auto_send_string">位置自动回报</string>
+    <string name="loc_auto_start_btn_str">开始</string>
+    <string name="loc_auto_stop_btn_str">停止</string>
+    <string name="main_prompt">北斗导航软件</string>
+    <string name="report_location_type_str">回报类型</string>
+    <string-array name="report_location_array">
+        <item >自动位置回报</item>
+        <item >手动位置回报</item>
+    </string-array>
+        <string-array name="coodrate_num_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    
+   <string name="common_save_str">保存</string>
+   
+    
+</resources>

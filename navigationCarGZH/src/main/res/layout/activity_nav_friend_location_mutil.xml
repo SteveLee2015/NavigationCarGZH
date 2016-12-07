@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/time_bg"
+    android:orientation="vertical" >
+
+    <ExpandableListView
+        android:id="@+id/nav_line_expand_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </ExpandableListView>
+
+    <TextView
+        android:id="@+id/no_nav_line_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=""
+        android:cacheColorHint="#000000"
+        android:textSize="@dimen/txtSize" />
+
+</LinearLayout>

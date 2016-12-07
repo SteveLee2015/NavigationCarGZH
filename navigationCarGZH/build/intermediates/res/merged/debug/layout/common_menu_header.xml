@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/title_bar_port"
+    android:gravity="center_vertical" >
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:stretchColumns="2" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/txtCount"
+                style="@style/common_style_for_16dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:visibility="gone" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:layout_gravity="center"
+                android:text="TextView"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:typeface="serif" >
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/ib_menu_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_topic"
+                android:background="@color/black"
+                android:src="@drawable/common_menu_head_button_back" >
+            </ImageButton>
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

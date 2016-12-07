@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="searchlocitems">
+        <item>名称首字母查询</item>
+        <item>关键字查询</item>
+        <item>门址首字母查询</item>
+        <item>周边查询</item>
+        <item>我的收藏</item>
+        <item>历史目的地</item>
+        <item>回家</item>
+        <item>电子眼</item>
+    </string-array>
+    
+    <string-array name="searchlocitems_desc">
+        <item>按照名称首字母进行查询</item>
+        <item>按照关键字进行查询</item>
+        <item>按照门址首字母进行查询</item>
+        <item>按照附件周边进行查询</item>
+        <item>收藏中的收藏记录</item>
+        <item>添加到历史目的地中的收藏记录</item>
+        <item>家的位置</item>
+        <item>已经添加的电子眼</item>
+    </string-array>
+
+</resources>

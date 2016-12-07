@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/function_bg"
+    android:id="@+id/friend_loc_layout"
+    >
+   <ListView android:id="@+id/friends_loc_listview" android:layout_height="wrap_content"  
+         android:layout_width="fill_parent"></ListView>
+   <!-- 显示没有信息  -->       
+
+</LinearLayout>

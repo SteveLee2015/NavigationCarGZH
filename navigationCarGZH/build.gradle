@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "24.0.0"
+
+    defaultConfig {
+        applicationId "com.mapabc.android.activity"
+        minSdkVersion 11
+        targetSdkVersion 20
+
+        ndk {
+            moduleName "serial_port"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'libs'
+        jni.srcDirs = []
+    }
+}
+
+dependencies {
+    compile project(':protocol_com1.0')
+    compile 'com.android.support:support-v4:20.+'
+    compile files('libs/dom4j-1.6.1.jar')
+    compile files('libs/generalfunction.jar')
+    compile files('libs/NaviStudio_PoJie_1.0.2.jar')
+}

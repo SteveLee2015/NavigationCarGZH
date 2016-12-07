@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mapabc.android.activity"
+    android:versionCode="5"
+    android:versionName="1.0.82:20161206" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="20" />
+    <!-- 1.0.81 添加数据采集，SOS报警 点名定位指令D200 -->
+    <!-- 上线打开 -->
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- 新增权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name="com.mapabc.android.activity.base.NaviStudioApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name_1"
+        android:persistent="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.mapabc.android.activity.AutoNaviStartActicity"
+            android:label="@string/app_name_1" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 注册开机自启广播 -->
+        <receiver android:name="com.mapabc.android.activity.BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.mapabc.android.activity.AutoNaviSplashActicity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.AutoNaviSplashActicity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.AutoNaviLogoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.AutoNaviLogoActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.NaviStudioActivity"
+            android:allowTaskReparenting="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.NaviStudioActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.OtherFunctionActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.OtherFunctionActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.track.TraceListActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.track.TraceListActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.GPSStatusActivity"
+            android:label="@string/gps_satellite_map"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.novsky.map.main.GPSStatusActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BD2StatusActivity"
+            android:label="@string/bd_satellite_map"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.novsky.map.main.BD2StatusActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.GPSInfoActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.GPSInfoActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.BDInfoActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.BDInfoActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.SettingForLikeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.SettingForLikeActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.SettingMapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.SettingMapActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.SettingRouteActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.SettingRouteActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.SettingTrafficRadioActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.SettingTrafficRadioActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.setting.AboutAutonaviActivity"
+            android:allowTaskReparenting="false"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:taskAffinity="com.mapabc.activity.MainTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.setting.AboutAutonaviActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.RouteManagerActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.RouteManagerActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.SearchLocationActivity"
+            android:finishOnTaskLaunch="true"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+
+            <!-- android:theme="@android:style/Theme.Light.NoTitleBar" > 原来的黑色主题 -->
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchLocationActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.MyFavoritesActivity"
+            android:label="@string/txtSearchResult"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.MyFavoritesActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.SearchPOIByFirstAlphaBetActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchPOIByFirstAlphaBetActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.ChooseCityActivity"
+            android:finishOnTaskLaunch="true"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.ChooseCityActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.result.SearchResultFirstAlphaBetActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchResultFirstAlphaBetActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.SearchPOIByKeyWordActivity"
+            android:allowTaskReparenting="true"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchPOIByKeyWordActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.result.SearchResultOfKeyWordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchResultOfKeyWordActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.GlanceRouteActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.GlanceRouteActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.RouteDescriptionActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.RouteDescriptionActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.SearchAroundPOIActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchAroundPOIActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.EditPOIInfoActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.EditPOIInfoActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.CrossingViewActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.CrossingViewActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.result.SearchAroundResultActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:finishOnTaskLaunch="true"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchAroundResultActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.SearchUserEyeActivity"
+            android:label="@string/txtSearchResult"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.SearchUserEyeActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.track.TrackManagerActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.track.TrackManagerActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.track.TracePreviewActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.track.TracePreviewActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.track.TraceActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.track.TraceActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.route.track.TracePlayBackActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.route.track.TracePlayBackActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.search.EditUserEyeActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.search.EditUserEyeActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+
+        <!-- 位置通交互式导航模块 -->
+        <activity
+            android:name="com.mapabc.android.activity.wzt.WZTActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.WZTActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.ServiceInfoActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.ServiceInfoActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.TaskListActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.TaskListActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.AreaAlarmActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.AreaAlarmActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.SpeedCallActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.SpeedCallActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.UploadRuleActivity"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.UploadRuleActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.wzt.LineAlarmActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/txtSearchResult"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.wzt.LineAlarmActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <!-- *****来电监听器******* -->
+        <receiver android:name="com.mapabc.android.activity.listener.PhoneStatReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+        <!--  -->
+        <receiver android:name="com.novsky.map.main.LocationStatusReceiver" >
+            <intent-filter>
+                <action android:name="android.location.GPS_FIX_CHANGE" >
+                </action>
+                <action android:name="android.location.GPS_ENABLED_CHANGE" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.novsky.map.main.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDComResearchActivity"
+            android:label="@string/title_activity_bdcom_research"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDSendMsgPortActivity"
+            android:label="短报文"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.MsgDeleteActivity"
+            android:label="@string/title_activity_msg_delete"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.MsgOpenActivity"
+            android:label="@string/title_activity_msg_open"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.MsgZhuanFaActivity"
+            android:label="@string/title_activity_msg_zhuan_fa"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.SendedMsgActivity"
+            android:label="@string/title_activity_sended_msg"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.SendMsgRequestActivity"
+            android:label="@string/title_activity_send_msg_request"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.LocationKnownActivity"
+            android:label="位置报知"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.MapActivity"
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BD2LocActivity"
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.ReportActivity"
+            android:label="位置自动回报"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.FriendsLocationActivity"
+            android:label="@string/bdloc_friend_loc_str"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.ReceiveMsgActivity"
+            android:label="@string/bd_msg_list"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- 短信接收广播 -->
+        <receiver android:name="com.novsky.map.main.SMSReceiver" >
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.novsky.map.main.TimeService" >
+        </service>
+        <service android:name="com.novsky.map.main.CycleLocationReportService" >
+        </service>
+        <service android:name="com.novsky.map.main.CycleLocationService" >
+        </service>
+        <service android:name="com.novsky.map.main.CycleAlarmService" >
+        </service>
+
+        <activity
+            android:name="com.mapabc.android.activity.MsgUsalWordActivity"
+            android:label="@string/title_activity_msg_usal_word"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.MsgUsalWordDeleteActivity"
+            android:label="@string/title_activity_msg_usal_word" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.AutoCheckedActivity"
+            android:label="RDSS卫星状态"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.BDManagerActivity"
+            android:label="@string/title_activity_bdmanager" >
+            <intent-filter>
+                <action android:name="com.mapabc.android.activity.BDManagerActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.LocalMachineInfoActivity"
+            android:label="@string/title_activity_local_machine_info"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <receiver android:name="com.novsky.map.main.BDStatelliteStatusReceiver" >
+            <intent-filter>
+                <action android:name="android.location.BD_SVC_INUSE_NUMBER" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.mapabc.android.activity.BDAlarmActivity"
+            android:label="@string/title_activity_bdalarm"
+            android:screenOrientation="portrait"
+            android:theme="@style/alarmdialog" >
+            <intent-filter>
+                <action android:name="com.novsky.activity.bd.action.handler.sos.BDSOSActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mapabc.android.activity.BDAssistAlarmActivity"
+            android:label="@string/title_activity_bdassist_alarm"
+            android:screenOrientation="portrait"
+            android:theme="@style/alarmdialog" >
+        </activity>
+
+        <service android:name="com.novsky.map.main.CheckTimeService" />
+        <service android:name="com.novsky.map.main.CountDownTimeService" />
+
+        <activity
+            android:name="com.novsky.map.main.AddContactActivity"
+            android:label="@string/title_activity_add_contact" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.GetContactActivity"
+            android:label="@string/title_activity_add_contact" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.UpdateContactActivity"
+            android:label="@string/title_activity_add_contact" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDManagerHorizontalActivity"
+            android:label="@string/title_activity_bdmanager_horizontal"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+
+        <!-- 北斗校时 -->
+        <activity
+            android:name="com.novsky.map.main.BDTimeActivity"
+            android:label="@string/bd_check_time" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDZuoZhanTimeActivity"
+            android:label="@string/bd_zuozhan_time" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.LocationModelActivity"
+            android:label="@string/title_activity_location_model"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+
+        <provider
+            android:name="com.novsky.map.main.BDContactProvider"
+            android:authorities="com.bd.comm.protocol.BDContactColumn" >
+        </provider>
+
+        <!-- 位置报告 -->
+        <activity
+            android:name="com.novsky.map.main.BDLocationReportActivity"
+            android:label="@string/title_activity_location_report" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDSendMsgLandScapeActivity"
+            android:label="@string/title_activity_bdsend_msg_land_scape"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDContactActivity"
+            android:label="@string/title_activity_bdcontact" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.ManagerInfoActivity"
+            android:label="@string/title_manager_info" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDLocationPortActivity"
+            android:label="@string/title_activity_bdlocation_port" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BD1LocActivity"
+            android:label="@string/title_activity_bd1_loc" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDRDSSLocationSetActivity"
+            android:label="@string/title_activity_location_set" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.BDSoftwareActivity"
+            android:label="@string/about_software" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.NaviTaskActivity"
+            android:label="@string/about_software" >
+        </activity>
+        <activity
+            android:name="com.novsky.map.main.LineTaskActivity"
+            android:label="@string/about_software" >
+        </activity>
+    </application>
+
+</manifest>
