@@ -2,6 +2,7 @@ package com.novsky.map.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.BDRNSSManager;
 import android.location.BDRNSSManager.LocationStrategy;
@@ -12,8 +13,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.bd.comm.protocal.BDCommManager;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.main.CustomListView;
 import com.novsky.map.util.OnCustomListListener;
 import com.novsky.map.util.Utils;
@@ -61,7 +64,8 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 	 * 设置保存时的文件的名称
 	 */
     public static final String PREFERENCE_NAME = "LOCATION_MODEL_ACTIVITY";
-	
+    public static final String LOCATION_MODEL = "LOCATION_MODEL";
+
 	/**
 	 * 定位模式的标识
 	 */
@@ -111,11 +115,11 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 		mySpinner.setOnCustomListener(new OnCustomListListener(){
 			public void onListIndex(int index) {
 				if(index==0){
-					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;
+					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;//2
 				}else if(index==1){
-					FLAG=LocationStrategy.BD_ONLY_STRATEGY;
+					FLAG=LocationStrategy.BD_ONLY_STRATEGY;//1
 				}else if(index==2){
-					FLAG=LocationStrategy.HYBRID_STRATEGY;
+					FLAG=LocationStrategy.HYBRID_STRATEGY;//0
 				}	
 			}
 		});
@@ -147,9 +151,17 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 					}
 					Utils.RNSS_CURRENT_LOCATION_MODEL=FLAG;
 					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);  
-			        share.edit().putInt("LOCATION_MODEL", FLAG).commit();
+			        share.edit().putInt(LOCATION_MODEL, FLAG).commit();
 					Toast.makeText(mContext, "设置定位模式成功!", Toast.LENGTH_SHORT).show();
-					//CopyOfLocationModelActivity.this.finish();
+
+					//设置成功后 如何 通知界面
+					//还是发广播吧
+					Intent locationModeIntent = new Intent();
+					locationModeIntent.setAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
+					locationModeIntent.putExtra(ReceiverAction.KEY_LOCATION_MODEL,FLAG);
+					getActivity().sendBroadcast(locationModeIntent);
+
+
 				} catch (Exception e) {
 					Toast.makeText(mContext, "设置定位模式失败!", Toast.LENGTH_SHORT).show();
 					e.printStackTrace();

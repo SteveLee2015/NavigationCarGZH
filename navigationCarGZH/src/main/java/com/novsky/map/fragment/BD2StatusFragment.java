@@ -1,15 +1,16 @@
 package com.novsky.map.fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.BDParameterException;
 import android.location.BDRNSSManager.LocationStrategy;
 import android.location.BDUnknownException;
 import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +27,7 @@ import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.bd.comm.protocal.BDSatellite;
 import com.bd.comm.protocal.BDSatelliteListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.main.BDAvailableStatelliteManager;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.main.VerticalProgressBar;
@@ -285,30 +287,6 @@ public class BD2StatusFragment extends Fragment {
 				
 	};
 	
-	 /**
-	 * 定位监听器
-	 */
-	 private final LocationListener locationListener=new LocationListener() {
-		 
-		 public void onStatusChanged(String provider, int status, Bundle extras) {
-			 
-		 }
-		 
-		 public void onProviderEnabled(String provider) {
-		
-			 
-		 }
-		 
-		 public void onProviderDisabled(String provider) {
-		   
-			 
-		 }
-		 
-		 
-		 public void onLocationChanged(Location location) {
-		 
-		 }
-	 };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -344,17 +322,23 @@ public class BD2StatusFragment extends Fragment {
 		locationStatusManager.add(mHandler);
 		
 		initView(contentView);
-		
+		addReceiver();
+
 		if(locationModel==LocationStrategy.BD_ONLY_STRATEGY||locationModel==LocationStrategy.HYBRID_STRATEGY){
 			    locationStatus.setText(Utils.INIT_LOCATION_STATUS);
 		}else{
 			 locationStatus.setText("未定位");
-		}		
-		
+		}
+
+
 		return contentView;
 	}
 
-
+	private void addReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
+		getActivity().registerReceiver(mReceiver,filter);
+	}
 
 
 
@@ -509,6 +493,7 @@ public class BD2StatusFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		getActivity().unregisterReceiver(mReceiver);
 	}
 	
 	/**
@@ -524,7 +509,7 @@ public class BD2StatusFragment extends Fragment {
 		return -1;
 	}
 	
-	public void initStatelliteData(){
+	private void initStatelliteData(){
 		for(int i=0;i<listProgress.size();i++){
 			VerticalProgressBar bar =listProgress.get(i);
 			bar.setProgress(0);
@@ -540,4 +525,40 @@ public class BD2StatusFragment extends Fragment {
 			tv.setText("");
 		}
 	}
+
+	private void initStatelliteMap(){
+		for(int i=0;i<mapList.size();i++){
+			TextView map = mapList.get(i);
+			map.setVisibility(View.INVISIBLE);
+		}
+	}
+
+
+
+
+	/**
+	 * 接收 定位策略变化广播
+	 */
+	BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			switch (action){
+				case ReceiverAction.ACTION_LOCATION_STRATEGY:{
+
+						//清除所有数据
+					initStatelliteData();
+					initStatelliteMap();
+
+					int mode = intent.getIntExtra(ReceiverAction.KEY_LOCATION_MODEL,-1);
+
+					if (LocationStrategy.GPS_ONLY_STRATEGY==mode){
+					}
+
+					break;
+				}
+			}
+
+		}
+	};
 }

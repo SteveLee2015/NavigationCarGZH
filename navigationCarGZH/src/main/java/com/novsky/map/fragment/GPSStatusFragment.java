@@ -1,7 +1,10 @@
 package com.novsky.map.fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.BDParameterException;
@@ -24,6 +27,7 @@ import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.bd.comm.protocal.GPSatellite;
 import com.bd.comm.protocal.GPSatelliteListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.main.VerticalProgressBar;
 import com.novsky.map.util.Utils;
@@ -342,7 +346,7 @@ public class GPSStatusFragment extends Fragment {
 		zaizaobiList = new ArrayList<TextView>();
 		
 		initView(contentView);
-		
+		addReceiver();
 		
 		
 		if(locationModel==LocationStrategy.GPS_ONLY_STRATEGY||locationModel==LocationStrategy.HYBRID_STRATEGY){
@@ -352,6 +356,12 @@ public class GPSStatusFragment extends Fragment {
 		}
 
 		return contentView;
+	}
+
+	private void addReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
+		getActivity().registerReceiver(mReceiver,filter);
 	}
 
 	private void initView(View contentView) {
@@ -507,6 +517,7 @@ public class GPSStatusFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		getActivity().unregisterReceiver(mReceiver);
 	}
 
 	
@@ -523,7 +534,13 @@ public class GPSStatusFragment extends Fragment {
 		return -1;
 	}
 
-	
+	private void initStatelliteMap(){
+		for(int i=0;i<mapList.size();i++){
+			TextView map = mapList.get(i);
+			map.setVisibility(View.INVISIBLE);
+		}
+	}
+
 	public void initStatelliteData(){
 		for(int i=0;i<listProgress.size();i++){
 			VerticalProgressBar bar =listProgress.get(i);
@@ -541,4 +558,31 @@ public class GPSStatusFragment extends Fragment {
 		}
 			
 	}
+
+	/**
+	 * 接收 定位策略变化广播
+	 */
+	BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			switch (action){
+				case ReceiverAction.ACTION_LOCATION_STRATEGY:{
+
+					//清除所有数据
+					initStatelliteData();
+					initStatelliteMap();
+
+					int mode = intent.getIntExtra(ReceiverAction.KEY_LOCATION_MODEL,-1);
+
+					if (LocationStrategy.BD_ONLY_STRATEGY==mode){
+
+					}
+
+					break;
+				}
+			}
+
+		}
+	};
 }
