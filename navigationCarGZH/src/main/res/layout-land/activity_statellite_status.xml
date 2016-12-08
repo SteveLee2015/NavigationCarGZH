@@ -6,11 +6,6 @@
               android:gravity="center_horizontal"
               android:orientation="horizontal">
 
-    <!--
-         <include
-        layout="@layout/sub_function_title"
-        android:focusable="true" />
-    -->
 
     <LinearLayout
         android:id="@+id/ll_gps_bd2"
@@ -54,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:text="切换"
+                android:visibility="gone"
                 android:textColor="@android:color/white"
                 android:textSize="17sp"
                 android:layout_alignParentTop="true"
@@ -141,8 +137,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="8dp"
-                android:visibility="gone"
-                android:text="白色未定位 黑色已定位 北斗蓝色 GPS红色"
+                android:text="白色未定位    黑色已定位"
                 android:textColor="@color/BD_TAB_COLOR"
                 android:textSize="14sp"/>
 

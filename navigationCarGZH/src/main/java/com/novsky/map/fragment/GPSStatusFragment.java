@@ -1,16 +1,20 @@
 package com.novsky.map.fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.BDParameterException;
+import android.location.BDRNSSManager;
 import android.location.BDUnknownException;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.bd.comm.protocal.GPSatellite;
 import com.bd.comm.protocal.GPSatelliteListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.view.CustomSatelliateMap;
 import com.novsky.map.view.CustomSatelliateSnr;
@@ -33,9 +38,11 @@ import java.util.List;
 
 /**
  * GPS卫星状态
- * @author steve
+ * @author llg
  */
 public class GPSStatusFragment extends Fragment implements View.OnClickListener{
+
+	public static final String TAG = "GPSStatusFragment";
 
 	private final static int LOCATION_RESULT = 0x1000,
 			GP_SATELLIATE_STATUS = 0x1001, BD_SATELLIATE_STATUS = 0x1002;
@@ -59,16 +66,35 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 
 	private BDCommManager mBDCommManager=null;
 
+	/**
+	 * 设置保存时的文件的名称
+	 */
+	public static final String PREFERENCE_NAME = "LOCATION_MODEL_ACTIVITY";
+	public static final String LOCATION_MODEL = "LOCATION_MODEL";
+
+	/**
+	 * 定位模式的标识
+	 */
+	private int FLAG=0;
+
+	/**
+	 * 定义访问模式为私有模式
+	 */
+	public static int MODE = Context.MODE_PRIVATE;
 
 	List<GPSatellite> gplist = new ArrayList<>();
 
 	private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){
 		@Override
 		public void onLocationChanged(BDRNSSLocation arg0) {
-			Message message=mHandler.obtainMessage();
-			message.what=LOCATION_RESULT;
-			message.obj=arg0;
-			mHandler.sendMessage(message);
+
+			if (BDRNSSManager.LocationStrategy.BD_ONLY_STRATEGY!=FLAG){
+
+				Message message=mHandler.obtainMessage();
+				message.what=LOCATION_RESULT;
+				message.obj=arg0;
+				mHandler.sendMessage(message);
+			}
 		}
 		@Override
 		public void onProviderDisabled(String arg0) {}
@@ -86,7 +112,6 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 		public void onGpsStatusChanged(List<GPSatellite> list) {
 			Message message=mHandler.obtainMessage();
 			message.obj=list;
-			//message.what=BD_SATELLATE_ITEM;
 			message.what=GP_SATELLIATE_STATUS;
 			mHandler.sendMessage(message);
 		}
@@ -140,14 +165,21 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 		mCustomBDMap.showMap(newList);//星图
 	}
 
-
+	private void addReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
+		getActivity().registerReceiver(mReceiver,filter);
+	}
 
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		Log.d(TAG,"onCreateView");
 		mContext = getActivity();
 		mBDCommManager=BDCommManager.getInstance(mContext);
+		addReceiver();
 		View view = View.inflate(mContext,R.layout.activity_statellite_status,null);
 
 			ll_gps_bd2 = (LinearLayout) view.findViewById(R.id.ll_gps_bd2);
@@ -179,6 +211,8 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 	@Override
 	public void onStart() {
 		super.onStart();
+		Log.d(TAG,"onStart");
+
 		try {
 			mBDCommManager.addBDEventListener(mGPSatelliteListener,mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
@@ -191,6 +225,10 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.d(TAG,"onResume");
+		//读取定位设置 参数 是单北斗 单gps 还是混合定位
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		FLAG=share.getInt("LOCATION_MODEL",0);
 		gplist.clear();
 		//通知更新
 		showMap(gplist);
@@ -201,11 +239,13 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 	@Override
 	public void onPause() {
 		super.onPause();
+		Log.d(TAG,"onPause");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
+		Log.d(TAG,"onStop");
 		try {
 			mBDCommManager.removeBDEventListener(mGPSatelliteListener,mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
@@ -218,33 +258,9 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.d(TAG,"onDestroy");
+		getActivity().unregisterReceiver(mReceiver);
 	}
-
-
-	/**
-	 *
-	 * Iterable<GpsSatellite> satellites = mGpsStatus.getSatellites();
-	 Iterator<GpsSatellite> it = satellites.iterator();
-	 List<GpsSatellite> list = new ArrayList<GpsSatellite>();
-	 while (it.hasNext()) {
-	 GpsSatellite satellite = it.next();
-	 // add by llg
-	 if (satellite.usedInFix()){
-	 //已经定位 卫星
-
-	 }
-	 list.add(satellite);
-	 }
-
-	 Message msg = Message.obtain();
-	 msg.what = GP_SATELLIATE_STATUS;
-	 msg.obj = list;
-	 mHandler.sendMessage(msg );
-	 *
-	 *
-	 *
-     */
-
 
 	//更新显示内容的方法
 	public void updateView(Location location){
@@ -275,21 +291,30 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.tv_change:
 
-				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				startActivity(intent);
-				break;
-
-			case R.id.rl_change_statellite:
-
-				Intent intent2 = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				startActivity(intent2);
-
-			default:
-				break;
-		}
 
 	}
+
+	/**
+	 * 接收 定位策略变化广播
+	 */
+	BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG,"onReceive");
+			String action = intent.getAction();
+			switch (action){
+				case ReceiverAction.ACTION_LOCATION_STRATEGY:{
+
+					//读取定位设置 参数 是单北斗 单gps 还是混合定位
+					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+					FLAG=share.getInt("LOCATION_MODEL",0);
+					onResume();
+
+					break;
+				}
+			}
+
+		}
+	};
 }

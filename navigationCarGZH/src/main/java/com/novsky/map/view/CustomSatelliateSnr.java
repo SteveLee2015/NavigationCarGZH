@@ -69,14 +69,10 @@ public class CustomSatelliateSnr extends View {
 		int width3 = dm.widthPixels;
 		int height3 = dm.heightPixels;
 
-
-	    //bitmap2=((BitmapDrawable)mContext.getResources().getDrawable(R.drawable.snr_bg)).getBitmap();
 		// 初始化数据
 		initData();
-		//bitMapWidth=bitmap2.getWidth();
-		//bitMapHeight=bitmap2.getHeight();
-		bitMapWidth=width3-20;
-		bitMapHeight=height3/3;
+		bitMapWidth=width3-600;
+		bitMapHeight=height3/2;
 
 	}
 
@@ -114,7 +110,7 @@ public class CustomSatelliateSnr extends View {
 			mStopY=(float)((height / 2 - (height / 4)) * (4.0 / 3.0));
 		}
 		//left=(width-bitMapWidth)/2.0f;
-		left=(width-bitMapWidth)/2.0f+Utils.dp2pixel(170);//第一个柱状图距离左边界距离
+		left=(width-bitMapWidth)/2.0f+Utils.dp2pixel(150);//第一个柱状图距离左边界距离
 		//top=(height-bitMapHeight)/2.0f-Utils.dp2pixel(0);
 		top=(height-bitMapHeight)/2.0f-Utils.dp2pixel(20);
 		//canvas.drawBitmap(bitmap2,left, top, paint);
@@ -131,7 +127,7 @@ public class CustomSatelliateSnr extends View {
 			//paint.setColor(mContext.getResources().getColor(R.color.statellite_snr_bg));
 		    canvas.drawRect(snrRect[i][0],snrRect[i][1],snrRect[i][2], snrRect[i][3], paint);
 		    //paint.setTextSize(Utils.dp2pixel(15));
-		    paint.setTextSize(Utils.dp2pixel(10));//柱状图文字
+		    paint.setTextSize(Utils.dp2pixel(15));//柱状图文字
 			int mSatelliatePRN_No = prnInt>=160?(prnInt-160):prnInt;
 			//canvas.drawText(mSatelliatePRN[i],prnPixelArr[i][0],prnPixelArr[i][1], paint);
 			canvas.drawText(mSatelliatePRN_No+"",prnPixelArr[i][0],prnPixelArr[i][1], paint);
@@ -163,18 +159,20 @@ public class CustomSatelliateSnr extends View {
 					}else{
 						mSatelliatePRN[index] =mGPSatellite.getPrn()+"";	
 					}
-					int startValue=(2*index+1)*gapValue;
-					int stopValue=(2*index+2)*gapValue;
+					// 柱状态间距 宽度
+					int startValue=(3*index+1)*gapValue;
+					int stopValue=(3*index+2)*gapValue;
 					float mStartRectValue=left + Utils.dp2pixel(startValue);
 					float mStopRectValue=left + Utils.dp2pixel(stopValue);
+					//
 					float mShowValue=(top+bitMapHeight)-((bitMapHeight*mGPSatellite.getSnr())/60.0f);
 					snrRect[index][0]=mStartRectValue;
 					snrRect[index][1]=mShowValue;
-					snrRect[index][2]=mStopRectValue;
+					snrRect[index][2]=mStopRectValue + 5;//柱状图宽度
 					snrRect[index][3]=top+bitMapHeight;
 
 					prnPixelArr[index][0]=mStartRectValue;
-					prnPixelArr[index][1]=top+bitMapHeight + Utils.dp2pixel(13);
+					prnPixelArr[index][1]=top+bitMapHeight + Utils.dp2pixel(30);
 
 					snrPixelArr[index][0]=mGPSatellite.getSnr();
 					snrPixelArr[index][1]=mStartRectValue;
@@ -212,18 +210,18 @@ public class CustomSatelliateSnr extends View {
 					}else{
 						mSatelliatePRN[index] =mGPSatellite.getPrn()+"";
 					}
-					int startValue=(2*index+1)*gapValue;
-					int stopValue=(2*index+2)*gapValue;
+					int startValue=(3*index+1)*gapValue;
+					int stopValue=(3*index+2)*gapValue;
 					float mStartRectValue=left + Utils.dp2pixel(startValue);
 					float mStopRectValue=left + Utils.dp2pixel(stopValue);
 					float mShowValue=(top+bitMapHeight)-((bitMapHeight*mGPSatellite.getSnr())/60.0f);
 					snrRect[index][0]=mStartRectValue;
 					snrRect[index][1]=mShowValue;
-					snrRect[index][2]=mStopRectValue;
+					snrRect[index][2]=mStopRectValue + 5;
 					snrRect[index][3]=top+bitMapHeight;
 
 					prnPixelArr[index][0]=mStartRectValue;
-					prnPixelArr[index][1]=top+bitMapHeight + Utils.dp2pixel(13);
+					prnPixelArr[index][1]=top+bitMapHeight + Utils.dp2pixel(30);
 
 					snrPixelArr[index][0]=mGPSatellite.getSnr();
 					snrPixelArr[index][1]=mStartRectValue;

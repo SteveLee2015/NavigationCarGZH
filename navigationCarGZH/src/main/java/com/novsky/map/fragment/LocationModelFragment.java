@@ -81,21 +81,6 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 		View contentView;
 		mContext = getActivity();
 		contentView = View.inflate(mContext, R.layout.fragment_location_model, null);
-		//LinearLayout layout=(LinearLayout)contentView.findViewById(R.id.location_mode_id);
-//		DisplayMetrics metrics = new DisplayMetrics();
-//		WindowManager m = getActivity().getWindowManager();      
-//	    m.getDefaultDisplay().getMetrics(metrics);//为获取屏幕宽、高                
-//		LayoutParams p = getActivity().getWindow().getAttributes();//获取对话框当前的参数值
-//		if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
-//			//横屏
-//			p.height = (int) ((metrics.heightPixels*1)/3);//高度设置为屏幕的1.0     
-//			p.width = (int) ((metrics.widthPixels*2)/3);    //宽度设置为屏幕的0.8   
-//		}else if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT){
-//			//竖屏
-//			p.height = (int) ((metrics.heightPixels * 7)/24);   //高度设置为屏幕的1.0     
-//			p.width = (int) (metrics.widthPixels);    //宽度设置为屏幕的0.8   
-//		}
-//		getActivity().getWindow().setAttributes(p);     //设置生效  
 		initUI(contentView);
 		return contentView;
 	}
