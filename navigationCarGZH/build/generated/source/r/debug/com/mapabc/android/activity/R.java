@@ -13,9 +13,6 @@ public final class R {
         public static final int fading_out=0x7f040001;
     }
     public static final class array {
-        /**  
-      <item>断电报警</item> 
-         */
         public static final int alarm_items=0x7f090000;
         public static final int backgroundlightitem=0x7f090001;
         public static final int bd_manager=0x7f090002;
@@ -24,9 +21,6 @@ public final class R {
         public static final int bdloc_type_array=0x7f090005;
         public static final int bdloc_zuobiao_array=0x7f090006;
         public static final int coodrate_num_array=0x7f090007;
-        /**  
-        <item>自动</item> 
-         */
         public static final int dayornightitem=0x7f090008;
         public static final int demospeeditem=0x7f090009;
         public static final int displaymodelitem=0x7f09000a;
@@ -38,9 +32,6 @@ public final class R {
         public static final int mapcoloritem=0x7f090010;
         public static final int mapdetaileddegreeitem=0x7f090011;
         public static final int msg_research_array=0x7f090012;
-        /**  
-        <item>退出导航</item> 
-         */
         public static final int otherfunctionitems=0x7f090013;
         public static final int prioritypoiitem=0x7f090014;
         public static final int report_location_array=0x7f090015;

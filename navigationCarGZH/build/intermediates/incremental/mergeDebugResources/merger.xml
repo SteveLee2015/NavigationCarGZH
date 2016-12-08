@@ -332,6 +332,7 @@
     <item name="android:windowEnterAnimation">@anim/fading_in</item>  
     <item name="android:windowExitAnimation">@anim/fading_out</item>  
   </style><style name="AppTheme" parent="AppBaseTheme">
+		<item name="android:windowNoTitle">true</item>
         
     </style><style name="settingforlike_state">
 		<item name="android:textSize">15dip</item>
