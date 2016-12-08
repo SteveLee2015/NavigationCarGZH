@@ -35,7 +35,6 @@ public class BDSendMsgLandScapeActivity extends BottomBaseActivity implements BD
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		setContentView(R.layout.activity_bdsend_msg_land_scape);
 		title_name.setText("短信");
 		//mReturnLayout=(LinearLayout)this.findViewById(R.id.bd_msg_return_layout);

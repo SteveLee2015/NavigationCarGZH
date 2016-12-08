@@ -63,6 +63,8 @@ import com.novsky.map.main.CoodrinateDate;
 import com.novsky.map.main.FriendBDPoint;
 import com.novsky.map.main.FriendsLocationActivity;
 
+import static com.novsky.map.util.Config.MY_LOC_REPORT_NOTIFICATION;
+
 /**
  * 工具类
  * 
@@ -2653,7 +2655,9 @@ public class Utils{
 						+ report.mLatitude,
 				contentIntent);
 		NOTIFICATION_ID++;
-		mNotificationManager.notify(NOTIFICATION_ID % 10, notification);
+
+		//mNotificationManager.notify(NOTIFICATION_ID % 10, notification);
+		mNotificationManager.notify(Config.MY_LOC_REPORT_NOTIFICATION, notification);
 		friendLocationNotificationID = NOTIFICATION_ID%10;
 		destoryNotification = notification;
 	}
@@ -2817,8 +2821,9 @@ public class Utils{
 		notification.setLatestEventInfo(mContext,new String("来自 " + message.getmUserAddress() + " 信息"),messagContent, contentIntent);
 		NOTIFICATION_ID++;
 		Utils.smsNotificationShow=true;
-		mNotificationManager.notify(NOTIFICATION_ID%10, notification);
-		
+		//mNotificationManager.notify(NOTIFICATION_ID%10, notification);
+		mNotificationManager.notify(Config.SMS_NOTIFICATION, notification);
+
 		messageNotificationID = NOTIFICATION_ID%10;
 		destoryNotification = notification;
 	}
@@ -2878,7 +2883,8 @@ public class Utils{
 		if (messageNotificationID!=-1) {
 			
 			NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.cancel(messageNotificationID);
+			//mNotificationManager.cancel(messageNotificationID);
+			mNotificationManager.cancel(Config.SMS_NOTIFICATION);
 		}
 		
 		
@@ -2891,7 +2897,8 @@ public class Utils{
 		if (friendLocationNotificationID!=-1) {
 			
 			NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-			mNotificationManager.cancel(friendLocationNotificationID);
+			//mNotificationManager.cancel(friendLocationNotificationID);
+			mNotificationManager.cancel(Config.MY_LOC_REPORT_NOTIFICATION);
 		}
 		
 		

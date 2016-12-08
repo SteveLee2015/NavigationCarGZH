@@ -424,9 +424,10 @@ public class SendedMsgFragment extends Fragment {
 
 		
 		//销毁 notification
-		if (Utils.destoryNotification!=null) {
-			Utils.destoryMessageNotification(getActivity());
-		}
+//		if (Utils.destoryNotification!=null) {
+//			Utils.destoryMessageNotification(getActivity());
+//		}
+		Utils.destoryMessageNotification(getActivity());
 	}
 
 

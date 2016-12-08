@@ -164,9 +164,10 @@ public class FriendsLocationFragment extends Fragment {
 		super.onResume();
 		Log.e(TAG,"onResume");
 		//清除 notification
-		if (Utils.destoryNotification != null) {
-			Utils.destoryFriendLocationNotification(getActivity());
-		}
+//		if (Utils.destoryNotification != null) {
+//			Utils.destoryFriendLocationNotification(getActivity());
+//		}
+		Utils.destoryFriendLocationNotification(getActivity());
 
 		final FriendsLocationDatabaseOperation oper = new FriendsLocationDatabaseOperation(
 				getActivity());

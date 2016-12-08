@@ -1,23 +1,5 @@
 package com.mapabc.android.activity;
 
-import java.util.Iterator;
-import java.util.List;
-import com.bd.comm.protocal.BDCommManager;
-import com.bd.comm.protocal.BDRNSSLocation;
-import com.bd.comm.protocal.BDRNSSLocationListener;
-import com.bd.comm.protocal.BDSatellite;
-import com.bd.comm.protocal.BDSatelliteListener;
-import com.bd.comm.protocal.GPSatellite;
-import com.bd.comm.protocal.GPSatelliteListener;
-import com.novsky.map.main.AutoCheckedActivity;
-import com.novsky.map.main.BD2StatusActivity;
-import com.novsky.map.main.BDAvailableStatelliteManager;
-import com.novsky.map.main.GPSStatusActivity;
-import com.novsky.map.main.LocationStatusManager;
-import com.novsky.map.util.Utils;
-
-import android.R.integer;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,21 +8,34 @@ import android.graphics.Color;
 import android.location.BDBeam;
 import android.location.BDEventListener;
 import android.location.BDParameterException;
-import android.location.BDUnknownException;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.LocationManager;
 import android.location.BDRNSSManager.LocationStrategy;
+import android.location.BDUnknownException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bd.comm.protocal.BDCommManager;
+import com.bd.comm.protocal.BDRNSSLocation;
+import com.bd.comm.protocal.BDRNSSLocationListener;
+import com.bd.comm.protocal.BDSatellite;
+import com.bd.comm.protocal.BDSatelliteListener;
+import com.bd.comm.protocal.GPSatellite;
+import com.bd.comm.protocal.GPSatelliteListener;
+import com.mapabc.android.activity.base.BaseActivity;
+import com.novsky.map.main.AutoCheckedActivity;
+import com.novsky.map.main.BD2StatusActivity;
+import com.novsky.map.main.BDAvailableStatelliteManager;
+import com.novsky.map.main.GPSStatusActivity;
+import com.novsky.map.main.LocationStatusManager;
+import com.novsky.map.util.Utils;
+
+import java.util.List;
 
 /**
  * 底部按钮显示界面 的基类
@@ -48,7 +43,7 @@ import android.widget.TextView;
  * @author Administrator
  * 
  */
-public abstract class BottomBaseActivity extends Activity {
+public abstract class BottomBaseActivity extends BaseActivity {
 
 	/**
 	 * rnss 数目
@@ -73,10 +68,6 @@ public abstract class BottomBaseActivity extends Activity {
 	 * 定位状态的管理类
 	 */
 	protected LocationStatusManager locationStatusManager = null;
-	/**
-	 * RNSS对象
-	 */
-	protected LocationManager locationManager = null;
 
 	/**
 	 * 北斗有效卫星管理对象
@@ -324,96 +315,6 @@ public abstract class BottomBaseActivity extends Activity {
 		}
 	};
 
-	/**
-	 * 在7寸屏中 没有改功能
-	 * 获得RNSS卫星数据的监听器 1.如果当前单北斗模式，则每次获得的数据都是北斗卫星的数据。
-	 * 对北斗卫星数据进行遍历，获得当前北斗参与定位的卫星数目并显示出来。 2.如果当前单GPS模式，则每次获得的数据都是GPS卫星的数据。
-	 * 对GPS卫星数据进行遍历，获得当前GPS参与定位的卫星数目并显示出来。 3.如果当前是混合模式，则一次获得GPS卫星数据，一次获得北斗卫星数据。
-	 * 先解析GPS卫星数据，获得GPS参与定位的卫星数目，然后解析北斗卫星 数据获得北斗参与定位的卫星数目,把两次解析出来的卫星数目增加并显示出来。
-	 */
-	protected GpsStatus.Listener mGpslistener = new GpsStatus.Listener() {
-		int available = 0;
-		GpsStatus mGpsStatus;
-
-		@Override
-		public void onGpsStatusChanged(int event) {
-			if (locationManager != null) {
-				int currentAvailable = 0;
-				mGpsStatus = locationManager.getGpsStatus(null);
-				switch (event) {
-				case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-					Iterable<GpsSatellite> allStatellites = mGpsStatus
-							.getSatellites();
-					Iterator<GpsSatellite> it = allStatellites.iterator();
-					while (it.hasNext()) {
-						GpsSatellite satellite = it.next();
-						int statelliteID = satellite.getPrn();
-						float zaizaobi = satellite.getSnr();// 载噪比
-						if (statelliteID >= 160) {
-							if (statellitesManager.usedInFix(statelliteID)
-									&& (zaizaobi > 5)) {
-								// ??
-								currentAvailable++;
-							}
-						} else {
-							if (satellite.usedInFix()
-									&& (satellite.getSnr() > 5)) {
-								// ??
-								currentAvailable++;
-							}
-						}
-					}
-
-					// 混合模式
-					if (Utils.RNSS_CURRENT_LOCATION_MODEL == LocationStrategy.HYBRID_STRATEGY) {
-						if (available == 0) {
-							available = currentAvailable + 1;
-						} else {
-							available = available + currentAvailable - 1;
-							// 还要加上gps卫星数
-
-							// 发消息到handler
-							Message msg = Message.obtain();
-							msg.what = BD_SATELLITE_STATUS_ITEM;
-							msg.obj = available;
-							handler.sendMessage(msg);
-
-							// homeTitleBD2Num.setText("" + available);
-							// if (locationStatusManager.getLocationStatus()) {
-							// homeTitleBD2Num.setTextColor(Color.GREEN);
-							// } else {
-							// homeTitleBD2Num.setTextColor(mContext
-							// .getResources().getColor(
-							// R.color.bd2_unenable_loc));
-							// }
-							available = 0;
-						}
-					} else {
-						// 单GPS 模式
-
-						Message msg = Message.obtain();
-						msg.what = GPS_ONLY;
-						msg.obj = available;
-						handler.sendMessage(msg);
-
-						// homeTitleBD2Num.setText("" + currentAvailable);
-						// if (locationStatusManager.getLocationStatus()) {
-						// homeTitleBD2Num.setTextColor(Color.BLACK);
-						// // homeTitleBD2Num.setTextColor(Color.GREEN);
-						// } else {
-						// homeTitleBD2Num.setTextColor(mContext
-						// .getResources().getColor(
-						// R.color.bd2_unenable_loc));
-						// }
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	};
-
 	abstract protected int getContentView();
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -424,16 +325,7 @@ public abstract class BottomBaseActivity extends Activity {
 		manager = BDCommManager.getInstance(this);
 		locationStatusManager = LocationStatusManager.getInstance();
 		if ("S500".equals(Utils.DEVICE_MODEL)) {
-			locationManager = (LocationManager) mContext
-					.getSystemService(Context.LOCATION_SERVICE);
-			locationManager.addGpsStatusListener(mGpslistener);
-			try {
-				manager.addBDEventListener(mBDBeamStatusListener);
-			} catch (BDParameterException e) {
-				e.printStackTrace();
-			} catch (BDUnknownException e) {
-				e.printStackTrace();
-			}
+
 		} else {
 			try {
 				manager.addBDEventListener(mBDBeamStatusListener,
