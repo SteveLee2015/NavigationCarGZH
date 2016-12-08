@@ -14,4 +14,10 @@ public class Config {
     public static final int MY_LOC_REPORT_NOTIFICATION = 2016;
     //短报文
     public static final int SMS_NOTIFICATION = 2017;
+    //线路导航
+    public static final int BDNAL_NOTIFICATION = 2018;
+    //指令导航
+    public static final int BDNAC_NOTIFICATION = 2019;
+    //友邻位置
+    public static final int FRIENDS_LOC_NOTIFICATION = 2020;
 }

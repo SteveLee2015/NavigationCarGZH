@@ -2855,11 +2855,12 @@ public class Utils{
 		bundle.putSerializable("friendLocationList", friendLocationList);
 		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,notificationIntent, 0,bundle);
 //		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,notificationIntent, 0);
-		notification.setLatestEventInfo(mContext,new String("来自 " + message.getmUserAddress() + " 位置报告"),messagContent, contentIntent);
+		notification.setLatestEventInfo(mContext,new String("来自 " + message.getmUserAddress() + " 友邻位置"),messagContent, contentIntent);
 		NOTIFICATION_ID++;
 		Utils.smsNotificationShow=true;
-		mNotificationManager.notify(NOTIFICATION_ID%10, notification);
-		
+		//mNotificationManager.notify(NOTIFICATION_ID%10, notification);
+		mNotificationManager.notify(Config.FRIENDS_LOC_NOTIFICATION, notification);
+
 		messageNotificationID = NOTIFICATION_ID%10;
 		destoryNotification = notification;
 	}
@@ -2881,7 +2882,6 @@ public class Utils{
 	public static void destoryMessageNotification(Context mContext){
 		
 		if (messageNotificationID!=-1) {
-			
 			NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			//mNotificationManager.cancel(messageNotificationID);
 			mNotificationManager.cancel(Config.SMS_NOTIFICATION);
@@ -2895,13 +2895,10 @@ public class Utils{
 	public static void destoryFriendLocationNotification(Context mContext){
 		
 		if (friendLocationNotificationID!=-1) {
-			
 			NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			//mNotificationManager.cancel(friendLocationNotificationID);
 			mNotificationManager.cancel(Config.MY_LOC_REPORT_NOTIFICATION);
 		}
-		
-		
 	}
 	
 	

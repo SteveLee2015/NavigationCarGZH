@@ -1,10 +1,8 @@
 package com.novsky.map.fragment;
 
-import java.util.List;
-import java.util.Map;
-
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +34,10 @@ import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
 import com.novsky.map.main.BDInstructionNav;
 import com.novsky.map.main.BDInstructionNavOperation;
+import com.novsky.map.util.Config;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 导航任务
@@ -206,6 +208,10 @@ public class NaviTaskFragment extends Fragment{
 		}
 		IntentFilter filter=new IntentFilter("com.bd.action.BD_INSTR_LINE_ACTION");
 		getActivity().registerReceiver(receiver, filter);
+
+		//取消线路导航 通知
+		NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(Config.BDNAC_NOTIFICATION);
 	}
 	
 	@Override

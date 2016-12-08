@@ -33,6 +33,7 @@ import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
 import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.util.BDMSG;
+import com.novsky.map.util.Config;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.FriendsLocation;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
@@ -134,7 +135,8 @@ public class SMSReceiver extends BroadcastReceiver {
                         PendingIntent contentIntent = PendingIntent.getActivity(mContext,0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         notification.setLatestEventInfo(mContext,new String("来自 " + info.getmUserAddress() + " 信息"),"接收到从指挥机上发送的路线导航,是否进入导航?", contentIntent);
                         BD_NOTIFICATION_ID++;
-                        mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
+                        //mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
+                        mNotificationManager.notify(Config.BDNAL_NOTIFICATION, notification);
                     }else{
                         //发送回执命令
                         String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum+"*41";
@@ -238,11 +240,12 @@ public class SMSReceiver extends BroadcastReceiver {
                         PendingIntent contentIntent = PendingIntent.getActivity(mContext,0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         notification.setLatestEventInfo(mContext,new String("来自 " + info.getmUserAddress() + " 信息"),"接收到从指挥机上发送的指令导航,是否进入导航?", contentIntent);
                         BD_NOTIFICATION_ID++;
-                        mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
+                        //mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
+						mNotificationManager.notify(Config.BDNAC_NOTIFICATION, notification);
                    }
 				} catch (Exception e) {
 					e.printStackTrace();
-					Toast.makeText(mContext, "线路导航解析失败", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "指令导航解析失败", Toast.LENGTH_SHORT).show();
 					storeMsg(context, info, msg);
 
 				}
@@ -390,7 +393,7 @@ public class SMSReceiver extends BroadcastReceiver {
 					mIntent.setClassName(mContext, "com.bd.comm.protocol.BDLocationService");
 					mContext.startService(mIntent);
 				}else if (msg.startsWith("F1")) {//1个字节
-
+					// 友邻位置
 
 					try {
 						//发送时间
@@ -417,7 +420,7 @@ public class SMSReceiver extends BroadcastReceiver {
 						if (msg.length()!=length) {
                             // 出错
                             storeMsg(context, info, msg);
-                            Toast.makeText(mContext, "位置报告格式不正确!!", 0).show();
+                            Toast.makeText(mContext, "友邻位置格式不正确!!", 0).show();
                             return;
                         }
 

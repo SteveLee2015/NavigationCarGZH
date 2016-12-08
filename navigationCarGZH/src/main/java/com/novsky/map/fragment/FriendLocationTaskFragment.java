@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.mapabc.android.activity.R;
 import com.novsky.map.main.BDFriendLocationOperation;
 import com.novsky.map.main.FriendBDPoint;
+import com.novsky.map.util.Config;
 
 /**
  * 友邻位置  深圳海力特 fuck
@@ -149,53 +151,6 @@ public class FriendLocationTaskFragment extends Fragment{
 				}
 				
 			});
-			
-			
-			/**
-			 * 报废
-			 */
-//			expandistView.setOnItemLongClickListener(new OnItemLongClickListener() {
-//				@Override
-//				public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-//						final int position, long arg3) {
-//					final FriendBDPoint bdLineNav=navs.get(position);
-//					AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
-//					alert.setTitle("删除友邻位置");
-//					alert.setMessage("是否删除该条友邻位置?");
-//					alert.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface arg0, int index){
-//							boolean istrue=operation.delete(bdLineNav.getReceiveTime());
-//							if(istrue){
-//								navs.remove(position);
-//								mFriendLocationTaskAdapter.notifyDataSetChanged();
-//							   Toast.makeText(getActivity(), "删除友邻位置成功!", Toast.LENGTH_SHORT).show();  
-//							}else{
-//							   Toast.makeText(getActivity(),"删除友邻位置失败!", Toast.LENGTH_SHORT).show();   
-//							}
-//						}
-//					});
-//					alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface arg0, int arg1) {
-//							arg0.dismiss();
-//						}
-//					});
-//					alert.setNeutralButton("全部删除", new DialogInterface.OnClickListener() {
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							boolean istrue=operation.delete();
-//							if(istrue){
-//								navs.clear();
-//								mFriendLocationTaskAdapter.notifyDataSetChanged();
-//							   Toast.makeText(getActivity(), "删除路线导航成功!", Toast.LENGTH_SHORT).show();  
-//							}else{
-//							   Toast.makeText(getActivity(),"删除路线导航失败!", Toast.LENGTH_SHORT).show();   
-//							}
-//						}
-//					});
-//					alert.create().show();
-//					return true;
-//				}
-//			 });
 		}else{
 			noLinePrompt.setText("当前没有友邻位置相关信息！");
 			noLinePrompt.setVisibility(View.VISIBLE);
@@ -215,6 +170,9 @@ public class FriendLocationTaskFragment extends Fragment{
 		//com.bd.action.FRIEND_LOCATIONMESSAGE_ACTION
 		IntentFilter filter=new IntentFilter("com.bd.action.FRIEND_LOCATIONMESSAGE_ACTION");
 		getActivity().registerReceiver(receiver, filter);
+		//取消线路导航 通知
+		NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel(Config.FRIENDS_LOC_NOTIFICATION);
 	}
 	
 	@Override
