@@ -187,7 +187,7 @@ public class BD2StatusActivity extends Activity implements View.OnClickListener{
 
 				@Override
 				public void onClick(View v) {
-					//finish();
+					finish();
 				}
 			});
 

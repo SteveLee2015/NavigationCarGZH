@@ -181,8 +181,6 @@ public class GPSStatusActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statellite_status);
-
-
         Log.d(TAG, "onCreateView");
         mContext = this;
         mBDCommManager = BDCommManager.getInstance(mContext);
@@ -193,7 +191,7 @@ public class GPSStatusActivity extends Activity implements View.OnClickListener 
 
             @Override
             public void onClick(View v) {
-                //finish();
+                finish();
             }
         });
 
