@@ -45,6 +45,8 @@
     <color name="msg_title_bg_selected_color">#40000000</color>
     
     <color name="bd_manager_divider_color">#121212</color>
+
+    <color name="BD_TAB_COLOR">#999999</color>
     
     
 </resources>

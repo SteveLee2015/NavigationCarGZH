@@ -1,8 +1,8 @@
 package com.bd.comm.protocal;
 
-import java.util.List;
-
 import android.location.BDEventListener;
+
+import java.util.List;
 
 public interface BDSatelliteListener extends BDEventListener {
 

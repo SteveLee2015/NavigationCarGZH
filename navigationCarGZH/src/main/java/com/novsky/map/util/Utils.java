@@ -47,6 +47,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -3102,6 +3103,26 @@ public class Utils{
 			temp[i * 2 + 1] = (char) (val > 9 ? val + 'A' - 10 : val + '0');
 		}
 		return new String(temp);
+	}
+
+
+	public static int dp2pixel(int dpvalue) {
+		//Log.i("SNR", mDisplayMetrics.densityDpi + "");
+		if (mDisplayMetrics == null)
+			return 0;
+		return (int) ((mDisplayMetrics.densityDpi / 160.0f) * dpvalue);
+	}
+
+
+	private static DisplayMetrics mDisplayMetrics = null;
+
+
+	public static DisplayMetrics getmDisplayMetrics() {
+		return mDisplayMetrics;
+	}
+
+	public static void setmDisplayMetrics(DisplayMetrics mDisplayMetrics) {
+		Utils.mDisplayMetrics = mDisplayMetrics;
 	}
 
 }

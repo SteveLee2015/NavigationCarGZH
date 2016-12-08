@@ -40,7 +40,7 @@ import java.util.List;
 
 /**
  * 北斗II代卫星状态
- * @author steve
+ * @author llg
  */
 public class BD2StatusFragment extends Fragment {
 

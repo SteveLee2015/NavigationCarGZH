@@ -353,6 +353,7 @@
         <item>湖南话</item>
         <item>河南话</item>
     </string-array>
+    <color name="BD_TAB_COLOR">#999999</color>
     <color name="bd1_signal_none">#000000</color>
     <color name="bd1_signal_normal">#919191</color>
     <color name="bd1_signal_weak">#FF0000</color>
