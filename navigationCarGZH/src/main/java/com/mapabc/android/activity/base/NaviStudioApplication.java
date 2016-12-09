@@ -97,8 +97,9 @@ public class NaviStudioApplication extends  SerialApplication{
 	 * @return
 	 */
 	private boolean mAddLocationReportToDatabase(BDLocationReport report,int flag) {
-		FriendsLocationDatabaseOperation oper = new FriendsLocationDatabaseOperation(mContext);
 
+
+		FriendsLocationDatabaseOperation oper = new FriendsLocationDatabaseOperation(mContext);
 
 		double latitude = report.getLatitude()/100;
 		double longitude = report.getLongitude()/100;
