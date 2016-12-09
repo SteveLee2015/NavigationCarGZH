@@ -67,7 +67,7 @@ public class BDCommManager {
 	/**广播通知携带的数据***/
 	public static final String BDRDSS_MESSAGE = "bdrdss_message";
 	
-	private ArrayList<BDLocationListener> mBDLocationListeners = new ArrayList<BDLocationListener>();
+	private ArrayList<BDLocationListener> mBDLocationListeners = new ArrayList<BDLocationListener>();//定位申请
 	private ArrayList<VersionListener> mVersionListeners = new ArrayList<VersionListener>();
 	private ArrayList<BDKLTListener> mBDKLTListeners = new ArrayList<BDKLTListener>();
 	private ArrayList<ZhiHuiListener> mZhiHuiListeners = new ArrayList<ZhiHuiListener>();
@@ -76,7 +76,7 @@ public class BDCommManager {
 	private ArrayList<LocalInfoListener> mLocalInfoListeners = new ArrayList<LocalInfoListener>();
 	private ArrayList<ManagerInfoListener> mManagerInfoListeners = new ArrayList<ManagerInfoListener>();
 	private ArrayList<BDBeamStatusListener> mBDBeamStatusListeners = new ArrayList<BDBeamStatusListener>();
-	private ArrayList<BDLocReportListener> mBDLocReportListeners = new ArrayList<BDLocReportListener>();
+	private ArrayList<BDLocReportListener> mBDLocReportListeners = new ArrayList<BDLocReportListener>();//位置报告1
 	private ArrayList<ZeroInfoListener> mZeroInfoListeners = new ArrayList<ZeroInfoListener>();
 	private ArrayList<AutoDestroyListener> mAutoDestroyListeners = new ArrayList<AutoDestroyListener>();
 	private ArrayList<BDRNSSLocationListener> mBDRNSSLocationListeners=new ArrayList<BDRNSSLocationListener>();
@@ -962,7 +962,8 @@ public class BDCommManager {
 					// if(cmd.equals("$BDDWR")){
 					String[] params = cmd.split(",");
 					/*
-					 * 1-本用户设备进行定位申请返回的定位信息2-具备指挥功能的用户设备进行定位查询返回的下属用户位置信息
+					 * 1-本用户设备进行定位申请返回的定位信息
+					 * 2-具备指挥功能的用户设备进行定位查询返回的下属用户位置信息
 					 * 3-接收到位置报告的定位信息
 					 */
 					int locType = Integer.valueOf(params[1]);
@@ -1103,13 +1104,18 @@ public class BDCommManager {
 				} else {
 					Log.i(TAG, "mLocalInfoListeners is  null!");
 				}
-				//位置报告1
+				//位置报告1 rn位置报告
 			} else if (cmd.startsWith("$BDWAA")) {
 				if (mBDLocReportListeners != null) {
 					String[] reportArray = cmd.split(",");
 					BDLocationReport report = new BDLocationReport();
 					report.setMsgType(Integer.valueOf(reportArray[1]));
-					report.setReportFeq(Integer.valueOf(reportArray[2]));
+					//非空判断
+					if (reportArray[2].isEmpty()){
+						report.setReportFeq(0);
+					}else {
+						report.setReportFeq(Integer.valueOf(reportArray[2]));
+					}
 					report.setUserAddress(reportArray[3]);
 					report.setReportTime(reportArray[4]);
 					report.setLatitude(Double.valueOf(reportArray[5]));

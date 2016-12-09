@@ -20,4 +20,9 @@ public class Config {
     public static final int BDNAC_NOTIFICATION = 2019;
     //友邻位置
     public static final int FRIENDS_LOC_NOTIFICATION = 2020;
+
+    //rd rn 位置报告时间
+    public static final int RN_RD_WAA = 1001;
+    //rd 定位申请时间
+    public static final int RD_DWR = 1002;
 }

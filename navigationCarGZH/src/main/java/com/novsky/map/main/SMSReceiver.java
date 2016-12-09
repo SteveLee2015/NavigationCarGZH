@@ -1,12 +1,5 @@
 package com.novsky.map.main;
 
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
@@ -17,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.SQLException;
 import android.location.BDLocationReport;
 import android.location.BDMessageInfo;
 import android.location.BDParameterException;
@@ -38,6 +30,12 @@ import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.FriendsLocation;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 import com.novsky.map.util.Utils;
+
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 /**
  * 短信接收 
  * @author steve
@@ -326,6 +324,7 @@ public class SMSReceiver extends BroadcastReceiver {
 						String time=mHour+":"+mMinute+":"+mSecond;
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						report.setReportTime(sdf.format(new Date())+" "+time);
+
 	                /*位置报告经度*/
 						byte[] mLonReport=new byte[4];
 						mLonReport[0]=0;
@@ -420,7 +419,7 @@ public class SMSReceiver extends BroadcastReceiver {
 						if (msg.length()!=length) {
                             // 出错
                             storeMsg(context, info, msg);
-                            Toast.makeText(mContext, "友邻位置格式不正确!!", 0).show();
+                            Toast.makeText(mContext, "友邻位置格式不正确!!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -616,8 +615,11 @@ public class SMSReceiver extends BroadcastReceiver {
 		FriendsLocationDatabaseOperation oper = new FriendsLocationDatabaseOperation(mContext);
 		FriendsLocation fl = new FriendsLocation();
 		fl.setUserId(report.mUserAddress);
-		fl.setLat(String.valueOf(report.mLatitude));
-		fl.setLon(String.valueOf(report.mLongitude));
+		//String latiFormat = String.format("%.6f", report.mLatitude);
+		//String longiFormat = String.format("%.6f",report.mLongitude);
+
+		fl.setLat(String.format("%.6f", report.mLatitude));
+		fl.setLon(String.format("%.6f",report.mLongitude));
 		fl.setHeight(String.valueOf(report.mHeight));
 		fl.setReportTime(report.mReportTime);
 		boolean isTrue = oper.insert(fl);

@@ -1,8 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -43,6 +40,9 @@ import com.novsky.map.util.BDContactColumn;
 import com.novsky.map.util.BDTimeCountManager;
 import com.novsky.map.util.BDTimeFreqChangedListener;
 import com.novsky.map.util.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 位置报送
@@ -360,7 +360,8 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 				report.setLatitudeDir("");
 				report.setMsgType(1);
 				report.setReportFeq(Integer.valueOf(frequency));
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
+				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.ss");
 				String time = sdf.format(new Date());
 				report.setReportTime(time);
 				report.setUserAddress(mUserAddress);

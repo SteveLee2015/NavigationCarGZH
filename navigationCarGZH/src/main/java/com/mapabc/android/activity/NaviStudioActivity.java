@@ -141,7 +141,6 @@ public class NaviStudioActivity extends BaseActivity {
 	private ReportLayer reportLayer = null;
 	private CustomLocationManager manager = null;
 	private boolean isExit;
-	private LocationManager locationManager = null;
 	boolean isTMCOpen = false;
 	public static final int REALTIMETRAFFIC = 201;// 加载实时交通
 	private final static int RECEIVE_CARD_INFO = 0xD2;
@@ -210,108 +209,7 @@ public class NaviStudioActivity extends BaseActivity {
 		}
 	};
 
-	/**
-	 * 获得RNSS卫星数据的监听器 
-	 * 1.如果当前单北斗模式，则每次获得的数据都是北斗卫星的数据。
-	 * 对北斗卫星数据进行遍历，获得当前北斗参与定位的卫星数目并显示出来。
-	 * 2.如果当前单GPS模式，则每次获得的数据都是GPS卫星的数据。
-	 * 对GPS卫星数据进行遍历，获得当前GPS参与定位的卫星数目并显示出来。
-	 * 3.如果当前是混合模式，则一次获得GPS卫星数据，一次获得北斗卫星数据。
-	 * 先解析GPS卫星数据，获得GPS参与定位的卫星数目，然后解析北斗卫星 数据获得北斗参与定位的卫星数目,把两次解析出来的卫星数目增加并显示出来。
-	 */
-	private GpsStatus.Listener mGpslistener = new GpsStatus.Listener() {
-		int gpsCurrentListenAvailable = 0;
-		int bdCurrentListenAvailable = 0;
-		GpsStatus mGpsStatus = null;
 
-		@Override
-		public void onGpsStatusChanged(int event) {
-			mGpsStatus = locationManager.getGpsStatus(null);
-			switch (event) {
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				Iterable<GpsSatellite> allStatellites = mGpsStatus
-						.getSatellites();
-				Iterator<GpsSatellite> it = allStatellites.iterator();
-				while (it.hasNext()) {
-					GpsSatellite satellite = it.next();
-					int statelliteID = satellite.getPrn();
-					float zaizaobi = satellite.getSnr();// 载噪比
-					if (statelliteID >= 160) {
-						if (statellitesManager.usedInFix(statelliteID)
-								&& (zaizaobi > 5)) {
-							bdCurrentListenAvailable++;
-							//新添加
-							bdCurrentAvailable = bdCurrentListenAvailable;
-						}
-					} else {
-						if (satellite.usedInFix() && (satellite.getSnr() > 5)) {
-							gpsCurrentListenAvailable++;
-							//新添加
-							gpsCurrentAvailable = gpsCurrentListenAvailable;
-						}
-					}
-				}
-				int locationModel = share.getInt("LOCATION_MODEL", 0);
-				
-				//BD卫星信号相关
-				//单北斗 及 混合模式
-				if (locationModel == LocationStrategy.BD_ONLY_STRATEGY
-						|| locationModel == LocationStrategy.HYBRID_STRATEGY) {
-					
-					Log.d(TAG, "GpsStatus.Listener 单北斗和混合模式");
-					if (bdCurrentListenAvailable > 0) {
-						if (bdCurrentListenAvailable > 0 && bdCurrentListenAvailable < 4) {
-							bdstate.setImageResource(R.drawable.navistudio_bd_a_1);
-						} else if (bdCurrentListenAvailable >= 4
-								&& bdCurrentListenAvailable < 6) {
-							bdstate.setImageResource(R.drawable.navistudio_bd_a_2);
-						} else if (bdCurrentListenAvailable >= 6
-								&& bdCurrentListenAvailable < 8) {
-							bdstate.setImageResource(R.drawable.navistudio_bd_a_3);
-						} else if (bdCurrentListenAvailable >= 8) {
-							bdstate.setImageResource(R.drawable.navistudio_bd_a_4);
-						} else {
-							bdstate.setImageResource(R.drawable.navistudio_bd_a_1);
-						}
-						bdCurrentListenAvailable = 0;
-					}
-				} else {
-					bdstate.setImageResource(R.drawable.navistudio_bd_a_1);
-				}
-				
-				
-				//GPS 信号相关
-				//单GPS 及  混合模式
-				if (locationModel == LocationStrategy.GPS_ONLY_STRATEGY
-						|| locationModel == LocationStrategy.HYBRID_STRATEGY) {
-					Log.d(TAG, "GpsStatus.Listener 单GPS和混合模式");
-					if (gpsCurrentListenAvailable > 0) {
-						if (gpsCurrentListenAvailable > 0 && gpsCurrentListenAvailable < 4) {
-							gpsstate.setImageResource(R.drawable.navistudio_gps_a_1_x);
-						} else if (gpsCurrentListenAvailable >= 4
-								&& gpsCurrentListenAvailable < 6) {
-							gpsstate.setImageResource(R.drawable.navistudio_gps_a_2_x);
-						} else if (gpsCurrentListenAvailable >= 6
-								&& gpsCurrentListenAvailable < 8) {
-							gpsstate.setImageResource(R.drawable.navistudio_gps_a_3_x);
-						} else if (gpsCurrentListenAvailable >= 8) {
-							gpsstate.setImageResource(R.drawable.navistudio_gps_a_4_x);
-						} else {
-							gpsstate.setImageResource(R.drawable.navistudio_gps_0_x);
-						}
-						gpsCurrentListenAvailable = 0;
-					}
-				} else {
-					gpsstate.setImageResource(R.drawable.navistudio_gps_0_x);
-				}
-				break;
-				
-				
-			default:
-				break;
-			}
-		}
-	};
 	private BDRNSSLocationListener mBDRNSSLocationListener = new BDRNSSLocationListener() {
 
 		@Override
@@ -584,9 +482,7 @@ public class NaviStudioActivity extends BaseActivity {
 			e1.printStackTrace();
 		}
 		if ("S500".equals(com.novsky.map.util.Utils.DEVICE_MODEL)) {
-			locationManager = (LocationManager) mContext
-					.getSystemService(Context.LOCATION_SERVICE);
-			locationManager.addGpsStatusListener(mGpslistener);
+
 		} else {
 			try {
 				mananger.addBDEventListener(mBDSatelliteListener,mGPSatelliteListener);
@@ -871,7 +767,6 @@ public class NaviStudioActivity extends BaseActivity {
 		super.onDestroy();
 		DayOrNightControl.getIntance().removieDayOrNightListener(
 				dayOrNightListener);
-		locationManager.removeGpsStatusListener(mGpslistener);
 		mapView.hideTip();
 		manager.removeLocation();
 		mapListener = null;
@@ -1826,7 +1721,7 @@ public class NaviStudioActivity extends BaseActivity {
 	}
 	/**
 	 * 显示友邻位置
-	 * @param mFriendLocation
+	 * @param friendLocationList
 	 */
 	private void showFriendLocation(ArrayList<FriendBDPoint> friendLocationList) {
 		
