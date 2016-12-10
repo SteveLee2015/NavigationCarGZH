@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.location.BDEventListener;
 import android.location.BDLocationReport;
 import android.location.BDParameterException;
+import android.location.BDRDSSManager;
 import android.location.BDUnknownException;
 import android.location.Location;
 import android.net.Uri;
@@ -126,7 +127,8 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	 */
 	public static final String PREFERENCE_NAME = "REPORT_MODEL_ACTIVITY";
 	public static final String REPORT_MODEL = "REPORT_MODEL";
-	
+	public static final String REPORT_TIANXIAN_VALUE = "REPORT_TIANXIAN_VALUE";
+
 	
 	private BDTimeFreqChangedListener timeFreqListener=new BDTimeFreqChangedListener(){
 			@Override
@@ -168,6 +170,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 
 	private  Context mContext;
 	private LinearLayout tianxianSettings;
+	private EditText tianxianValue;
 
 
 	@Override
@@ -181,6 +184,11 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	}
 
 	private void initData() {
+
+
+		SharedPreferences shareTianxian = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		float tianxian = shareTianxian.getFloat(REPORT_TIANXIAN_VALUE,45.0f);
+		tianxianValue.setText(tianxian+"");
 
 		mySpinner.setData(new String[]{"RD位置报告","RN位置报告","自定义位置报告"});
 		mySpinner.setOnCustomListener(new OnCustomListListener(){
@@ -269,6 +277,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	    timeManager=BDTimeCountManager.getInstance();
 		mananger = BDCommManager.getInstance(getActivity());
 		addressEditText = (EditText) view.findViewById(R.id.bdloc_userAddress_et);
+		tianxianValue = (EditText) view.findViewById(R.id.tianxian_height_value);
 		selectAddress = (ImageView) view.findViewById(R.id.bdloc_linker);
 		mySpinner =(CustomListView) view.findViewById(R.id.bd_report_model);
 		frequncyEditText = (EditText) view.findViewById(R.id.bdloc_report_feq);
@@ -373,7 +382,30 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 							//判断 FLAG
 							switch (FLAG){
 								case 0:{//rd
-									//mananger.sendLocationReport2CmdBDV21(locationReport.getUserAddress(),);
+									// 读取天线高度
+									String tianxian2 = tianxianValue.getText().toString().trim();
+									float tianxianNum = Float.parseFloat(tianxian2);
+									//保留一位小数
+									tianxian2 = String.format("%.1f", tianxianNum);
+									tianxianNum = Float.parseFloat(tianxian2);
+
+									if (tianxian2 == null || "".equals(tianxian2)){
+										Toast.makeText(getActivity().getApplicationContext(),getActivity().getResources().getString(R.string.report_tianxian_no_content),Toast.LENGTH_SHORT).show();
+										return;
+									}
+
+									// 保存天线高度 到sp中
+									SharedPreferences shareT = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+									shareT.edit().putFloat(REPORT_TIANXIAN_VALUE,tianxianNum).commit();
+									//FLAG=share.getFloat(REPORT_TIANXIAN_VALUE,(Float)tianxianNum);
+
+									try {
+										mananger.sendLocationReport2CmdBDV21(locationReport.getUserAddress(), BDRDSSManager.HeightFlag.COMMON_USER,tianxianNum,0);
+									} catch (BDUnknownException e) {
+										e.printStackTrace();
+									} catch (BDParameterException e) {
+										e.printStackTrace();
+									}
 
 									break;
 								}

@@ -30,7 +30,7 @@ public final class R {
 		public static final int device_com_path = 0x7f0b00ac;
 		public static final int hello_world = 0x7f0b00d3;
 		public static final int history_destination_num_prompt = 0x7f0b00d4;
-		public static final int speed_coefficient = 0x7f0b0173;
+		public static final int speed_coefficient = 0x7f0b0174;
 	}
 	public static final class style {
 		public static final int AppBaseTheme = 0x7f080000;

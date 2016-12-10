@@ -13,6 +13,9 @@ public final class R {
         public static final int fading_out=0x7f040001;
     }
     public static final class array {
+        /**  
+      <item>断电报警</item> 
+         */
         public static final int alarm_items=0x7f090000;
         public static final int backgroundlightitem=0x7f090001;
         public static final int bd_manager=0x7f090002;
@@ -21,6 +24,9 @@ public final class R {
         public static final int bdloc_type_array=0x7f090005;
         public static final int bdloc_zuobiao_array=0x7f090006;
         public static final int coodrate_num_array=0x7f090007;
+        /**  
+        <item>自动</item> 
+         */
         public static final int dayornightitem=0x7f090008;
         public static final int demospeeditem=0x7f090009;
         public static final int displaymodelitem=0x7f09000a;
@@ -32,6 +38,9 @@ public final class R {
         public static final int mapcoloritem=0x7f090010;
         public static final int mapdetaileddegreeitem=0x7f090011;
         public static final int msg_research_array=0x7f090012;
+        /**  
+        <item>退出导航</item> 
+         */
         public static final int otherfunctionitems=0x7f090013;
         public static final int prioritypoiitem=0x7f090014;
         public static final int report_location_array=0x7f090015;
@@ -1569,141 +1578,151 @@ public final class R {
         public static final int progress_dialog_msg=0x7f0b0146;
         public static final int report_location_type_str=0x7f0b0147;
         public static final int report_model=0x7f0b0148;
-        public static final int research_address=0x7f0b0149;
-        public static final int reset_tip=0x7f0b014a;
-        public static final int roadname_null=0x7f0b014b;
-        public static final int routemanager_delete_friend_location=0x7f0b014c;
-        public static final int routemanager_delete_route=0x7f0b014d;
-        public static final int routemanager_isdisplaytrack=0x7f0b014e;
-        public static final int routemanager_routeplan_tip=0x7f0b014f;
-        public static final int routemanager_simnavidesc=0x7f0b0150;
-        public static final int routemanager_simnaviname=0x7f0b0151;
-        public static final int routemanager_trackrule=0x7f0b0152;
-        public static final int search_enter_firstalpha=0x7f0b0153;
-        public static final int search_enter_keyword=0x7f0b0154;
-        public static final int searcharound=0x7f0b0155;
-        public static final int searcharoundtype_topic=0x7f0b0156;
-        public static final int searchlocationactivity_has_no_homepostion=0x7f0b0157;
-        public static final int searchpoibykeyword_app_id=0x7f0b0158;
-        public static final int searchpoiresult_del=0x7f0b0159;
-        public static final int searchpoiresult_distance=0x7f0b015a;
-        public static final int searchpoiresult_edit=0x7f0b015b;
-        public static final int searchpoiresult_endPoint=0x7f0b015c;
-        public static final int searchpoiresult_fav=0x7f0b015d;
-        public static final int searchpoiresult_location=0x7f0b015e;
-        public static final int searchpoiresult_startPoint=0x7f0b015f;
-        public static final int searchpoiresult_strAddr=0x7f0b0160;
-        public static final int searchpoiresult_strArea=0x7f0b0161;
-        public static final int searchpoiresult_strTel=0x7f0b0162;
-        public static final int searchpoiresult_unit=0x7f0b0163;
-        public static final int searchpoiresult_unit_km=0x7f0b0164;
-        public static final int searchpoiresult_unit_m=0x7f0b0165;
-        public static final int searchresult_district=0x7f0b0166;
-        public static final int serial_id=0x7f0b0167;
-        public static final int serial_num=0x7f0b0168;
-        public static final int serial_num_is_null=0x7f0b0169;
-        public static final int service_feq=0x7f0b016a;
-        public static final int service_feq_no=0x7f0b016b;
-        public static final int set_success_cycle_report=0x7f0b016c;
-        public static final int sethome=0x7f0b016d;
-        public static final int sethomefail=0x7f0b016e;
-        public static final int signal_un_lock=0x7f0b016f;
-        public static final int software_about_date=0x7f0b0170;
-        public static final int software_about_name=0x7f0b0171;
-        public static final int software_about_version=0x7f0b0172;
-        public static final int speed_coefficient=0x7f0b0173;
-        public static final int start_alarm=0x7f0b0174;
-        public static final int stop_alarm=0x7f0b0175;
-        public static final int summary_about_software=0x7f0b0176;
-        public static final int summary_auto_check=0x7f0b0177;
-        public static final int summary_bd2_satelite_status=0x7f0b0178;
-        public static final int summary_bd_check_time=0x7f0b0179;
-        public static final int summary_bd_location_manager=0x7f0b017a;
-        public static final int summary_friend_location_manager=0x7f0b017b;
-        public static final int summary_gps_status=0x7f0b017c;
-        public static final int summary_local_mach=0x7f0b017d;
-        public static final int summary_location_model=0x7f0b017e;
-        public static final int summary_location_report_manager=0x7f0b017f;
-        public static final int summary_manager_info=0x7f0b0180;
-        public static final int summary_rdss_location_manager=0x7f0b0181;
-        public static final int summary_rdss_setting_manager=0x7f0b0182;
-        public static final int summary_relay_station_manager=0x7f0b0183;
-        public static final int summary_words_manager=0x7f0b0184;
-        public static final int summary_zuozhan_time=0x7f0b0185;
-        public static final int system_set=0x7f0b0186;
-        public static final int system_un_launch=0x7f0b0187;
-        public static final int test_height_type=0x7f0b0188;
-        public static final int tianxian_height=0x7f0b0189;
-        public static final int tianxian_height_value=0x7f0b018a;
-        public static final int title_activity_add_contact=0x7f0b018b;
-        public static final int title_activity_auto_checked=0x7f0b018c;
-        public static final int title_activity_bd1_loc=0x7f0b018d;
-        public static final int title_activity_bdalarm=0x7f0b018e;
-        public static final int title_activity_bdassist_alarm=0x7f0b018f;
-        public static final int title_activity_bdcom_research=0x7f0b0190;
-        public static final int title_activity_bdcontact=0x7f0b0191;
-        public static final int title_activity_bdlocation=0x7f0b0192;
-        public static final int title_activity_bdlocation_port=0x7f0b0193;
-        public static final int title_activity_bdmanager=0x7f0b0194;
-        public static final int title_activity_bdmanager_horizontal=0x7f0b0195;
-        public static final int title_activity_bdnavi_fail_prompt=0x7f0b0196;
-        public static final int title_activity_bdnavi_success_prompt=0x7f0b0197;
-        public static final int title_activity_bdsend_msg_land_scape=0x7f0b0198;
-        public static final int title_activity_bdsend_msg_port=0x7f0b0199;
-        public static final int title_activity_bdtime=0x7f0b019a;
-        public static final int title_activity_error=0x7f0b019b;
-        public static final int title_activity_friends_location=0x7f0b019c;
-        public static final int title_activity_local_machine_info=0x7f0b019d;
-        public static final int title_activity_location_model=0x7f0b019e;
-        public static final int title_activity_location_report=0x7f0b019f;
-        public static final int title_activity_location_send=0x7f0b01a0;
-        public static final int title_activity_location_set=0x7f0b01a1;
-        public static final int title_activity_main=0x7f0b01a2;
-        public static final int title_activity_manager_info=0x7f0b01a3;
-        public static final int title_activity_map=0x7f0b01a4;
-        public static final int title_activity_msg_delete=0x7f0b01a5;
-        public static final int title_activity_msg_open=0x7f0b01a6;
-        public static final int title_activity_msg_usal_word=0x7f0b01a7;
-        public static final int title_activity_msg_zhuan_fa=0x7f0b01a8;
-        public static final int title_activity_relay_station_manager=0x7f0b01a9;
-        public static final int title_activity_report=0x7f0b01aa;
-        public static final int title_activity_send_msg_request=0x7f0b01ab;
-        public static final int title_activity_sended_msg=0x7f0b01ac;
-        public static final int title_activity_soft_about=0x7f0b01ad;
-        public static final int title_activity_sos=0x7f0b01ae;
-        public static final int title_activity_sos_launcher=0x7f0b01af;
-        public static final int title_activity_words_manager=0x7f0b01b0;
-        public static final int title_auto_check=0x7f0b01b1;
-        public static final int title_bd2_satelite_status=0x7f0b01b2;
-        public static final int title_bd_location_manager=0x7f0b01b3;
-        public static final int title_gps_status=0x7f0b01b4;
-        public static final int title_local_machine=0x7f0b01b5;
-        public static final int title_location_model=0x7f0b01b6;
-        public static final int title_manager_info=0x7f0b01b7;
-        public static final int title_rdss_setting_manager=0x7f0b01b8;
-        public static final int title_words_manager=0x7f0b01b9;
-        public static final int tixian_no_empty=0x7f0b01ba;
-        public static final int trace_list=0x7f0b01bb;
-        public static final int trace_list_delete_trace=0x7f0b01bc;
-        public static final int trace_notrace=0x7f0b01bd;
-        public static final int trackmanager_startrecord=0x7f0b01be;
-        public static final int trackmanager_stoprecord=0x7f0b01bf;
-        public static final int trackmanager_title=0x7f0b01c0;
-        public static final int txtSearchResult=0x7f0b01c1;
-        public static final int wireless_silence=0x7f0b01c2;
-        public static final int write_manager_info_success=0x7f0b01c3;
-        public static final int write_serial_num_success=0x7f0b01c4;
-        public static final int wzt_no_data=0x7f0b01c5;
+        public static final int report_tianxian_no_content=0x7f0b0149;
+        public static final int research_address=0x7f0b014a;
+        public static final int reset_tip=0x7f0b014b;
+        public static final int roadname_null=0x7f0b014c;
+        public static final int routemanager_delete_friend_location=0x7f0b014d;
+        public static final int routemanager_delete_route=0x7f0b014e;
+        public static final int routemanager_isdisplaytrack=0x7f0b014f;
+        public static final int routemanager_routeplan_tip=0x7f0b0150;
+        public static final int routemanager_simnavidesc=0x7f0b0151;
+        public static final int routemanager_simnaviname=0x7f0b0152;
+        public static final int routemanager_trackrule=0x7f0b0153;
+        public static final int search_enter_firstalpha=0x7f0b0154;
+        public static final int search_enter_keyword=0x7f0b0155;
+        public static final int searcharound=0x7f0b0156;
+        public static final int searcharoundtype_topic=0x7f0b0157;
+        public static final int searchlocationactivity_has_no_homepostion=0x7f0b0158;
+        public static final int searchpoibykeyword_app_id=0x7f0b0159;
+        public static final int searchpoiresult_del=0x7f0b015a;
+        public static final int searchpoiresult_distance=0x7f0b015b;
+        public static final int searchpoiresult_edit=0x7f0b015c;
+        public static final int searchpoiresult_endPoint=0x7f0b015d;
+        public static final int searchpoiresult_fav=0x7f0b015e;
+        public static final int searchpoiresult_location=0x7f0b015f;
+        public static final int searchpoiresult_startPoint=0x7f0b0160;
+        public static final int searchpoiresult_strAddr=0x7f0b0161;
+        public static final int searchpoiresult_strArea=0x7f0b0162;
+        public static final int searchpoiresult_strTel=0x7f0b0163;
+        public static final int searchpoiresult_unit=0x7f0b0164;
+        public static final int searchpoiresult_unit_km=0x7f0b0165;
+        public static final int searchpoiresult_unit_m=0x7f0b0166;
+        public static final int searchresult_district=0x7f0b0167;
+        public static final int serial_id=0x7f0b0168;
+        public static final int serial_num=0x7f0b0169;
+        public static final int serial_num_is_null=0x7f0b016a;
+        public static final int service_feq=0x7f0b016b;
+        public static final int service_feq_no=0x7f0b016c;
+        public static final int set_success_cycle_report=0x7f0b016d;
+        public static final int sethome=0x7f0b016e;
+        public static final int sethomefail=0x7f0b016f;
+        public static final int signal_un_lock=0x7f0b0170;
+        public static final int software_about_date=0x7f0b0171;
+        public static final int software_about_name=0x7f0b0172;
+        public static final int software_about_version=0x7f0b0173;
+        public static final int speed_coefficient=0x7f0b0174;
+        public static final int start_alarm=0x7f0b0175;
+        public static final int stop_alarm=0x7f0b0176;
+        public static final int summary_about_software=0x7f0b0177;
+        public static final int summary_auto_check=0x7f0b0178;
+        public static final int summary_bd2_satelite_status=0x7f0b0179;
+        public static final int summary_bd_check_time=0x7f0b017a;
+        public static final int summary_bd_location_manager=0x7f0b017b;
+        public static final int summary_friend_location_manager=0x7f0b017c;
+        public static final int summary_gps_status=0x7f0b017d;
+        public static final int summary_local_mach=0x7f0b017e;
+        public static final int summary_location_model=0x7f0b017f;
+        public static final int summary_location_report_manager=0x7f0b0180;
+        public static final int summary_manager_info=0x7f0b0181;
+        public static final int summary_rdss_location_manager=0x7f0b0182;
+        public static final int summary_rdss_setting_manager=0x7f0b0183;
+        public static final int summary_relay_station_manager=0x7f0b0184;
+        public static final int summary_words_manager=0x7f0b0185;
+        public static final int summary_zuozhan_time=0x7f0b0186;
+        public static final int system_set=0x7f0b0187;
+        public static final int system_un_launch=0x7f0b0188;
+        public static final int test_height_type=0x7f0b0189;
+        public static final int tianxian_height=0x7f0b018a;
+        public static final int tianxian_height_value=0x7f0b018b;
+        public static final int title_activity_add_contact=0x7f0b018c;
+        public static final int title_activity_auto_checked=0x7f0b018d;
+        public static final int title_activity_bd1_loc=0x7f0b018e;
+        public static final int title_activity_bdalarm=0x7f0b018f;
+        public static final int title_activity_bdassist_alarm=0x7f0b0190;
+        public static final int title_activity_bdcom_research=0x7f0b0191;
+        public static final int title_activity_bdcontact=0x7f0b0192;
+        public static final int title_activity_bdlocation=0x7f0b0193;
+        public static final int title_activity_bdlocation_port=0x7f0b0194;
+        public static final int title_activity_bdmanager=0x7f0b0195;
+        public static final int title_activity_bdmanager_horizontal=0x7f0b0196;
+        public static final int title_activity_bdnavi_fail_prompt=0x7f0b0197;
+        public static final int title_activity_bdnavi_success_prompt=0x7f0b0198;
+        public static final int title_activity_bdsend_msg_land_scape=0x7f0b0199;
+        public static final int title_activity_bdsend_msg_port=0x7f0b019a;
+        public static final int title_activity_bdtime=0x7f0b019b;
+        public static final int title_activity_error=0x7f0b019c;
+        public static final int title_activity_friends_location=0x7f0b019d;
+        public static final int title_activity_local_machine_info=0x7f0b019e;
+        public static final int title_activity_location_model=0x7f0b019f;
+        public static final int title_activity_location_report=0x7f0b01a0;
+        public static final int title_activity_location_send=0x7f0b01a1;
+        public static final int title_activity_location_set=0x7f0b01a2;
+        public static final int title_activity_main=0x7f0b01a3;
+        public static final int title_activity_manager_info=0x7f0b01a4;
+        public static final int title_activity_map=0x7f0b01a5;
+        public static final int title_activity_msg_delete=0x7f0b01a6;
+        public static final int title_activity_msg_open=0x7f0b01a7;
+        public static final int title_activity_msg_usal_word=0x7f0b01a8;
+        public static final int title_activity_msg_zhuan_fa=0x7f0b01a9;
+        public static final int title_activity_relay_station_manager=0x7f0b01aa;
+        public static final int title_activity_report=0x7f0b01ab;
+        public static final int title_activity_send_msg_request=0x7f0b01ac;
+        public static final int title_activity_sended_msg=0x7f0b01ad;
+        public static final int title_activity_soft_about=0x7f0b01ae;
+        public static final int title_activity_sos=0x7f0b01af;
+        public static final int title_activity_sos_launcher=0x7f0b01b0;
+        public static final int title_activity_words_manager=0x7f0b01b1;
+        public static final int title_auto_check=0x7f0b01b2;
+        public static final int title_bd2_satelite_status=0x7f0b01b3;
+        public static final int title_bd_location_manager=0x7f0b01b4;
+        public static final int title_gps_status=0x7f0b01b5;
+        public static final int title_local_machine=0x7f0b01b6;
+        public static final int title_location_model=0x7f0b01b7;
+        public static final int title_manager_info=0x7f0b01b8;
+        public static final int title_rdss_setting_manager=0x7f0b01b9;
+        public static final int title_words_manager=0x7f0b01ba;
+        public static final int tixian_no_empty=0x7f0b01bb;
+        public static final int trace_list=0x7f0b01bc;
+        public static final int trace_list_delete_trace=0x7f0b01bd;
+        public static final int trace_notrace=0x7f0b01be;
+        public static final int trackmanager_startrecord=0x7f0b01bf;
+        public static final int trackmanager_stoprecord=0x7f0b01c0;
+        public static final int trackmanager_title=0x7f0b01c1;
+        public static final int txtSearchResult=0x7f0b01c2;
+        public static final int wireless_silence=0x7f0b01c3;
+        public static final int write_manager_info_success=0x7f0b01c4;
+        public static final int write_serial_num_success=0x7f0b01c5;
+        public static final int wzt_no_data=0x7f0b01c6;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
  API 14 theme customizations can go here. 
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
          */
         public static final int AppBaseTheme=0x7f080000;
+        /**  All customizations that are NOT specific to a particular API-level can go here. 
+         */
         public static final int AppTheme=0x7f080001;
         public static final int CustomWindowTitleBackground=0x7f080002;
         public static final int Dialog_Anim=0x7f080003;
         public static final int ProgressBar_custom=0x7f080004;
+        /** 模糊
+         */
         public static final int alarmdialog=0x7f080005;
         public static final int bd_manager_theme=0x7f080006;
         public static final int category_name=0x7f080007;
@@ -1717,6 +1736,8 @@ public final class R {
         public static final int crossing_dis_desc=0x7f08000f;
         public static final int crossing_route_desc=0x7f080010;
         public static final int currentpos=0x7f080011;
+        /** 模糊
+         */
         public static final int dialog=0x7f080012;
         public static final int district_name=0x7f080013;
         public static final int district_name_black=0x7f080014;

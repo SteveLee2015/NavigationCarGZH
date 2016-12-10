@@ -517,8 +517,19 @@ public class BDCommManager {
 						"android.location.BDParameterException: sendLocationReport2CmdBDV21() 'String heightFlag' parameter exception");
 	
 			try {
+
+				//String tianxian2 = String.format("%.1f", antennaHeight);
+				//antennaHeight = Float.parseFloat(tianxian2);
+
 				StringBuffer sb = new StringBuffer();
+				sb.append(userAddress).append(",").
+						append(heightFlag).append(",").
+						append(antennaHeight).append(",").
+						append(timeFreq);
 				write(bd2SendPackage("$CCWBA", sb.toString()));
+
+
+
 			} catch (Exception e) {
 				Log.e("BDRDSS",
 						"android.location.BDUnknownException:sendLocationReport2CmdBDV21()",

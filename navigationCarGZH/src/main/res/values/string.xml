@@ -217,6 +217,7 @@
     <string name="title_activity_msg_open">短信</string>
     <string name="bd_msg_no_content">短信内容不能为空!</string>
     <string name="bd_fequency_no_content">频度不能为空!</string>
+    <string name="report_tianxian_no_content">请设置天线高度!</string>
 
     <!-- 反馈信息 -->
     <string name="cmd_success">CMD发送成功!</string>
