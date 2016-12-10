@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.location.BDRNSSManager;
 import android.location.BDRNSSManager.LocationStrategy;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,29 +90,32 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 		}else{
 			manager=BDCommManager.getInstance(mContext);	
 		}
+
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		FLAG=share.getInt(LOCATION_MODEL,0);
+
 		mySpinner=(CustomListView)contentView.findViewById(R.id.bd_location_model);
 		setButton=(Button)contentView.findViewById(R.id.setBtn);
-		mySpinner.setData(new String[]{"单GPS","单北斗","北斗GPS混合"});
+		mySpinner.setData(new String[]{"北斗GPS混合","单北斗","单GPS"});
 		mySpinner.setOnCustomListener(new OnCustomListListener(){
 			public void onListIndex(int index) {
 				if(index==0){
-					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;//2
+					FLAG=LocationStrategy.HYBRID_STRATEGY;//0
 				}else if(index==1){
 					FLAG=LocationStrategy.BD_ONLY_STRATEGY;//1
 				}else if(index==2){
-					FLAG=LocationStrategy.HYBRID_STRATEGY;//0
-				}	
+					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;//2
+				}
 			}
 		});
-		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);  
-        FLAG=share.getInt("LOCATION_MODEL",0);  
+
         int index=0;
         if(FLAG==LocationStrategy.GPS_ONLY_STRATEGY){
-        	index=0;
+        	index=2;
         }else if(FLAG==LocationStrategy.BD_ONLY_STRATEGY){
         	index=1;
         }else if(FLAG==LocationStrategy.HYBRID_STRATEGY){
-        	index=2;
+        	index=0;
         }
         mySpinner.setIndex(index);
 		setButton.setOnClickListener(this);
@@ -128,6 +132,12 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 						mRnssManager.setLocationStrategy(FLAG);
 					}else{
 						manager.setLocationStrategy(FLAG);
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								manager.setLocationStrategy(FLAG);
+							}
+						},500);
 					}
 					Utils.RNSS_CURRENT_LOCATION_MODEL=FLAG;
 					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);  
@@ -140,6 +150,16 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 					locationModeIntent.setAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
 					locationModeIntent.putExtra(ReceiverAction.KEY_LOCATION_MODEL,FLAG);
 					getActivity().sendBroadcast(locationModeIntent);
+
+//					new Handler().postDelayed(new Runnable() {
+//						@Override
+//						public void run() {
+//							Intent locationModeIntent = new Intent();
+//							locationModeIntent.setAction(ReceiverAction.ACTION_LOCATION_STRATEGY);
+//							locationModeIntent.putExtra(ReceiverAction.KEY_LOCATION_MODEL,FLAG);
+//							getActivity().sendBroadcast(locationModeIntent);
+//						}
+//					},500);
 
 
 				} catch (Exception e) {

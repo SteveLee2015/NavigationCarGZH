@@ -244,4 +244,10 @@ public class CustomSatelliateSnr extends View {
 		postInvalidate();
 	}
 
+
+	public void clearMap(){
+		initData();
+		postInvalidate();
+	}
+
 }

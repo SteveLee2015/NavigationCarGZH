@@ -61,7 +61,12 @@ public class CustomSatelliateMap extends View {
 
 		bitMapWidth=bitmap2.getWidth();
 		bitMapHeight=bitmap2.getHeight();
+		iniData();
 
+
+	}
+
+	private void iniData() {
 		// 初始化数据
 		for (int i = 0; i < MAX_VISUAL_SATELLIATE_NUM; i++) {
 			mCoordinateArr[i][0] = -100;
@@ -70,7 +75,7 @@ public class CustomSatelliateMap extends View {
 			mSatelliatePixArr[i]=false;
 		}
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -211,5 +216,11 @@ public class CustomSatelliateMap extends View {
 					+ mCoordinateArr[i][1] + "," + mSatelliatePRN[i]);
 		}
 		invalidate();
+	}
+
+	public void clearMap() {
+		iniData();
+		invalidate();
+
 	}
 }

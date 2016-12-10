@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class BD2StatusFragment extends Fragment implements View.OnClickListener{
 
-	public static final String TAG = "GPSStatusFragment";
+	public static final String TAG = "BD2StatusFragment";
 
 	private final static int LOCATION_RESULT = 0x1000,
 			GP_SATELLIATE_STATUS = 0x1001, BD_SATELLIATE_STATUS = 0x1002;
@@ -217,6 +217,9 @@ public class BD2StatusFragment extends Fragment implements View.OnClickListener{
 	public void onStart() {
 		super.onStart();
 		Log.d(TAG,"onStart");
+		//读取定位设置 参数 是单北斗 单gps 还是混合定位
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		FLAG=share.getInt("LOCATION_MODEL",0);
 
 		try {
 			mBDCommManager.addBDEventListener(mGPSatelliteListener,mBDRNSSLocationListener);
@@ -231,9 +234,6 @@ public class BD2StatusFragment extends Fragment implements View.OnClickListener{
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG,"onResume");
-		//读取定位设置 参数 是单北斗 单gps 还是混合定位
-		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
-		FLAG=share.getInt("LOCATION_MODEL",0);
 		gplist.clear();
 		//通知更新
 		showMap(gplist);
@@ -315,7 +315,12 @@ public class BD2StatusFragment extends Fragment implements View.OnClickListener{
 					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
 					FLAG=share.getInt("LOCATION_MODEL",0);
 					onResume();
-
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							onResume();
+						}
+					},1000);
 					break;
 				}
 			}

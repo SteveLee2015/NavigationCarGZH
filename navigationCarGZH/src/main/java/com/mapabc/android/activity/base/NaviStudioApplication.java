@@ -5,6 +5,7 @@ package com.mapabc.android.activity.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.BDEventListener;
 import android.location.BDLocationReport;
 import android.location.BDParameterException;
@@ -59,6 +60,7 @@ public class NaviStudioApplication extends  SerialApplication{
 			//Toast.makeText(NaviStudioApplication.this, bdLocationReport.toString(), Toast.LENGTH_SHORT).show();
 		}
 	};
+	private int FLAG;
 
 	@Override
 	public void onCreate() {
@@ -74,6 +76,10 @@ public class NaviStudioApplication extends  SerialApplication{
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
+
+		SharedPreferences share = mContext.getSharedPreferences(Config.PREFERENCE_NAME, Config.MODE);
+		FLAG =share.getInt(Config.LOCATION_MODEL,0);
+		mananger.setLocationStrategy(FLAG);
 
 	}
 

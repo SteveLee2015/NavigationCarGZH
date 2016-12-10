@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sat Dec 10 17:01:02 CST 2016
+#Sat Dec 10 18:54:25 CST 2016
 20.base=F\:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\resources-debug.ap_
 143.base=F\:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\resources-debug.ap_
 493.base=F\:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\resources-debug.ap_

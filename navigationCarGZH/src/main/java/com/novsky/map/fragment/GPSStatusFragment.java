@@ -217,6 +217,10 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 		super.onStart();
 		Log.d(TAG,"onStart");
 
+		//读取定位设置 参数 是单北斗 单gps 还是混合定位
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		FLAG=share.getInt("LOCATION_MODEL",0);
+
 		try {
 			mBDCommManager.addBDEventListener(mGPSatelliteListener,mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
@@ -230,9 +234,6 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 	public void onResume() {
 		super.onResume();
 		Log.d(TAG,"onResume");
-		//读取定位设置 参数 是单北斗 单gps 还是混合定位
-		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
-		FLAG=share.getInt("LOCATION_MODEL",0);
 		gplist.clear();
 		//通知更新
 		showMap(gplist);
@@ -266,6 +267,11 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 		getActivity().unregisterReceiver(mReceiver);
 	}
 
+	@Override
+	public void onClick(View v) {
+
+	}
+
 	//更新显示内容的方法
 	public void updateView(Location location){
 		if(location==null) {
@@ -292,13 +298,6 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 		mHandler.sendMessage(msg );
 	}
 
-
-	@Override
-	public void onClick(View v) {
-
-
-	}
-
 	/**
 	 * 接收 定位策略变化广播
 	 */
@@ -314,6 +313,12 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
 					FLAG=share.getInt("LOCATION_MODEL",0);
 					onResume();
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							onResume();
+						}
+					},1000);
 
 					break;
 				}
