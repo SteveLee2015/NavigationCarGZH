@@ -11,7 +11,6 @@ import android.location.BDLocationReport;
 import android.location.BDParameterException;
 import android.location.BDRDSSManager;
 import android.location.BDUnknownException;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,9 +30,10 @@ import android.widget.Toast;
 
 import com.bd.comm.protocal.BDCommManager;
 import com.bd.comm.protocal.BDRNSSLocation;
+import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.utils.DateUtils;
 import com.novsky.map.main.BDContactActivity;
-import com.novsky.map.main.BDLocationReportManager;
 import com.novsky.map.main.BDResponseListener;
 import com.novsky.map.main.CustomListView;
 import com.novsky.map.main.CustomLocationManager;
@@ -117,6 +117,8 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	 */
 	private BDEventListener fkilistener = null;
 
+	BDRNSSLocation rnsslocation = null;
+
 	/**
 	 * 定义访问模式为私有模式
 	 */
@@ -128,6 +130,28 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	public static final String PREFERENCE_NAME = "REPORT_MODEL_ACTIVITY";
 	public static final String REPORT_MODEL = "REPORT_MODEL";
 	public static final String REPORT_TIANXIAN_VALUE = "REPORT_TIANXIAN_VALUE";
+
+	private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){
+		@Override
+		public void onLocationChanged(BDRNSSLocation arg0) {
+			rnsslocation = arg0;
+		}
+
+		@Override
+		public void onProviderDisabled(String arg0) {
+
+		}
+
+		@Override
+		public void onProviderEnabled(String arg0) {
+
+		}
+
+		@Override
+		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+
+		}
+	};
 
 	
 	private BDTimeFreqChangedListener timeFreqListener=new BDTimeFreqChangedListener(){
@@ -257,18 +281,12 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 				,timeFreqListener);
 		locationManager.initLocation();
 		try {
-			mananger.addBDEventListener(fkilistener);
+			mananger.addBDEventListener(fkilistener,mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
 			e.printStackTrace();
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
-	}
-	
-
-	@Override
-	public void onStart() {
-		super.onStart();
 	}
 	
 	public void initUI(View view){
@@ -297,7 +315,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 		locationManager.removeLocation();
 		try {
 			timeManager.unRegisterBDTimeFreqListener(BDLocationReportFragment.class.getSimpleName());
-			mananger.removeBDEventListener(fkilistener);
+			mananger.removeBDEventListener(fkilistener,mBDRNSSLocationListener);
 		} catch (BDParameterException e) {
 			e.printStackTrace();
 		} catch (BDUnknownException e) {
@@ -305,11 +323,6 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 		}
 	}
 	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
 	@Override
 	public void onClick(View view) {
 		switch(view.getId()){
@@ -363,6 +376,8 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 						mUserAddress = mUserAddress.substring(mUserAddress.lastIndexOf("(") + 1,mUserAddress.lastIndexOf(")"));
 					}
 					BDLocationReport locationReport = addGPSLocationToBDLocationReport();
+
+
 					if(locationReport!=null){
 							if(checkBox.isChecked()&&frequency>0){									
 								sendBtn.setText(getActivity().getResources().getString(R.string.location_report_cycle));
@@ -412,11 +427,23 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 								case 1:{//rn
 
 									try {
+										double longitude = locationReport.getLongitude();
+										double latitude = locationReport.getLatitude();
+										//重现编辑
+										locationReport.setLatitude(latitude*100);
+										locationReport.setLongitude(longitude*100);
+
 										mananger.sendLocationReport1CmdBDV21(locationReport);
 									} catch (BDUnknownException e) {
 										e.printStackTrace();
 									} catch (BDParameterException e) {
 										e.printStackTrace();
+									} finally {
+										double longitude = locationReport.getLongitude();
+										double latitude = locationReport.getLatitude();
+										//重现编辑
+										locationReport.setLatitude(latitude/100);
+										locationReport.setLongitude(longitude/100);
 									}
 									break;
 								}
@@ -452,49 +479,30 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	 * 把GPS定位的值封装到BDLocationReport实体类中
 	 */
 	private BDLocationReport addGPSLocationToBDLocationReport(){
-		BDLocationReportManager mBDLocationReportManager=BDLocationReportManager.getInstance();
-		if("S500".equals(Utils.DEVICE_MODEL)){
-			Location location=mBDLocationReportManager.getLocation();
-			if(location!=null){
-				BDLocationReport report = new BDLocationReport();
-				report.setHeightUnit("m");
-				report.setLongitude(location.getLongitude());
-				report.setLongitudeDir("");
-				report.setHeight(location.getAltitude());
-				report.setLatitude(location.getLatitude());
-				report.setLatitudeDir("");
-				report.setMsgType(1);
-				report.setReportFeq(Integer.valueOf(frequency));
-				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.ss");
-				String time = sdf.format(new Date());
-				report.setReportTime(time);
-				report.setUserAddress(mUserAddress);
-				return report;
-			}else{
-				return null;	
-			}
-		}else{
-			BDRNSSLocation rnsslocation=mBDLocationReportManager.getBDRNSSLocation();
+
 			if(rnsslocation!=null){
 				BDLocationReport report = new BDLocationReport();
-				report.setHeightUnit("m");
+				report.setHeightUnit("M");
 				report.setLongitude(rnsslocation.getLongitude());
 				report.setLongitudeDir("");
 				report.setHeight(rnsslocation.getAltitude());
 				report.setLatitude(rnsslocation.getLatitude());
 				report.setLatitudeDir("");
 				report.setMsgType(1);
-				report.setReportFeq(Integer.valueOf(frequency));
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
-				String time = sdf.format(new Date());
-				report.setReportTime(time);
+				//report.setReportFeq(Integer.valueOf(frequency));
+				report.setReportFeq(0);
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
+//				String time = sdf.format(new Date());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String date = sdf.format(new Date());
+				long time = rnsslocation.getTime();
+				String rnDateTimeStr = DateUtils.getRNDateTimeStr(time);
+				report.setReportTime(rnDateTimeStr);
 				report.setUserAddress(mUserAddress);
 				return report;
 			}else{
-				return null;	
+				return null;
 			}
-		}
 	}
 	
 	@Override
