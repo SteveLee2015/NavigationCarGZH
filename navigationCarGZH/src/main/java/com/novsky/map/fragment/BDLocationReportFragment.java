@@ -38,6 +38,7 @@ import com.novsky.map.main.BDResponseListener;
 import com.novsky.map.main.CustomListView;
 import com.novsky.map.main.CustomLocationManager;
 import com.novsky.map.main.CycleLocationReportService;
+import com.novsky.map.main.CycleLocationReportServiceRD;
 import com.novsky.map.main.CycleLocationReportServiceRN;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.BDContactColumn;
@@ -341,9 +342,9 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 				SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
 				share.edit().putInt(REPORT_MODEL, FLAG).commit();
 
-				boolean isStart=Utils.isServiceRunning(getActivity(), "com.novsky.map.main.CycleLocationReportService");
+				boolean isStart=Utils.isServiceRunning(getActivity(), CycleLocationReportService.class.getName());
 				boolean isStartRN=Utils.isServiceRunning(getActivity(), CycleLocationReportServiceRN.class.getName());
-				//boolean isStart=Utils.isServiceRunning(getActivity(), "com.novsky.map.main.CycleLocationReportService");
+				boolean isStartRD=Utils.isServiceRunning(getActivity(), CycleLocationReportServiceRD.class.getName());
 
 				if(isStart){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
@@ -358,6 +359,13 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					reportSwitch.edit().putString("USER_ADDRESS", "").commit();
 					Intent mIntent=new Intent();
 					mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
+					getActivity().stopService(mIntent);
+				}else if (isStartRD){
+					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
+					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
+					reportSwitch.edit().putString("USER_ADDRESS", "").commit();
+					Intent mIntent=new Intent();
+					mIntent.setClass(getActivity(), CycleLocationReportServiceRD.class);
 					getActivity().stopService(mIntent);
 				}
 
@@ -400,6 +408,9 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 
 								switch (FLAG){
 									case 0:{
+										Intent mIntent=new Intent();
+										mIntent.setClass(getActivity(), CycleLocationReportServiceRD.class);
+										getActivity().startService(mIntent);
 										break;
 									}
 									case 1:{

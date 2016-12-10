@@ -674,6 +674,7 @@
         <service android:name="com.novsky.map.main.TimeService" />
         <service android:name="com.novsky.map.main.CycleLocationReportService" />
         <service android:name="com.novsky.map.main.CycleLocationReportServiceRN" />
+        <service android:name="com.novsky.map.main.CycleLocationReportServiceRD" />
         <service android:name="com.novsky.map.main.CycleLocationService" />
         <service android:name="com.novsky.map.main.CycleAlarmService" />
 

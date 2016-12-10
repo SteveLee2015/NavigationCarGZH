@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 /**
  * 循环位置报告服务RN
- * @author steve
+ * @author llg
  */
 public class CycleLocationReportServiceRN extends BaseReportService {
 
@@ -64,14 +64,27 @@ public class CycleLocationReportServiceRN extends BaseReportService {
 							mHandler.sendEmptyMessage(NO_LOCATION);
 							return;
 						}
-						try{
-							//mananger.sendSMSCmdBDV21(address, msgComType,1,"N", Utils.buildeLocationReport1(locationReport));
+
+						try {
+							double longitude = locationReport.getLongitude();
+							double latitude = locationReport.getLatitude();
+							//重现编辑
+							locationReport.setLatitude(latitude*100);
+							locationReport.setLongitude(longitude*100);
+
 							mananger.sendLocationReport1CmdBDV21(locationReport);
-						}catch (BDUnknownException e){
+						} catch (BDUnknownException e) {
 							e.printStackTrace();
-						}catch (BDParameterException e){
+						} catch (BDParameterException e) {
 							e.printStackTrace();
+						} finally {
+							double longitude = locationReport.getLongitude();
+							double latitude = locationReport.getLatitude();
+							//重现编辑
+							locationReport.setLatitude(latitude/100);
+							locationReport.setLongitude(longitude/100);
 						}
+
 						fequency = reportSwitch.getInt("REPORT_FREQUENCY", cardFreq);
 						address = reportSwitch.getString("USER_ADDRESS", "");
 						mCountNum = fequency;
