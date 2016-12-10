@@ -31,24 +31,24 @@
 	    android:layout_weight="5"
 	>
 	    <!-- 显示内容 -->
-	    <TextView
-	        android:id="@+id/custom_list_content"
-	        android:layout_width="fill_parent"
-	        android:layout_height="51dp"
-	        android:minHeight="48dp"
-	        android:gravity="center"
-	        android:textColor="@color/black"
-	        android:textSize="@dimen/txtSize"
-	        android:background="@drawable/custom_listview_content" />
-    </LinearLayout>
+	   <TextView
+           android:id="@+id/custom_list_content"
+           android:layout_width="fill_parent"
+           android:layout_height="51dp"
+           android:minHeight="48dp"
+           android:gravity="center"
+           android:textColor="@color/black"
+           android:textSize="@dimen/txtSize"
+           android:background="@drawable/custom_listview_content" />
+   </LinearLayout>
     <LinearLayout  
-	    android:layout_width="0dp"  
+	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
-	    android:layout_weight="1"
 	    android:gravity="left" >
      <!-- 显示下一列的操作-->
-    <ImageView android:id="@+id/custom_list_right_image"
+    <ImageView
+		android:id="@+id/custom_list_right_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:minHeight="48dp"

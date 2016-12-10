@@ -1,10 +1,5 @@
 package com.novsky.map.main;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,7 +9,6 @@ import android.location.BDLocationReport;
 import android.location.BDParameterException;
 import android.location.BDUnknownException;
 import android.location.CardInfo;
-import android.location.Location;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -23,6 +17,11 @@ import com.bd.comm.protocal.BDCommManager;
 import com.bd.comm.protocal.BDRNSSLocation;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 循环位置报告服务
@@ -122,25 +121,7 @@ public class CycleLocationReportService extends Service {
 	private BDLocationReport addGPSLocationToBDLocationReport(int reportFreq,String userAddress) {
 		BDLocationReportManager manager=BDLocationReportManager.getInstance();
 		if("S500".equals(Utils.DEVICE_MODEL)){
-			Location location=manager.getLocation();
-			if(location!=null){
-				BDLocationReport report = new BDLocationReport();
-				report.setHeightUnit("m");
-				report.setLongitude(location.getLongitude());
-				report.setLongitudeDir("");
-				report.setHeight(location.getAltitude());
-				report.setLatitude(location.getLatitude());
-				report.setLatitudeDir("");
-				report.setMsgType(1);
-				report.setReportFeq(reportFreq);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
-				String time = sdf.format(new Date());
-				report.setReportTime(time);
-				report.setUserAddress(userAddress);
-				return report;
-			}else{
-				return null;	
-			}
+				return null;
 		}else{
 			BDRNSSLocation location=manager.getBDRNSSLocation();
 			if(location!=null){
@@ -163,6 +144,4 @@ public class CycleLocationReportService extends Service {
 			}
 		}
 	}
-
-
 }

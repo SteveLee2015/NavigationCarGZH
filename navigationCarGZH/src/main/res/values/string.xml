@@ -246,7 +246,8 @@
     <string name="set_success_cycle_report">设置循环位置报告成功!</string>
     <string name="bdloc_report_type">报告类型</string>
     <string name="bdloc_report_feq_str">报告频度</string>
-    <string name="bdloc_report_checkbox_str">启用连续位置报告</string> 
+    <string name="tianxian_height_value">天线高度</string>
+    <string name="bdloc_report_checkbox_str">启用连续位置报告</string>
     <string name="bdloc_userAddress_str">收方地址</string>
     <string name="common_second">秒</string>
     

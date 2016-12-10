@@ -117,8 +117,8 @@
     <string name="tianxian_height">天线高</string>
     <string name="msg_serial_id">序号</string>
     <string name="title_activity_bdmanager_horizontal">BDManagerHorizontalActivity</string>
-    
-    
+
+    <string name="report_model">报告方式</string>
     <!-- 定位模式 -->
     <string name="title_location_model">定位模式</string>
     <string name="key_location_model">COM.NOVSKY.LOCATION_MODEL</string>

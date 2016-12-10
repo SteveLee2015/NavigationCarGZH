@@ -1968,7 +1968,7 @@ public class Utils{
 	public static boolean isServiceRunning(Context mContext,String className){
 		boolean isRunning=false;
 		ActivityManager activityMananger=(ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningServiceInfo> serviceList=activityMananger.getRunningServices(50);
+		List<ActivityManager.RunningServiceInfo> serviceList=activityMananger.getRunningServices(Integer.MAX_VALUE);
 		if(serviceList.size()<=0){
 			return false;
 		}

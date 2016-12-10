@@ -2,6 +2,7 @@ package com.novsky.map.fragment;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -33,12 +34,14 @@ import com.mapabc.android.activity.R;
 import com.novsky.map.main.BDContactActivity;
 import com.novsky.map.main.BDLocationReportManager;
 import com.novsky.map.main.BDResponseListener;
+import com.novsky.map.main.CustomListView;
 import com.novsky.map.main.CustomLocationManager;
 import com.novsky.map.main.CycleLocationReportService;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.BDContactColumn;
 import com.novsky.map.util.BDTimeCountManager;
 import com.novsky.map.util.BDTimeFreqChangedListener;
+import com.novsky.map.util.OnCustomListListener;
 import com.novsky.map.util.Utils;
 
 import java.text.SimpleDateFormat;
@@ -112,6 +115,17 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	 * 反馈信息监听器
 	 */
 	private BDEventListener fkilistener = null;
+
+	/**
+	 * 定义访问模式为私有模式
+	 */
+	public static int MODE = Context.MODE_PRIVATE;
+
+	/**
+	 * 设置保存时的文件的名称
+	 */
+	public static final String PREFERENCE_NAME = "REPORT_MODEL_ACTIVITY";
+	public static final String REPORT_MODEL = "REPORT_MODEL";
 	
 	
 	private BDTimeFreqChangedListener timeFreqListener=new BDTimeFreqChangedListener(){
@@ -148,16 +162,58 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			}
 		}
 	};
+	private CustomListView mySpinner;
 
-	
+	private int FLAG;
+
+	private  Context mContext;
+	private LinearLayout tianxianSettings;
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState){
+		mContext = getActivity();
 		View rooter=inflater.inflate(R.layout.activity_location_report,null);
 		initUI(rooter);
+		initData();
 		return rooter;
 	}
-	
+
+	private void initData() {
+
+		mySpinner.setData(new String[]{"RD位置报告","RN位置报告","自定义位置报告"});
+		mySpinner.setOnCustomListener(new OnCustomListListener(){
+			public void onListIndex(int index) {
+				if(index==0){
+					FLAG = 0;
+					tianxianSettings.setVisibility(View.VISIBLE);
+				}else if(index==1){
+					FLAG = 1;
+					tianxianSettings.setVisibility(View.GONE);
+				}else if(index==2){
+					FLAG = 2;
+					tianxianSettings.setVisibility(View.GONE);
+				}
+			}
+		});
+
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+		FLAG=share.getInt(REPORT_MODEL,0);
+		int index=0;
+		if(FLAG== 0){
+			index=0;
+			tianxianSettings.setVisibility(View.VISIBLE);
+		}else if(FLAG== 1){
+			index=1;
+			tianxianSettings.setVisibility(View.GONE);
+		}else if(FLAG== 2){
+			index=2;
+			tianxianSettings.setVisibility(View.GONE);
+		}
+		mySpinner.setIndex(index);
+	}
+
 	@Override
 	public void onResume(){
 		super.onResume();
@@ -214,27 +270,18 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 		mananger = BDCommManager.getInstance(getActivity());
 		addressEditText = (EditText) view.findViewById(R.id.bdloc_userAddress_et);
 		selectAddress = (ImageView) view.findViewById(R.id.bdloc_linker);
+		mySpinner =(CustomListView) view.findViewById(R.id.bd_report_model);
 		frequncyEditText = (EditText) view.findViewById(R.id.bdloc_report_feq);
 		sendBtn = (Button) view.findViewById(R.id.bdloc_report_submit_btn);
 		layout = (LinearLayout) view.findViewById(R.id.set_cycle_loc);
+		tianxianSettings = (LinearLayout) view.findViewById(R.id.ll_tianxian_setting);
 		checkBox=(CheckBox)view.findViewById(R.id.bdloc_report_checkbox);
         progressDialog=new ProgressDialog(getActivity());
 		progressDialog.setTitle("RDSS定位");
 		progressDialog.setMessage("正在定位中...");
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-		
-	}
 
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		
-	}
-	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -266,7 +313,13 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			    break;
 			}
 			case R.id.bdloc_report_submit_btn:{
+
+
+				SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
+				share.edit().putInt(REPORT_MODEL, FLAG).commit();
+
 				boolean isStart=Utils.isServiceRunning(getActivity(), "com.novsky.map.main.CycleLocationReportService");
+
 				if(isStart){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
 					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
@@ -315,12 +368,37 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 								 reportSwitch.edit().putString("USER_ADDRESS", mUserAddress).commit();
 								 Utils.COUNT_DOWN_TIME=cardManager.getCardInfo().mSericeFeq;
 							}
-							try{
-								 mananger.sendSMSCmdBDV21(locationReport.getUserAddress(), msgComType,1,"N", Utils.buildeLocationReport1(locationReport));
-							} catch (BDUnknownException e){
-									e.printStackTrace();
-							} catch (BDParameterException e){
-									e.printStackTrace();
+
+
+							//判断 FLAG
+							switch (FLAG){
+								case 0:{//rd
+									//mananger.sendLocationReport2CmdBDV21(locationReport.getUserAddress(),);
+
+									break;
+								}
+								case 1:{//rn
+
+									try {
+										mananger.sendLocationReport1CmdBDV21(locationReport);
+									} catch (BDUnknownException e) {
+										e.printStackTrace();
+									} catch (BDParameterException e) {
+										e.printStackTrace();
+									}
+									break;
+								}
+								case 2:{//自定义
+
+									try{
+										mananger.sendSMSCmdBDV21(locationReport.getUserAddress(), msgComType,1,"N", Utils.buildeLocationReport1(locationReport));
+									} catch (BDUnknownException e){
+										e.printStackTrace();
+									} catch (BDParameterException e){
+										e.printStackTrace();
+									}
+									break;
+								}
 							}
 					}else{
 							Toast.makeText(getActivity().getApplicationContext(), "未获得当前位置信息!",Toast.LENGTH_LONG).show();

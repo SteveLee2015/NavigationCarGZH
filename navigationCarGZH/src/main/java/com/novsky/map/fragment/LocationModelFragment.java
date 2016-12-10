@@ -71,11 +71,6 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 	 */
     private int FLAG=0;
     
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-	
-	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View contentView;
