@@ -38,6 +38,7 @@ import com.novsky.map.main.BDResponseListener;
 import com.novsky.map.main.CustomListView;
 import com.novsky.map.main.CustomLocationManager;
 import com.novsky.map.main.CycleLocationReportService;
+import com.novsky.map.main.CycleLocationReportServiceRN;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.BDContactColumn;
 import com.novsky.map.util.BDTimeCountManager;
@@ -341,6 +342,8 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 				share.edit().putInt(REPORT_MODEL, FLAG).commit();
 
 				boolean isStart=Utils.isServiceRunning(getActivity(), "com.novsky.map.main.CycleLocationReportService");
+				boolean isStartRN=Utils.isServiceRunning(getActivity(), CycleLocationReportServiceRN.class.getName());
+				//boolean isStart=Utils.isServiceRunning(getActivity(), "com.novsky.map.main.CycleLocationReportService");
 
 				if(isStart){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
@@ -349,7 +352,17 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					Intent mIntent=new Intent();
 					mIntent.setClass(getActivity(), CycleLocationReportService.class);
 					getActivity().stopService(mIntent);
-				}else{
+				}else if (isStartRN){
+					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
+					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
+					reportSwitch.edit().putString("USER_ADDRESS", "").commit();
+					Intent mIntent=new Intent();
+					mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
+					getActivity().stopService(mIntent);
+				}
+
+
+				else{
 					/*判断是否安装北斗SIM卡*/
 					if(!Utils.checkBDSimCard(getActivity()))return;
 					mUserAddress = addressEditText.getText().toString();
@@ -384,9 +397,25 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 								reportSwitch.edit().putInt("REPORT_FREQUENCY", frequency).commit();
 								reportSwitch.edit().putString("USER_ADDRESS", mUserAddress).commit();
 								Utils.COUNT_DOWN_TIME=frequency;
-								Intent mIntent=new Intent();
-								mIntent.setClass(getActivity(), CycleLocationReportService.class);
-								getActivity().startService(mIntent);
+
+								switch (FLAG){
+									case 0:{
+										break;
+									}
+									case 1:{
+										Intent mIntent=new Intent();
+										mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
+										getActivity().startService(mIntent);
+										break;
+									}
+									case 2:{
+										Intent mIntent=new Intent();
+										mIntent.setClass(getActivity(), CycleLocationReportService.class);
+										getActivity().startService(mIntent);
+										break;
+									}
+								}
+
 							}else{
 								 reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
 								 reportSwitch.edit().putString("USER_ADDRESS", mUserAddress).commit();

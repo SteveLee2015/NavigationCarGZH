@@ -659,14 +659,11 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.novsky.map.main.TimeService" >
-        </service>
-        <service android:name="com.novsky.map.main.CycleLocationReportService" >
-        </service>
-        <service android:name="com.novsky.map.main.CycleLocationService" >
-        </service>
-        <service android:name="com.novsky.map.main.CycleAlarmService" >
-        </service>
+        <service android:name="com.novsky.map.main.TimeService" />
+        <service android:name="com.novsky.map.main.CycleLocationReportService" />
+        <service android:name="com.novsky.map.main.CycleLocationReportServiceRN" />
+        <service android:name="com.novsky.map.main.CycleLocationService" />
+        <service android:name="com.novsky.map.main.CycleAlarmService" />
         <activity
             android:name="com.mapabc.android.activity.MsgUsalWordActivity"
             android:label="@string/title_activity_msg_usal_word"
