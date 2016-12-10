@@ -124,7 +124,11 @@ public class GPSStatusFragment extends Fragment implements View.OnClickListener{
 				case LOCATION_RESULT:
 					BDRNSSLocation mBDRNSSLocation=(BDRNSSLocation)msg.obj;
 					if(true){//???
-						mGPSLocationStatus.setText("状态:已定位");
+						if (mBDRNSSLocation.isAvailable()){
+							mGPSLocationStatus.setText("状态:已定位");
+						}else {
+							mGPSLocationStatus.setText("状态:未定位");
+						}
 						int lon=(int)(mBDRNSSLocation.getLongitude()*100000);
 						int lat=(int)(mBDRNSSLocation.getLatitude()*100000);
 						int height=(int)(mBDRNSSLocation.getAltitude()*100);
