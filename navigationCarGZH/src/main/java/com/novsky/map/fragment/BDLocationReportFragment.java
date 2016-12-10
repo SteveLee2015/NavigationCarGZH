@@ -197,6 +197,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 	private  Context mContext;
 	private LinearLayout tianxianSettings;
 	private EditText tianxianValue;
+	private LinearLayout paramControl;
 
 
 	@Override
@@ -303,6 +304,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 		frequncyEditText = (EditText) view.findViewById(R.id.bdloc_report_feq);
 		sendBtn = (Button) view.findViewById(R.id.bdloc_report_submit_btn);
 		layout = (LinearLayout) view.findViewById(R.id.set_cycle_loc);
+		paramControl = (LinearLayout) view.findViewById(R.id.ll_paramControl);
 		tianxianSettings = (LinearLayout) view.findViewById(R.id.ll_tianxian_setting);
 		checkBox=(CheckBox)view.findViewById(R.id.bdloc_report_checkbox);
         progressDialog=new ProgressDialog(getActivity());
@@ -353,6 +355,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					Intent mIntent=new Intent();
 					mIntent.setClass(getActivity(), CycleLocationReportService.class);
 					getActivity().stopService(mIntent);
+					paramControl.setClickable(true);
 				}else if (isStartRN){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
 					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
@@ -360,6 +363,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					Intent mIntent=new Intent();
 					mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
 					getActivity().stopService(mIntent);
+					paramControl.setClickable(true);
 				}else if (isStartRD){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
 					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
@@ -367,6 +371,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					Intent mIntent=new Intent();
 					mIntent.setClass(getActivity(), CycleLocationReportServiceRD.class);
 					getActivity().stopService(mIntent);
+					paramControl.setClickable(true);
 				}
 
 
@@ -411,18 +416,21 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 										Intent mIntent=new Intent();
 										mIntent.setClass(getActivity(), CycleLocationReportServiceRD.class);
 										getActivity().startService(mIntent);
+										paramControl.setClickable(false);
 										break;
 									}
 									case 1:{
 										Intent mIntent=new Intent();
 										mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
 										getActivity().startService(mIntent);
+										paramControl.setClickable(false);
 										break;
 									}
 									case 2:{
 										Intent mIntent=new Intent();
 										mIntent.setClass(getActivity(), CycleLocationReportService.class);
 										getActivity().startService(mIntent);
+										paramControl.setClickable(false);
 										break;
 									}
 								}

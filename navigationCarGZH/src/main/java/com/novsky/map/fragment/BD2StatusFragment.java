@@ -181,7 +181,7 @@ public class BD2StatusFragment extends Fragment implements View.OnClickListener{
 		mContext = getActivity();
 		mBDCommManager=BDCommManager.getInstance(mContext);
 		addReceiver();
-		View view = View.inflate(mContext,R.layout.activity_statellite_status,null);
+		View view = View.inflate(mContext,R.layout.fragment_statellite_status,null);
 
 		ll_gps_bd2 = (LinearLayout) view.findViewById(R.id.ll_gps_bd2);
 

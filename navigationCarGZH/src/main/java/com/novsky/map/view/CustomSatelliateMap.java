@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.bd.comm.protocal.BDSatellite;
 import com.bd.comm.protocal.GPSatellite;
+import com.mapabc.android.activity.utils.BitmapUitls;
 import com.novsky.map.util.Utils;
 
 import java.util.List;
@@ -53,6 +54,8 @@ public class CustomSatelliateMap extends View {
 		super(context, attrs);
 		this.mContext=context;
 		bitmap2=((BitmapDrawable)mContext.getResources().getDrawable(com.mapabc.android.activity.R.drawable.statillate_map)).getBitmap();
+		Bitmap newBitmap = BitmapUitls.resizeImage(bitmap2, 0.9f, 0.95f);
+		bitmap2 = newBitmap;
 		//bitMapWidth=bitmap2.getWidth();
 		//bitMapHeight=bitmap2.getHeight();
 
@@ -84,6 +87,7 @@ public class CustomSatelliateMap extends View {
 		mCenterY=height/2;
 		//R = mCenterY-top-Utils.dp2pixel(15);
 		R = mCenterY-top-Utils.dp2pixel(70);//星图离散半径
+
 		canvas.drawBitmap(bitmap2,left, top, paint);
 		//Bitmap mBitmap=((BitmapDrawable)mContext.getResources().getDrawable(com.ns.sms.R.drawable.satellite_number_bg)).getBitmap();
 		//绘制可见星图的卫星
@@ -119,7 +123,7 @@ public class CustomSatelliateMap extends View {
 			float x=0;
 			if(prnInt >=100){
 				//x=mCoordinateArr[i][0] - Utils.dp2pixel(12);
-				x=mCoordinateArr[i][0] - Utils.dp2pixel(5);
+				x=mCoordinateArr[i][0] - Utils.dp2pixel(15);
 			}else if(prnInt >=10){
 				x=mCoordinateArr[i][0] - Utils.dp2pixel(10);
 			}else{
@@ -127,7 +131,7 @@ public class CustomSatelliateMap extends View {
 			}
 			int mSatelliatePRN_No = prnInt>=160?(prnInt-160):prnInt;
 			//canvas.drawText(mSatelliatePRN[i],x,mCoordinateArr[i][1] + Utils.dp2pixel(5), paint);
-			canvas.drawText(mSatelliatePRN_No+"",x,mCoordinateArr[i][1] + Utils.dp2pixel(8), paint);
+			canvas.drawText(String.format("%2d",mSatelliatePRN_No),x,mCoordinateArr[i][1] + Utils.dp2pixel(8), paint);
 		}
 	}
 	

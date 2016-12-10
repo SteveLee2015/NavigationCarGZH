@@ -20,6 +20,10 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\include_bdsend_msg_land_scape.xml"
     },
     {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\fragment_statellite_status.xml",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\fragment_statellite_status.xml"
+    },
+    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\activity_gpsstatus_car_7.xml",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\activity_gpsstatus_car_7.xml"
     },
