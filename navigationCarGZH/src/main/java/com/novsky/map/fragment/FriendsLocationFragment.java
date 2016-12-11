@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,9 +101,14 @@ public class FriendsLocationFragment extends Fragment {
                                                     Integer.valueOf(id));
                                             getActivity().startActivity(
                                                     notificationIntent);
+
+                                           // return;
                                         } else if (which == 1) {
                                             // 删除全部
-                                            boolean istrue = oper.delete();
+                                            boolean istrue = oper.deleteAll();
+                                            Log.d(TAG,"fuck");
+                                            Log.d(TAG,"fuck");
+                                            Log.d(TAG,"fuck");
                                             if (!istrue) {
                                                 Toast.makeText(
                                                         getActivity(),
@@ -117,8 +123,8 @@ public class FriendsLocationFragment extends Fragment {
                                                 adapter.notifyDataSetChanged();
                                             }
                                             oper.close();
-
-                                        } else {
+                                           // return;
+                                        } else if (which==2){
                                             // 从数据库中删除数据
                                             Map<String, Object> map = list
                                                     .get(index);
@@ -148,6 +154,7 @@ public class FriendsLocationFragment extends Fragment {
                                                         Toast.LENGTH_SHORT)
                                                         .show();
                                             }
+                                           // return;
                                         }
                                     }
                                 })
@@ -221,7 +228,36 @@ public class FriendsLocationFragment extends Fragment {
                                                     Integer.valueOf(id));
                                             getActivity().startActivity(
                                                     notificationIntent);
-                                        } else {
+                                        } else if (which==1){
+
+
+                                            boolean isTrue = oper.deleteAll();
+                                            if (!isTrue){
+                                                Toast.makeText(
+                                                        getActivity(),
+                                                        getActivity()
+                                                                .getResources()
+                                                                .getString(
+                                                                        R.string.friend_loc_del_fail),
+                                                        Toast.LENGTH_SHORT)
+                                                        .show();
+                                            }else {
+
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        list.clear();
+                                                        adapter.notifyDataSetChanged();
+
+                                                    }
+                                                },1000);
+
+                                            }
+
+
+
+                                        }else if (which==2){
                                             // 从数据库中删除数据
                                             Map<String, Object> map = list
                                                     .get(index);

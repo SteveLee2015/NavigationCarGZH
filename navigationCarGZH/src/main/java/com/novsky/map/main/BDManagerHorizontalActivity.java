@@ -63,6 +63,7 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 		fragments.put(2, new BDRDSSLocationSetFragment());//1
 		fragments.put(3, new BD2LocFragment());//2
 		fragments.put(4, new BDLocationReportFragment());//3
+
 		fragments.put(5, new FriendsLocationFragment());//4友邻位置(友邻信息)
 		fragments.put(6, new LocalMachineInfoFragment());//5
 		fragments.put(7, new AutoCheckedFragment());//6北斗1信号

@@ -316,7 +316,7 @@
     <string-array name="friend_loc_oper">
         <item>地图显示</item>
         <item>删除全部</item>
-        <item>删除</item>
+        <item>删除选择条目</item>
     </string-array>
     <string name="friend_loc_del_success">友邻位置删除成功!</string>
     <string name="friend_loc_del_fail">友邻位置删除失败!</string>

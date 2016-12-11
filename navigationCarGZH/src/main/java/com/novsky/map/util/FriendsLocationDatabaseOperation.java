@@ -63,13 +63,15 @@ public class FriendsLocationDatabaseOperation {
 	 * @param rowId
 	 * @return
 	 */
-	public boolean delete(){
+	public boolean deleteAll(){
 		databaseHelper=new DatabaseHelper(context);
 		sqliteDatabase = databaseHelper.getWritableDatabase();
-		boolean istrue=sqliteDatabase.delete(FriendsLocationColumns.TABLE_NAME,null,null)>0;
+		int count = sqliteDatabase.delete(FriendsLocationColumns.TABLE_NAME, null, null);
+		boolean istrue=count>0;
 		return istrue;
 	}
-	
+
+
 	public Cursor get(long rowId) throws SQLException{
 		databaseHelper=new DatabaseHelper(context);
 		sqliteDatabase=databaseHelper.getReadableDatabase();

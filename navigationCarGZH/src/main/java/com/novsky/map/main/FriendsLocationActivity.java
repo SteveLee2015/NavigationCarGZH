@@ -127,7 +127,7 @@ public class FriendsLocationActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						final FriendsLocationDatabaseOperation oper=new FriendsLocationDatabaseOperation(mContext);
-						boolean istrue=oper.delete();
+						boolean istrue=oper.deleteAll();
 						oper.close();
 						if(istrue){
 							adapter.deleteAllData();
