@@ -13,7 +13,8 @@
       <item>船舶风灾</item>
       <item>人员伤病</item>
       <item>船舶进水</item>
-      
+      <!-- 
+      <item>断电报警</item> -->
     </string-array>
     <string-array name="backgroundlightitem">
         <item>自动</item>
@@ -57,7 +58,8 @@
     <string-array name="dayornightitem">
         <item>白天</item>
         <item>黑夜</item>
-        
+        <!-- 
+        <item>自动</item> -->
     </string-array>
     <string-array name="demospeeditem">
         <item>低速</item>
@@ -126,9 +128,11 @@
         <item>位置回报</item>
         <item>地图设置</item>
         <item>导航设置</item>
-        
+        <!-- 
+        <item>帮助</item> -->
         <item>关于</item>
-        
+        <!-- 
+        <item>退出导航</item> -->
     </string-array>
     <string-array name="prioritypoiitem">
         <item>加油站</item>
@@ -149,7 +153,7 @@
         <item>查看该路径在地图上的全貌</item>
         <item>查看路径途经道路详情</item>
         <item>删除当前路径后可重新规划</item>
-        <item>删除当前显示的友邻位置</item>
+        <item>删除当前地图显示的友邻位置图标</item>
         <item>操作及设置轨迹相关内容</item>
     </string-array>
     <string-array name="routemanager_items">
@@ -243,7 +247,10 @@
         <item>语音类别</item>
         <item>电子眼开关</item>
     </string-array>
-    <string-array name="settingfortrafficradio"><item>软件升级开关</item>
+    <string-array name="settingfortrafficradio"><!--
+        <item>前方路况播报</item>
+        <item>周边路况播报</item>
+        --><item>软件升级开关</item>
     </string-array>
     <string-array name="stateitem">
     <item>已关</item>
@@ -844,11 +851,15 @@
     <string name="write_serial_num_success">成功写入序列号!</string>
     <string name="wzt_no_data">没有数据</string>
     <style name="AppBaseTheme" parent="android:Theme.Light">
-        
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
     </style>
     <style name="AppTheme" parent="AppBaseTheme">
 		<item name="android:windowNoTitle">true</item>
-        
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     <style name="CustomWindowTitleBackground">    
         <item name="android:background">@drawable/tab_bg</item>
@@ -865,11 +876,11 @@
 	    <item name="android:progressDrawable">@drawable/progressbar_mini</item> 
   </style>
     <style name="alarmdialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">false</item>
-        
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <!--<item name="android:windowBackground">@color/transparent</item>背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
    </style>
     <style name="bd_manager_theme">
         <item name="android:background">#FFFFFF</item>
@@ -925,12 +936,12 @@
 		<item name="android:textColor">#000000</item>
 	</style>
     <style name="dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
    </style>
     <style name="district_name">
 		<item name="android:textSize">20dip</item>

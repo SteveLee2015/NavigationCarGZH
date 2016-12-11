@@ -1,12 +1,12 @@
 package com.bd.comm.protocal;
 
-import java.text.DecimalFormat;
-import java.util.StringTokenizer;
-
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Printer;
+
+import java.text.DecimalFormat;
+import java.util.StringTokenizer;
 
 public class BDRNSSLocation implements Parcelable{
 	
@@ -44,7 +44,17 @@ public class BDRNSSLocation implements Parcelable{
     private boolean mHasAccuracy = false;
     private float mAccuracy = 0.0f;
     private Bundle mExtras = null;
-    private boolean mAvailable=false;    
+    private boolean mAvailable=false;
+
+    public int getmDate() {
+        return mDate;
+    }
+
+    public void setmDate(int mDate) {
+        this.mDate = mDate;
+    }
+
+    private int mDate =0;
 
     // Cache the inputs and outputs of computeDistanceAndBearing
     // so calls to distanceTo() and bearingTo() can share work
@@ -98,6 +108,7 @@ public class BDRNSSLocation implements Parcelable{
     public void set(BDRNSSLocation l) {
         mProvider = l.mProvider;
         mTime = l.mTime;
+        mDate= l.mDate;
         mLatitude = l.mLatitude;
         mLongitude = l.mLongitude;
         mHasAltitude = l.mHasAltitude;
@@ -118,6 +129,7 @@ public class BDRNSSLocation implements Parcelable{
     public void reset() {
         mProvider = null;
         mTime = 0;
+        mDate = 0;
         mLatitude = 0;
         mLongitude = 0;
         mHasAltitude = false;
@@ -692,6 +704,7 @@ public class BDRNSSLocation implements Parcelable{
             String provider = in.readString();
             BDRNSSLocation l = new BDRNSSLocation(provider);
             l.mTime = in.readLong();
+            l.mDate = in.readInt();
             l.mLatitude = in.readDouble();
             l.mLongitude = in.readDouble();
             l.mHasAltitude = in.readInt() != 0;
@@ -720,6 +733,7 @@ public class BDRNSSLocation implements Parcelable{
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(mProvider);
         parcel.writeLong(mTime);
+        parcel.writeInt(mDate);
         parcel.writeDouble(mLatitude);
         parcel.writeDouble(mLongitude);
         parcel.writeInt(mHasAltitude ? 1 : 0);

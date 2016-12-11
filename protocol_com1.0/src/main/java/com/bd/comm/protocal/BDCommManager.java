@@ -3,6 +3,7 @@ package com.bd.comm.protocal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,7 +84,8 @@ public class BDCommManager {
 	private ArrayList<BDSatelliteListener> mBDSatelliteListeners=new ArrayList<BDSatelliteListener>();
 	private ArrayList<GPSatelliteListener> mGPSatelliteListeners=new ArrayList<GPSatelliteListener>();
 	private ArrayList<BDLocationStrategyListener> mBDLocationStrategyListeners=new ArrayList<BDLocationStrategyListener>();
-	
+	private ArrayList<BDLocationZDAListener> mBDLocationZDAListeners=new ArrayList<BDLocationZDAListener>();
+
 	
 	private int[]  mBDFixNumberArray=new int[33];
 	private int[]  mGPSFixNumberArray=new int[33];
@@ -128,6 +130,7 @@ public class BDCommManager {
 							|| mBDBeamStatusListeners.contains(listener[i])
 							|| mBDLocReportListeners.contains(listener[i])
 							|| mZeroInfoListeners.contains(listener[i])
+							|| mBDLocationZDAListeners.contains(listener[i])
 							|| mAutoDestroyListeners.contains(listener[i])) {
 						continue;
 					}
@@ -135,6 +138,8 @@ public class BDCommManager {
 						mBDLocationListeners.add((BDLocationListener) listener[i]);
 					} else if (listener[i] instanceof VersionListener) {
 						mVersionListeners.add((VersionListener) listener[i]);
+					} else if (listener[i] instanceof BDLocationZDAListener) {
+						mBDLocationZDAListeners.add((BDLocationZDAListener) listener[i]);
 					} else if (listener[i] instanceof BDKLTListener) {
 						mBDKLTListeners.add((BDKLTListener) listener[i]);
 					} else if (listener[i] instanceof ZhiHuiListener) {
@@ -216,6 +221,8 @@ public class BDCommManager {
 					mManagerInfoListeners.remove(listener[i]);
 				} else if (listener[i] instanceof BDBeamStatusListener) {
 					mBDBeamStatusListeners.remove(listener[i]);
+				} else if (listener[i] instanceof BDLocationZDAListener) {
+					mBDLocationZDAListeners.remove(listener[i]);
 				} else if (listener[i] instanceof BDLocReportListener) {
 					mBDLocReportListeners.remove(listener[i]);
 				} else if (listener[i] instanceof ZeroInfoListener) {
@@ -316,6 +323,31 @@ public class BDCommManager {
 			}
 		}
 		
+	}
+
+	/**
+	 * UM220
+	 */
+	public void openZDA_UM220(){
+
+		String msg = "0,6,1";
+		//校验码 *00
+		try {
+			String info = new String(bd2SendPackage("$CFGMSG", msg),"GBK");
+			Log.d(TAG,info);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		write(bd2SendPackage("$CFGMSG", msg));
+
+	}
+
+
+	public void closeZDA_UM220(){
+
+		String msg = "0,6,1";
+		write(bd2SendPackage("$CFGMSG", msg));
+
 	}
 	/**
 	 * 发送读取北斗卡的命令
@@ -921,6 +953,97 @@ public class BDCommManager {
 		try {
 			String cmd = new String(buffer, 0, size - 2, "GBK");
 			Log.i(TAG, "parseReceiveData size=" + size +"," +cmd);
+
+			//1313 , 2016-12-11 14:27:37.427 , $GNZDA,062512.760,00,00,0000,00,00*4B
+			//                                         时间      日  月  年 本地时区 本时区分钟差
+			//$GPZDA $BDZDA
+			if (cmd.startsWith("$GNZDA")){
+				if (mBDLocationZDAListeners!=null){
+					ZDATime zdaTime = new ZDATime();
+					String[] results = cmd.split(",");
+					String utcTime = results[1];
+					String day = results[2];
+					String month = results[3];
+					String year = results[4];
+					String timezone = results[5];
+					String minuteDeviation = "";
+					if (results.length==7){
+						 minuteDeviation = results[6].split("\\*")[0];
+					}else {
+
+					}
+					zdaTime.setUtcTime(utcTime);
+					zdaTime.setDay(day);
+					zdaTime.setMinuteDeviation(month);
+					zdaTime.setYear(year);
+					zdaTime.setTimeZone(timezone);
+					zdaTime.setMinuteDeviation(minuteDeviation);
+
+					for(BDLocationZDAListener mBDLocationZDAListener:mBDLocationZDAListeners){
+						mBDLocationZDAListener.onZDATime(zdaTime);
+					}
+					Log.i(TAG, "parseReceiveData size=" + size +"," +cmd);
+				}
+			}
+
+			if (cmd.startsWith("$GPZDA")){
+				if (mBDLocationZDAListeners!=null){
+					ZDATime zdaTime = new ZDATime();
+					String[] results = cmd.split(",");
+					String utcTime = results[1];
+					String day = results[2];
+					String month = results[3];
+					String year = results[4];
+					String timezone = results[5];
+					String minuteDeviation = "";
+					if (results.length==6){
+						 minuteDeviation = results[6].split("\\*")[0];
+					}else {
+
+					}
+					zdaTime.setUtcTime(utcTime);
+					zdaTime.setDay(day);
+					zdaTime.setMinuteDeviation(month);
+					zdaTime.setYear(year);
+					zdaTime.setTimeZone(timezone);
+					zdaTime.setMinuteDeviation(minuteDeviation);
+
+					for(BDLocationZDAListener mBDLocationZDAListener:mBDLocationZDAListeners){
+						mBDLocationZDAListener.onZDATime(zdaTime);
+					}
+					Log.i(TAG, "parseReceiveData size=" + size +"," +cmd);
+				}
+			}
+
+			if (cmd.startsWith("$BDZDA")){
+				if (mBDLocationZDAListeners!=null){
+					ZDATime zdaTime = new ZDATime();
+					String[] results = cmd.split(",");
+					String utcTime = results[1];
+					String day = results[2];
+					String month = results[3];
+					String year = results[4];
+					String timezone = results[5];
+					String minuteDeviation = "";
+					if (results.length==6){
+						 minuteDeviation = results[6].split("\\*")[0];
+					}else {
+
+					}
+					zdaTime.setUtcTime(utcTime);
+					zdaTime.setDay(day);
+					zdaTime.setMinuteDeviation(month);
+					zdaTime.setYear(year);
+					zdaTime.setTimeZone(timezone);
+					zdaTime.setMinuteDeviation(minuteDeviation);
+
+					for(BDLocationZDAListener mBDLocationZDAListener:mBDLocationZDAListeners){
+						mBDLocationZDAListener.onZDATime(zdaTime);
+					}
+					Log.i(TAG, "parseReceiveData size=" + size +"," +cmd);
+				}
+			}
+
 			if (cmd.startsWith("$BDFKI")) {
 				/* 反馈信息解析代码 */
 				if (mBDFKIListeners != null) {
@@ -1196,6 +1319,7 @@ public class BDCommManager {
 			              e2.printStackTrace();
 			        }
 			        this.gnLocation.setTime(d.getTime());
+					this.gnLocation.setmDate(d.getDate());
 					if (!isCall) {
 						Log.i(TAG, gnLocation.getLongitude() + ","
 								+ gnLocation.getLatitude() + ","

@@ -76,7 +76,7 @@ public abstract class BottomBaseActivity extends BaseActivity {
 
 	protected static final int BD_RDSS_SATELLITE_NUM_ITEM = 0x100001,
 			BD_RNSS_LOC_NUM_ITEM = 0x10002, BD_SATELLITE_STATUS_ITEM = 0x10003,
-			GPS_SATELLITE_STATUS_ITEM = 0x10005, GPS_ONLY = 0x10004;
+			GPS_SATELLITE_STATUS_ITEM = 0x10005, GPS_ONLY = 0x10004,BD_ONLY=0x10006;
 
 	protected boolean isLocation = false;
 
@@ -106,6 +106,7 @@ public abstract class BottomBaseActivity extends BaseActivity {
 	protected Handler handler = new Handler() {
 
 		private int gpsNumOnly;
+		private int bdNumOnly;
 
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -228,6 +229,38 @@ public abstract class BottomBaseActivity extends BaseActivity {
 					}
 				}
 
+				break;
+
+			// 仅北斗
+			case BD_ONLY:
+
+				List<BDSatellite> list3 = (List<BDSatellite>) msg.obj;
+				int currentAvailableBDOnly = 0;
+				for (BDSatellite satellite : list3) {
+					int statelliteID = satellite.getPrn();
+					float zaizaobi = satellite.getSnr();// 载噪比
+					if (statelliteID >= 160) {
+						if (satellite.usedInFix() && (zaizaobi > 5)) {
+							currentAvailableBDOnly++;
+							bdNumOnly = currentAvailableBDOnly;
+						}
+					} else {
+						if (satellite.usedInFix() && (satellite.getSnr() > 5)) {
+							currentAvailableBDOnly++;
+							bdNumOnly = currentAvailableBDOnly;
+						}
+					}
+
+					homeTitleBD2Num.setText("" + bdNumOnly);
+					if (locationStatusManager.getLocationStatus()) {
+						homeTitleBD2Num.setTextColor(Color.BLACK);
+					} else {
+						homeTitleBD2Num.setTextColor(mContext.getResources()
+								.getColor(R.color.bd2_unenable_loc));
+					}
+				}
+
+				break;
 			default:
 				break;
 			}
@@ -308,10 +341,22 @@ public abstract class BottomBaseActivity extends BaseActivity {
 	protected BDSatelliteListener mBDSatelliteListener = new BDSatelliteListener() {
 		@Override
 		public void onBDGpsStatusChanged(List<BDSatellite> arg0) {
-			Message message = handler.obtainMessage();
-			message.what = BD_SATELLITE_STATUS_ITEM;
-			message.obj = arg0;
-			handler.sendMessage(message);
+
+
+			if (Utils.RNSS_CURRENT_LOCATION_MODEL == LocationStrategy.HYBRID_STRATEGY) {
+				// 混合模式
+				Message message = handler.obtainMessage();
+				message.what = BD_SATELLITE_STATUS_ITEM;
+				message.obj = arg0;
+				handler.sendMessage(message);
+
+			} else {
+				// 单 北斗模式
+				Message message = handler.obtainMessage();
+				message.what = BD_ONLY;
+				message.obj = arg0;
+				handler.sendMessage(message);
+			}
 		}
 	};
 

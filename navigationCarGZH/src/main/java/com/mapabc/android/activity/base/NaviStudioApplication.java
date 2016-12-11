@@ -10,10 +10,13 @@ import android.location.BDEventListener;
 import android.location.BDLocationReport;
 import android.location.BDParameterException;
 import android.location.BDUnknownException;
+import android.os.Handler;
 import android.util.Log;
 
 import com.bd.comm.protocal.BDCommManager;
+import com.bd.comm.protocal.BDLocationZDAListener;
 import com.bd.comm.protocal.SerialApplication;
+import com.bd.comm.protocal.ZDATime;
 import com.mapabc.android.activity.utils.ReceiverAction;
 import com.mapabc.naviapi.type.Const;
 import com.novsky.map.main.ReportPosManager;
@@ -37,6 +40,17 @@ public class NaviStudioApplication extends  SerialApplication{
 	public boolean isLocationed = false;
 
 	private BDCommManager mananger;
+
+	/**
+	 *
+	 */
+	BDLocationZDAListener zdaListener = new BDLocationZDAListener() {
+		@Override
+		public void onZDATime(ZDATime mZDATime) {
+			Log.d(TAG,mZDATime.toString());
+		}
+	};
+
 
 	// 位置报告1  位置报告2
 	BDEventListener.BDLocReportListener locReportListener = new BDEventListener.BDLocReportListener() {
@@ -70,16 +84,25 @@ public class NaviStudioApplication extends  SerialApplication{
 		//同时 发送广播通知 友邻信息界面 更新数据
 		mananger = BDCommManager.getInstance(this);
 		try {
-			mananger.addBDEventListener(locReportListener);
+			mananger.addBDEventListener(locReportListener,zdaListener);
 		} catch (BDParameterException e) {
 			e.printStackTrace();
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
-
 		SharedPreferences share = mContext.getSharedPreferences(Config.PREFERENCE_NAME, Config.MODE);
 		FLAG =share.getInt(Config.LOCATION_MODEL,0);
-		mananger.setLocationStrategy(FLAG);
+
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mananger.openZDA_UM220();
+				Log.d(TAG,"open ZDA");
+				mananger.setLocationStrategy(FLAG);
+			}
+		},1000);
+
+
 
 	}
 
@@ -88,7 +111,7 @@ public class NaviStudioApplication extends  SerialApplication{
 		super.onTerminate();
 		Log.d(TAG,"onTerminate");
 		try {
-			mananger.removeBDEventListener(locReportListener);
+			mananger.removeBDEventListener(locReportListener,zdaListener);
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		} catch (BDParameterException e) {
