@@ -1439,7 +1439,8 @@ public class Utils{
 	public static int checkStrBits(String str) {
 		int chineseNum = getLenOfString(str);
 		int num = str.toCharArray().length;
-		return (num - chineseNum) * 4 + (chineseNum * 14);
+		//return (num - chineseNum) * 4 + (chineseNum * 14);
+		return (num - chineseNum) * 8 + (chineseNum * 16);
 	}
 
 	/**
@@ -2239,16 +2240,16 @@ public class Utils{
 			if ("E".equals(manager.getCardInfo().checkEncryption)) {
 				switch (manager.getCardInfo().mCommLevel) {
 				case 1:
-					MESSAGE_MAX_LENGHTH = 140;
+					MESSAGE_MAX_LENGHTH = 140-8;
 					break;
 				case 2:
-					MESSAGE_MAX_LENGHTH = 360;
+					MESSAGE_MAX_LENGHTH = 360-8;
 					break;
 				case 3:
-					MESSAGE_MAX_LENGHTH = 580;
+					MESSAGE_MAX_LENGHTH = 580-8;
 					break;
 				case 4:
-					MESSAGE_MAX_LENGHTH = 1680;
+					MESSAGE_MAX_LENGHTH = 1680-8;
 					break;
 				default:
 					break;
@@ -2256,16 +2257,16 @@ public class Utils{
 			} else {
 				switch (manager.getCardInfo().mCommLevel) {
 				case 1:
-					MESSAGE_MAX_LENGHTH = 110;
+					MESSAGE_MAX_LENGHTH = 110-8;
 					break;
 				case 2:
-					MESSAGE_MAX_LENGHTH = 408;
+					MESSAGE_MAX_LENGHTH = 408-8;
 					break;
 				case 3:
-					MESSAGE_MAX_LENGHTH = 628;
+					MESSAGE_MAX_LENGHTH = 628-8;
 					break;
 				case 4:
-					MESSAGE_MAX_LENGHTH = 848;
+					MESSAGE_MAX_LENGHTH = 848-8;
 					break;
 				default:
 					break;

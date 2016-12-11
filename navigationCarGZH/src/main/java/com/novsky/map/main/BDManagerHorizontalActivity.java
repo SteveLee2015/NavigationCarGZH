@@ -22,7 +22,6 @@ import com.novsky.map.fragment.GPSStatusFragment;
 import com.novsky.map.fragment.LocalMachineInfoFragment;
 import com.novsky.map.fragment.LocationModelFragment;
 import com.novsky.map.fragment.ManagerInfoFragment;
-import com.novsky.map.fragment.OverspeedFragment;
 import com.novsky.map.fragment.RelayStationManagerFragment;
 
 import java.util.HashMap;
@@ -75,7 +74,7 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 		fragments.put(13, new LocationModelFragment());//定位模式
 		fragments.put(14, new RelayStationManagerFragment());//中继站管理
 		fragments.put(15, new BDSoftwareFragment());//关于
-		fragments.put(16, new OverspeedFragment());//超速发送短报文设置
+		//fragments.put(16, new OverspeedFragment());//超速发送短报文设置
 	}
 
 	int lastIndex=1;
@@ -298,14 +297,14 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 			   trx.show(fragments.get(15)).commit();
 			   lastIndex=15;
 			   break;
-		   case 16:
-			   trx.hide(fragments.get(lastIndex));
-			   if (!fragments.get(16).isAdded()){
-	                trx.add(R.id.message_detail_container, fragments.get(16));
-	           }
-			   trx.show(fragments.get(16)).commit();
-			   lastIndex=16;
-			   break;
+//		   case 16:
+//			   trx.hide(fragments.get(lastIndex));
+//			   if (!fragments.get(16).isAdded()){
+//	                trx.add(R.id.message_detail_container, fragments.get(16));
+//	           }
+//			   trx.show(fragments.get(16)).commit();
+//			   lastIndex=16;
+//			   break;
 		   default:
 			   break;
 	   }

@@ -1,8 +1,5 @@
 package com.novsky.map.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
@@ -21,6 +18,9 @@ import android.widget.TextView;
 
 import com.mapabc.android.activity.R;
 import com.novsky.map.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BDMoreListFragment extends ListFragment{
@@ -51,7 +51,7 @@ public class BDMoreListFragment extends ListFragment{
 		addItem(13,"定位模式",false,R.drawable.system_local_set);
 		addItem(14,"中继站管理",false,R.drawable.system_cood_translate);
 		addItem(15,"关于",false,R.drawable.system_distance_calc);
-		addItem(16,"超速报告",false,R.drawable.system_warnning_set);
+		//addItem(16,"超速报告",false,R.drawable.system_warnning_set);
 		fragmengAdapter=new FragmengAdapter(getActivity(), items);
 		setListAdapter(fragmengAdapter);
 	}

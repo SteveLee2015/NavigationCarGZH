@@ -137,7 +137,7 @@
     <string name="editpoiinfo_upload">提交</string>
     <string name="editpoiinfo_topic">编辑点信息</string>
     <string name="routemanager_delete_route">您确定要删除路径吗？</string>
-    <string name="routemanager_delete_friend_location">您确定要友邻位置吗？</string>
+    <string name="routemanager_delete_friend_location">您确定要删除友邻位置吗？</string>
     <string name="navimaptouchlistener_noroadname">无名路</string>
     <string name="routemanager_routeplan_tip">路线规划原则已改变，是否重新计算路径？</string>
     <string name="searcharoundtype_topic">请选择类别</string>
