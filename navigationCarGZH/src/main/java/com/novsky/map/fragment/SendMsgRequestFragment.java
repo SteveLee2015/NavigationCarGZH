@@ -1,8 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,6 +49,9 @@ import com.novsky.map.util.BDTimeFreqChangedListener;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.MessgeUsualOperation;
 import com.novsky.map.util.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 新建短信 功能描述: 
@@ -361,7 +361,14 @@ public class SendMsgRequestFragment extends Fragment implements OnClickListener 
 				/*判断写入的汉字的个数和数字字母个数,汉字个数*14 数字字母个数×4*/
 				int num=Utils.checkStrBits(s.toString());
 				int flag=Utils.checkMsg(s.toString());
-				int temp=Utils.getMessageMaxLength();
+				// 判断是否选择 发送到手机
+				int temp = 0;
+				if (checkSendPhoneSMS.isChecked()){
+					temp=Utils.getMessageMaxLength()-240;
+				}else {
+					temp=Utils.getMessageMaxLength();
+				}
+				if (temp<0){temp=0;}
 				//if(flag==2){
 				//	temp=(Utils.getMessageMaxLength()*2)/3;
 				//}

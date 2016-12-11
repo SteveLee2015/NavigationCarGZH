@@ -1,11 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +30,12 @@ import com.novsky.map.util.BDLocationManager;
 import com.novsky.map.util.BDRNSSLocationInfoManager;
 import com.novsky.map.util.OnCustomListListener;
 import com.novsky.map.util.Utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 北斗II代定位  RNSS
@@ -190,7 +190,6 @@ public class BD2LocFragment extends Fragment implements OnCustomListListener{
 		
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			savedata();
 			handler.postDelayed(this, 60*1000);
 		}
