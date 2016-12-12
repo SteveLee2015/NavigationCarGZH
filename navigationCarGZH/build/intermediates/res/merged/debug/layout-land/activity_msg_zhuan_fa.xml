@@ -1,0 +1,196 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:id="@+id/bd_msg_send_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp" >
+
+        <LinearLayout
+            style="@style/CustomWindowTitleBackground"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/home_title_flag_img"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/title_msg_flag" />
+
+            <TextView
+                android:id="@+id/home_title_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="left|center_vertical"
+                android:text="@string/title_activity_msg_zhuan_fa"
+                android:textSize="@dimen/txtSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingTop="16dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:background="@drawable/msg_received_address"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/msg_received_address"
+                    android:textSize="@dimen/txtSize" />
+
+                <EditText
+                    android:id="@+id/msg_user_address_edittxt"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:textSize="@dimen/txtSize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/msg_user_address_book"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/add_user_address_selector" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/msg_com_type_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/show_msg_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="@dimen/txtSize" />
+            <!-- 是否转发短信至手机 -->
+
+            <CheckBox
+                android:id="@+id/checkSendPhoneSMS"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="发送至手机"
+                android:textSize="@dimen/txtSize"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/msg_com_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@drawable/msg_received_address"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/bd_msg_content_edittxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/common_input_str"
+                    android:inputType="textMultiLine"
+                    android:maxLines="30"
+                    android:minLines="10"
+                    android:textSize="@dimen/txtSize" />
+
+                <TextView
+                    android:id="@+id/bd_msg_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text=""
+                    android:textSize="@dimen/txtSize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/bd_msg_feq_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textSize="@dimen/txtSize" />
+
+                <ImageView
+                    android:id="@+id/msg_manager_imageview"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/fujian_selector"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/msg_huifu_imageview"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/msg_huifu_btn" />
+
+                <ImageView
+                    android:id="@+id/bd_msg_send_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/common_send_str"
+                    android:src="@drawable/msg_zhuanfa_selector" />
+
+                <ImageView
+                    android:id="@+id/bd_msg_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/common_send_str"
+                    android:src="@drawable/msg_send_selector"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

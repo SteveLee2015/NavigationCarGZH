@@ -1,0 +1,256 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="4dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="路线ID:" />
+
+        <EditText
+            android:id="@+id/nav_line_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789"
+            android:hint="线路ID" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="条序号:" />
+
+        <EditText
+            android:id="@+id/nav_line_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789"
+            android:hint="条序号" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="总条数:" />
+
+        <EditText
+            android:id="@+id/nav_line_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789"
+            android:hint="总条数" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="坐标数:" />
+
+        <Spinner
+            android:id="@+id/nav_coodr_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:entries="@array/coodrate_num_array" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lon_lat_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="经度1:" />
+
+        <EditText
+            android:id="@+id/nav_lon_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="经度1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="纬度1:" />
+
+        <EditText
+            android:id="@+id/nav_lat_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="纬度1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lon_lat_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="经度2:" />
+
+        <EditText
+            android:id="@+id/nav_lon_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="经度2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="纬度2:" />
+
+        <EditText
+            android:id="@+id/nav_lat_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="纬度2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lon_lat_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="经度3:" />
+
+        <EditText
+            android:id="@+id/nav_lon_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="经度3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="纬度3:" />
+
+        <EditText
+            android:id="@+id/nav_lat_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="纬度3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lon_lat_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="经度4:" />
+
+        <EditText
+            android:id="@+id/nav_lon_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="经度1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="纬度1:" />
+
+        <EditText
+            android:id="@+id/nav_lat_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="纬度4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lon_lat_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="经度5:" />
+
+        <EditText
+            android:id="@+id/nav_lon_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="经度5" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="纬度5:" />
+
+        <EditText
+            android:id="@+id/nav_lat_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:digits="0123456789."
+            android:hint="纬度5" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,683 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bd2_status_linearlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/function_bg"
+    android:orientation="horizontal" >
+
+    <!--
+         修改前
+     	android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="2"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+    -->
+    <!-- 卫星图标 -->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="2"
+        android:background="@drawable/bd2_satelite_map"
+        android:orientation="vertical" >
+
+        <!-- 上方说明文字 -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="16dp"
+                android:text="@string/gps_satellite_map_str"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txtSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:text="@string/bd2_location_status"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txtSize" />
+
+            <TextView
+                android:id="@+id/gps_location_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/txtSize" />
+        </LinearLayout>
+
+        <!-- 卫星 -->
+
+        <AbsoluteLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/satellite_map_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_6"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_9"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_11"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/satellite_map_12"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_x="235dp"
+                android:layout_y="180dp"
+                android:background="@drawable/satellite_week_signal_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </AbsoluteLayout>
+    </LinearLayout>
+
+    <!-- 载燥比进度条 -->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:layout_weight="2"
+        android:background="@drawable/bd2_satelite_zaizaobi"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="11"
+            android:padding="16dp"
+            android:text="@string/bd2_satellite_zaizaobi"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txtSize" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="30"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+			<!--  android:layout_weight="28" -->
+            <!-- 第一个进度条 -->
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <!-- 载燥比值 -->
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+                <!-- 载燥比进度条 -->
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_1"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+                <!-- 序号值 -->
+
+                <TextView
+                    android:id="@+id/satellite_id_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_2"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_3"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_4"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_5"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_6"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_7"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_7"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_7"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_8"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_8"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_8"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_9"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_9"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="fill_parent"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_9"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_10"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_10"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="15dp"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_10"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_11"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_11"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="15dp"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_11"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/satellite_zaizaobi_12"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+                <com.novsky.map.main.VerticalProgressBar
+                    android:id="@+id/progressBar_12"
+                    style="@style/ProgressBar_custom"
+                    android:layout_width="200dp"
+                    android:layout_height="15dp"
+                    android:max="60" >
+                </com.novsky.map.main.VerticalProgressBar>
+
+                <TextView
+                    android:id="@+id/satellite_id_12"
+                    android:layout_width="fill_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+            <!--
+                  <LinearLayout 
+                     android:layout_width="20dp"
+                     android:layout_height="fill_parent"
+                     android:layout_marginLeft="5dp"
+	                 android:layout_marginRight="5dp"
+                     android:orientation="vertical">
+	                 <com.novsky.map.main.VerticalProgressBar  
+	                     android:id="@+id/progressBar_13"
+	                     android:layout_width="267dp"
+	                     android:layout_height="15dp"
+	                     style="@style/ProgressBar_custom"
+	                     android:max="60"
+	                 >
+                   </com.novsky.map.main.VerticalProgressBar >
+	                 <TextView 
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="22dp"
+	                    android:textColor="@color/white"
+	                    android:gravity="center"
+	                    android:text="13"/>
+                  </LinearLayout>
+                  
+                  <LinearLayout 
+                     android:layout_width="15dp"
+                     android:layout_height="fill_parent"
+                     android:layout_marginLeft="5dp"
+	                 android:layout_marginRight="5dp"
+                     android:orientation="vertical">
+	                 <com.novsky.map.main.VerticalProgressBar  
+	                     android:id="@+id/progressBar_14"
+	                     android:layout_width="94dp"
+	                     android:layout_height="fill_parent"
+	                     style="@style/ProgressBar_custom"
+	                     android:max="4"
+	                 >
+                   </com.novsky.map.main.VerticalProgressBar >
+	                 <TextView 
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="22dp"
+	                    android:textColor="@color/white"
+	                    android:gravity="center"
+	                    android:text="14"/>
+                  </LinearLayout>
+                  
+                  <LinearLayout 
+                     android:layout_width="15dp"
+                     android:layout_height="fill_parent"
+                     android:layout_marginLeft="5dp"
+	                 android:layout_marginRight="5dp"
+                     android:orientation="vertical">
+	                 <com.novsky.map.main.VerticalProgressBar  
+	                     android:id="@+id/progressBar_15"
+	                     android:layout_width="94dp"
+	                     android:layout_height="fill_parent"
+	                     style="@style/ProgressBar_custom"
+	                     android:max="4"
+	                 >
+                   </com.novsky.map.main.VerticalProgressBar >
+	                 <TextView 
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="22dp"
+	                    android:textColor="@color/white"
+	                    android:gravity="center"
+	                    android:text="15"/>
+                  </LinearLayout>
+            -->
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
