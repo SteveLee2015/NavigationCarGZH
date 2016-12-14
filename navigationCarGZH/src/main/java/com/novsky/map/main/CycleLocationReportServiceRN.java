@@ -69,8 +69,16 @@ public class CycleLocationReportServiceRN extends BaseReportService {
 							double longitude = locationReport.getLongitude();
 							double latitude = locationReport.getLatitude();
 							//重现编辑
-							locationReport.setLatitude(latitude*100);
-							locationReport.setLongitude(longitude*100);
+
+							double latitudeNew = Utils.changeLonLatMinuteToDegreeReverse(locationReport.mLatitude);
+							double longitudeNew = Utils.changeLonLatMinuteToDegreeReverse(locationReport.mLongitude);
+
+							locationReport.setLatitude(latitudeNew*100);
+							locationReport.setLongitude(longitudeNew*100);
+
+
+							//locationReport.setLatitude(latitude*100);
+							//locationReport.setLongitude(longitude*100);
 
 							mananger.sendLocationReport1CmdBDV21(locationReport);
 						} catch (BDUnknownException e) {

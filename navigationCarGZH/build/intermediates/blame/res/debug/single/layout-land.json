@@ -72,12 +72,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\activity_friends_location.xml"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\activity_bd_zuozhan_time.xml",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\activity_bd_zuozhan_time.xml"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\activity_bdsend_msg_land_scape.xml",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\activity_bdsend_msg_land_scape.xml"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\activity_bd_zuozhan_time.xml",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\layout-land\\activity_bd_zuozhan_time.xml"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\layout-land\\activity_statellite_status.xml",

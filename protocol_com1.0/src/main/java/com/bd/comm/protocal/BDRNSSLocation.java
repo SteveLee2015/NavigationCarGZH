@@ -46,6 +46,8 @@ public class BDRNSSLocation implements Parcelable{
     private Bundle mExtras = null;
     private boolean mAvailable=false;
 
+
+
     public int getmDate() {
         return mDate;
     }

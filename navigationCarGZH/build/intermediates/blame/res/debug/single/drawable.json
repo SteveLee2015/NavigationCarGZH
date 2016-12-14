@@ -84,12 +84,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable\\custom_listview_content.9.png"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox_checked.xml",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable\\checkbox_checked.xml"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable\\statillate_map.png",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable\\statillate_map.png"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox_checked.xml",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable\\checkbox_checked.xml"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable\\tab_text_color.xml",

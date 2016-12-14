@@ -3130,4 +3130,38 @@ public class Utils{
 		Utils.mDisplayMetrics = mDisplayMetrics;
 	}
 
+	/**
+	 *
+	 * fuck 坑
+	 * @param num
+	 * @return
+	 */
+	public static double changeLonLatMinuteToDegreeReverse(double num) {
+//		if (num == 0.0 || num < 100) {
+//			return 0.0;
+//		}
+		double afterPonint = 0;
+		double beforePoint = 0;
+		try {
+			String value = String.valueOf(num);
+			int index = value.indexOf(".");
+
+			String[] split = value.split("\\.");
+
+			String substring = "0."+split[1];
+			double tempAfter = Double.valueOf(substring).doubleValue();
+			afterPonint = tempAfter * 60.0d;
+
+			String substring1 = split[0];
+			beforePoint = Double.valueOf(substring1).doubleValue();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			Log.e(TAG,"数据传入错误!");
+		}
+
+		return beforePoint+afterPonint/100;
+	}
+
+
+
 }
