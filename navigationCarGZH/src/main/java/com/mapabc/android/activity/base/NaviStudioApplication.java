@@ -130,8 +130,11 @@ public class NaviStudioApplication extends  SerialApplication{
 
 		FriendsLocationDatabaseOperation oper = new FriendsLocationDatabaseOperation(mContext);
 
-		double latitude = report.getLatitude()/100;
-		double longitude = report.getLongitude()/100;
+		//double latitude = report.getLatitude()/100;
+		//double longitude = report.getLongitude()/100;
+
+		double latitude = Utils.changeLonLatMinuteToDegree(Double.valueOf(report.mLatitude));
+		double longitude = Utils.changeLonLatMinuteToDegree(Double.valueOf(report.mLongitude));
 
 		String latiFormat = String.format("%.6f", latitude);
 		String longiFormat = String.format("%.6f",longitude );
@@ -161,8 +164,11 @@ public class NaviStudioApplication extends  SerialApplication{
 
 		FriendsLocation fl = new FriendsLocation();
 		fl.setUserId(report.mUserAddress);
+
+
 		fl.setLat(String.valueOf(report.mLatitude));
 		fl.setLon(String.valueOf(report.mLongitude));
+
 		fl.setHeight(String.valueOf(report.mHeight));
 		fl.setReportTime(report.mReportTime);
 		boolean isTrue = oper.insert(fl);

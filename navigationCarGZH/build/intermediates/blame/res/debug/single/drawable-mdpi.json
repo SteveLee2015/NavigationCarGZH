@@ -192,12 +192,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\currentpoint_get_net_route.png"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\currentpoint_add_to_favorite.png",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\currentpoint_add_to_favorite.png"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\search_cityselect_pressed.png",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\search_cityselect_pressed.png"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\currentpoint_add_to_favorite.png",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\currentpoint_add_to_favorite.png"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\title_bar_port.png",
@@ -560,12 +560,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navistudio_roadname_port_night.png"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\navilogo_loading_2.png",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navilogo_loading_2.png"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\settingforlike_edog.png",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\settingforlike_edog.png"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\navilogo_loading_2.png",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navilogo_loading_2.png"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\navistudio_dec_night_normal.png",
