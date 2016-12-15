@@ -296,10 +296,41 @@ public class LineTaskFragment extends Fragment{
 			viewHolder.naviBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0){
-					Intent notificationIntent = new Intent(mContext,NaviStudioActivity.class);
-					String lineId=nav.getLineId();
-					notificationIntent.putExtra("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
-					startActivity(notificationIntent);
+
+
+					String lineId = String.valueOf(nav.getLineId());
+					boolean isCompletion = operation.checkLineNavComplete(lineId);
+
+					if (isCompletion){
+						Intent notificationIntent = new Intent(mContext,NaviStudioActivity.class);
+						String lineId2=nav.getLineId();
+						notificationIntent.putExtra("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId2):0);
+						startActivity(notificationIntent);
+					}else {
+
+						//弹出提示框 ,线路导航数据尚未传递完成
+						AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
+						alert.setTitle("提示");
+						alert.setMessage("该条路线导航数据,尚未传递完成,是否导航?");
+						alert.setPositiveButton("导航", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int index){
+								//方式1开启导航
+								Intent notificationIntent = new Intent(mContext,NaviStudioActivity.class);
+								String lineId=nav.getLineId();
+								notificationIntent.putExtra("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
+								startActivity(notificationIntent);
+								//方式2 拒绝导航
+
+							}
+						});
+						alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+
+								arg0.dismiss();
+							}
+						});
+						alert.create().show();
+					}
 				}
 			});
 			return contentView;

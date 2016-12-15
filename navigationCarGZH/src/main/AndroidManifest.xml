@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mapabc.android.activity"
     android:versionCode="6"
-    android:versionName="1.0.83:20161215">
+    android:versionName="1.0.85:20161215">
     
     <uses-sdk android:minSdkVersion="11" />
     <!-- 1.0.81 添加数据采集，SOS报警 点名定位指令D200 -->

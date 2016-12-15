@@ -50,6 +50,25 @@ public class BDLineNavOperation {
 	}
 
 	/**
+	 * 增加北斗路线导航
+	 * @param set
+	 * @return
+	 */
+	public long update(String lineId,String currentIndex,String totalNum,String passPointStr){
+		//先删除 上次数据
+		delete(lineId);
+		ContentValues contentValues=new ContentValues();
+		contentValues.put(LineNavColumns.NAV_LINE_ID,lineId);
+		contentValues.put(LineNavColumns.CURRENT_INDEX,currentIndex);
+		contentValues.put(LineNavColumns.TOTAL_NUMBER,totalNum);
+		contentValues.put(LineNavColumns.PASS_POINT,passPointStr);
+		long id=sqliteDatabase.insert(LineNavColumns.TABLE_NAME, null, contentValues) ;
+		return id;
+	}
+
+
+
+	/**
 	 * 删除
 	 * @param rowId
 	 * @return

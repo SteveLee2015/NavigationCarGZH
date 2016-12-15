@@ -36,6 +36,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 /**
  * 短信接收 
  * @author steve
@@ -90,14 +91,18 @@ public class SMSReceiver extends BroadcastReceiver {
 			}
 			if(msg.startsWith("$BDNAL")){
 
+				BDLineNavOperation navOper=new BDLineNavOperation(mContext);
 
 				try {
 					String[] msgArr=msg.split(",");
 					//线路
-					String lineId=msgArr[1];
-					int lineNum=(!"".equals(msgArr[2]))?Integer.valueOf(msgArr[2]):0;
-					int lineTotalNum=(!"".equals(msgArr[3]))?Integer.valueOf(msgArr[3]):0;
+					String lineId=msgArr[1];//线路id
+					int lineNum=(!"".equals(msgArr[2]))?Integer.valueOf(msgArr[2]):0;//条序号
+					int lineTotalNum=(!"".equals(msgArr[3]))?Integer.valueOf(msgArr[3]):0;//总条数
 					int coodrateNum=(!"".equals(msgArr[4]))?Integer.valueOf(msgArr[4]):0;//坐标数
+
+					//如果 条序号== 总条数,表示指令导航所有数据完成
+
 					String passStr="";
 					for(int j=0;j<coodrateNum*2;j++){
                         if(msgArr[5+j].indexOf("*")>-1){
@@ -107,45 +112,50 @@ public class SMSReceiver extends BroadcastReceiver {
                         }
                     }
 					//保存到数据库,是否需要记录该条数据
-					BDLineNavOperation navOper=new BDLineNavOperation(mContext);
-					final long id=navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
-					boolean isCompletion=navOper.checkLineNavComplete(lineId);
-					if(isCompletion){
-                        BDLineNav line=navOper.get(lineId);
-                        Intent receiverIntent1=new Intent();
-                        receiverIntent1.putExtra("NAVILINEID", line.getLineId());
-                        receiverIntent1.setAction("com.bd.action.NAVI_LINE_ACTION");
-                        mContext.sendBroadcast(receiverIntent1);
-                        //Toast.makeText(mContext, ""+line.getLineId()+","+line.getPassPointsString(), Toast.LENGTH_LONG).show();
-                        NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                        Notification notification = new Notification();
-                        notification.tickerText = info.getmUserAddress();
-                        notification.icon = R.drawable.title_msg_flag;
-                        notification.when = System.currentTimeMillis();
-                        notification.defaults = Notification.DEFAULT_SOUND;
-                        notification.flags = Notification.FLAG_AUTO_CANCEL;
-                        /*点击该通知后要跳转的Activity*/
-                        Intent notificationIntent = new Intent(mContext,NaviStudioActivity.class);
-                        //Bundle mBundle=new Bundle();
-                        //mBundle.putLong("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
-                        //notificationIntent.putExtras(mBundle);
-                        notificationIntent.putExtra("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
-                        PendingIntent contentIntent = PendingIntent.getActivity(mContext,0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        notification.setLatestEventInfo(mContext,new String("来自 " + info.getmUserAddress() + " 信息"),"接收到从指挥机上发送的路线导航,是否进入导航?", contentIntent);
-                        BD_NOTIFICATION_ID++;
-                        //mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
-                        mNotificationManager.notify(Config.BDNAL_NOTIFICATION, notification);
-                    }else{
-                        //发送回执命令
-                        String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum+"*41";
-                        try{
-                            manager.sendSMSCmdBDV21(info.mUserAddress,1,Utils.checkMsg(mMessageContenet),"N", mMessageContenet);
-                        } catch (BDUnknownException e) {
-                            e.printStackTrace();
-                        } catch (BDParameterException e) {
-                            e.printStackTrace();
-                        }
-                    }
+
+					BDLineNav mBDLineNav = navOper.get(lineId);
+					if (mBDLineNav==null){
+						//第一次 插入
+						final long id=navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
+						boolean isCompletion=navOper.checkLineNavComplete(lineId);
+						if(isCompletion){
+							// 通知可以导航
+							notificationNaviLine(info, navOper, lineId);
+						}else{
+							//发送回执命令 补充数据
+							sendBDNAR(info, lineId, lineNum, lineTotalNum);
+						}
+
+					}else {
+						//更新 数据
+						//更新数据条件
+
+						boolean isCompletion2 = navOper.checkLineNavComplete(lineId);
+						if (isCompletion2){
+							//导航数据传递完成  重复传递 重新传递
+							navOper.update(lineId,lineNum+"",lineTotalNum+"",passStr);
+
+						}else {
+							//导航数据没有传递完成  补充数据
+
+							navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
+						}
+
+						//navOper.update(lineId,lineNum+"",lineTotalNum+"",passStr);
+						//更新完毕 后检查数据是否完整
+						boolean isCompletion3 = navOper.checkLineNavComplete(lineId);
+						if (isCompletion3){
+							//导航
+							notificationNaviLine(info, navOper, lineId);
+						}else {
+							//不完整 补充数据
+							sendBDNAR(info, lineId, lineNum, lineTotalNum);
+
+						}
+
+
+					}
+
 					navOper.close();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -552,6 +562,58 @@ public class SMSReceiver extends BroadcastReceiver {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * 通知线路导航
+	 * @param info
+	 * @param navOper
+	 * @param lineId
+     */
+	private void notificationNaviLine(BDMessageInfo info, BDLineNavOperation navOper, String lineId) {
+		BDLineNav line=navOper.get(lineId);
+		Intent receiverIntent1=new Intent();
+		receiverIntent1.putExtra("NAVILINEID", line.getLineId());
+		receiverIntent1.setAction("com.bd.action.NAVI_LINE_ACTION");
+		mContext.sendBroadcast(receiverIntent1);
+		//Toast.makeText(mContext, ""+line.getLineId()+","+line.getPassPointsString(), Toast.LENGTH_LONG).show();
+		NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification();
+		notification.tickerText = info.getmUserAddress();
+		notification.icon = R.drawable.title_msg_flag;
+		notification.when = System.currentTimeMillis();
+		notification.defaults = Notification.DEFAULT_SOUND;
+		notification.flags = Notification.FLAG_AUTO_CANCEL;
+                        /*点击该通知后要跳转的Activity*/
+		Intent notificationIntent = new Intent(mContext,NaviStudioActivity.class);
+		//Bundle mBundle=new Bundle();
+		//mBundle.putLong("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
+		//notificationIntent.putExtras(mBundle);
+		notificationIntent.putExtra("LINE_ID", (!"".equals(lineId))?Integer.valueOf(lineId):0);
+		PendingIntent contentIntent = PendingIntent.getActivity(mContext,0,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		notification.setLatestEventInfo(mContext,new String("来自 " + info.getmUserAddress() + " 信息"),"接收到从指挥机上发送的路线导航,是否进入导航?", contentIntent);
+		BD_NOTIFICATION_ID++;
+		//mNotificationManager.notify(BD_NOTIFICATION_ID%10, notification);
+		mNotificationManager.notify(Config.BDNAL_NOTIFICATION, notification);
+	}
+
+	/**
+	 * //发送回执命令 补充数据 线路导航
+	 * @param info
+	 * @param lineId
+	 * @param lineNum
+	 * @param lineTotalNum
+     */
+	private void sendBDNAR(BDMessageInfo info, String lineId, int lineNum, int lineTotalNum) {
+		String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum+"*41";//有问题??
+		try{
+            manager.sendSMSCmdBDV21(info.mUserAddress,1, Utils.checkMsg(mMessageContenet),"N", mMessageContenet);
+        } catch (BDUnknownException e) {
+            e.printStackTrace();
+        } catch (BDParameterException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private String complete8(String binaryString) {
