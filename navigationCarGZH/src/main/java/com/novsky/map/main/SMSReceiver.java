@@ -122,11 +122,27 @@ public class SMSReceiver extends BroadcastReceiver {
 							// 通知可以导航
 							notificationNaviLine(info, navOper, lineId);
 						}else{
-							//发送回执命令 补充数据
-							sendBDNAR(info, lineId, lineNum, lineTotalNum);
+							//发送回执命令 补充数据 暂时关闭
+							//sendBDNAR(info, lineId, lineNum, lineTotalNum);
 						}
 
 					}else {
+
+
+						//第一次 插入
+						final long id=navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
+						boolean isCompletion=navOper.checkLineNavComplete(lineId);
+						if(isCompletion){
+							// 通知可以导航
+							notificationNaviLine(info, navOper, lineId);
+						}else{
+							//发送回执命令 补充数据  暂时关闭
+							//sendBDNAR(info, lineId, lineNum, lineTotalNum);
+						}
+
+						/**
+						 *
+
 						//更新 数据
 						//更新数据条件
 
@@ -136,9 +152,48 @@ public class SMSReceiver extends BroadcastReceiver {
 							navOper.update(lineId,lineNum+"",lineTotalNum+"",passStr);
 
 						}else {
-							//导航数据没有传递完成  补充数据
 
-							navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
+							//导航数据没有传递完成  补充数据
+							//补充重复数据怎么办?  怎么判断重复?
+							//数据库中去查询 当前条序号
+							String currentLineNum = navOper.getCurrentLineNum(lineId);
+							if (currentLineNum!=null){
+								long aLong = Long.parseLong(currentLineNum);
+
+								//先获取历史 passStr
+								List<String> passPoint = navOper.getPassPointStr(lineId);
+
+								//加入 的新的 passStr
+								List<String> passPointNew = new ArrayList<>();
+								if(passStr!=null&&!"".equals(passStr)){
+									String temp[]=passStr.split(",");
+									for(int i=0;i<temp.length;i++){
+										String mBDPoint = temp[i];
+										passPointNew.add(mBDPoint);
+									}
+								}
+								//去除重复元素
+
+								boolean b = passPoint.addAll(passPointNew);
+
+								List<String> result = CollectionUtils.removeDuplicateStr(passPoint);
+
+								String passStrResult = "";
+
+								for (String mBDPoint:result) {
+
+
+									passStrResult = passStrResult + mBDPoint;
+
+								}
+
+								//保存到数据库
+								navOper.update(lineId,lineNum+"",lineTotalNum+"",passStrResult);
+
+							}else {
+								navOper.insert(lineId,lineNum+"",lineTotalNum+"",passStr);
+							}
+
 						}
 
 						//navOper.update(lineId,lineNum+"",lineTotalNum+"",passStr);
@@ -149,10 +204,10 @@ public class SMSReceiver extends BroadcastReceiver {
 							notificationNaviLine(info, navOper, lineId);
 						}else {
 							//不完整 补充数据
-							sendBDNAR(info, lineId, lineNum, lineTotalNum);
-
+                             sendBDNAR(info, lineId, lineNum, lineTotalNum);
 						}
-
+						 *
+						 */
 
 					}
 

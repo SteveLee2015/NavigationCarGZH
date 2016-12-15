@@ -65,5 +65,17 @@ public class BDPoint {
 	public void setLatDirection(String latDirection) {
 		this.latDirection = latDirection;
 	}
-	
+
+
+
+	public boolean equals(Object obj){
+		if(obj instanceof BDPoint){
+			BDPoint user=(BDPoint)obj;
+			return (toString().equals(user.toString()));
+		}
+		return super.equals(obj);
+	}
+	public int hashCode(){
+		return toString().hashCode();
+	}
 }

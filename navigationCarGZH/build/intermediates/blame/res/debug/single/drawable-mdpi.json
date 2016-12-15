@@ -752,12 +752,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navistudio_back_button_day.png"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\navistudio_view_north.png",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navistudio_view_north.png"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\search_button.png",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\search_button.png"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\navistudio_view_north.png",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-mdpi\\navistudio_view_north.png"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\crossingview_zoom_border_land.png",

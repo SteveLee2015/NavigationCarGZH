@@ -104,6 +104,7 @@ import com.novsky.map.main.ReportPosListener;
 import com.novsky.map.main.ReportPosManager;
 import com.novsky.map.main.TimeService;
 import com.novsky.map.util.BDCardInfoManager;
+import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 
 @SuppressLint("NewApi")
@@ -1571,9 +1572,14 @@ public class NaviStudioActivity extends BaseActivity {
 			// Toast.LENGTH_SHORT).show();
 			// 从line对象中获取路线导航的数据
 			List<BDPoint> listRoute = line.getPassPoints();
-			NSLonLat[] nsLonLatList = new NSLonLat[listRoute.size()];
-			for (int i = 0; i < listRoute.size(); i++) {
-				BDPoint mPoint = listRoute.get(i);
+			//去除重复数据
+
+			List<BDPoint> listNew = CollectionUtils.removeDuplicateT(listRoute);
+
+			NSLonLat[] nsLonLatList = new NSLonLat[listNew.size()];
+
+			for (int i = 0; i < listNew.size(); i++) {
+				BDPoint mPoint = listNew.get(i);
 				NSLonLat nsLonLat = new NSLonLat();
 				nsLonLat.x = (float) mPoint.getLon();
 				nsLonLat.y = (float) mPoint.getLat();

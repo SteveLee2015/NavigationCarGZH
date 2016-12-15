@@ -34,6 +34,8 @@ import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
 import com.novsky.map.main.BDLineNav;
 import com.novsky.map.main.BDLineNavOperation;
+import com.novsky.map.main.BDPoint;
+import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.util.Config;
 
 import java.util.List;
@@ -138,9 +140,25 @@ public class LineTaskFragment extends Fragment{
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id){
 					final BDLineNav bdLineNav=navs.get(position);
+					String lineId = bdLineNav.getLineId();
+					BDLineNav line = operation.get(lineId);
+					if (line==null)return;
+
+					List<BDPoint> listRoute = line.getPassPoints();
+					//去除重复数据
+					List<BDPoint> listNew = CollectionUtils.removeDuplicateT(listRoute);
+					String info = "";
+					for (int i = 0; i < listNew.size(); i++) {
+						BDPoint mPoint = listNew.get(i);
+						//String s = mPoint.getLat()+","+mPoint.getLatDirection()+","+mPoint.getLon()+","+mPoint.getLonDirection()+"\n";
+						String s = mPoint.getLon()+","+mPoint.getLonDirection()+","+mPoint.getLat()+","+mPoint.getLatDirection()+"\n";
+						info +=s;
+					}
+
 					AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 					builder.setTitle("查看路线导航信息");
-					builder.setMessage("路线ID:"+bdLineNav.getLineId()+"\n"+"路线点:\n"+bdLineNav.getPassPointsString());
+					//builder.setMessage("路线ID:"+bdLineNav.getLineId()+"\n"+"路线点:\n"+bdLineNav.getPassPointsString());
+					builder.setMessage("路线ID:"+bdLineNav.getLineId()+"\n"+"路线点:\n"+info);
 					builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -284,6 +302,7 @@ public class LineTaskFragment extends Fragment{
 					viewHolder=(ViewHolder)contentView.getTag();
 			}
 			final BDLineNav nav=list.get(position);
+
 			viewHolder.sendId.setText("路线ID:"+String.valueOf(nav.getLineId()));
 			viewHolder.content.setText("路线点:"+nav.getPassPointsString());
 			if(newNavId.equals(nav.getLineId())){

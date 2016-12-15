@@ -146,8 +146,58 @@ public class BDLineNavOperation {
 		mCursor.close();
 		return mBDLineNav;
 	}
-	
-	
+
+
+	/**
+	 * 获取当前条序号
+	 * @param lineID
+	 * @return
+	 * @throws SQLException
+     */
+	public String  getCurrentLineNum(String lineID) throws SQLException{
+		//查询
+		Cursor mCursor=sqliteDatabase.query(true,LineNavColumns.TABLE_NAME,
+				new String[]{LineNavColumns._ID,LineNavColumns.NAV_LINE_ID ,LineNavColumns.CURRENT_INDEX,
+						LineNavColumns.TOTAL_NUMBER,LineNavColumns.PASS_POINT},LineNavColumns.NAV_LINE_ID  + "='"+lineID+"'", null, null,null,null,null);
+		String currentLineNum = null;
+		while(mCursor.moveToNext()){
+			currentLineNum=mCursor.getString(mCursor.getColumnIndex(LineNavColumns.CURRENT_INDEX));
+		}
+		mCursor.close();
+		return currentLineNum;
+	}
+
+	/**
+	 * 获取所有的passPoint
+	 * @param lineID
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<String> getPassPointStr(String lineID) throws SQLException{
+		//查询
+		Cursor mCursor=sqliteDatabase.query(true,LineNavColumns.TABLE_NAME,
+				new String[]{LineNavColumns._ID,LineNavColumns.NAV_LINE_ID ,LineNavColumns.CURRENT_INDEX,
+						LineNavColumns.TOTAL_NUMBER,LineNavColumns.PASS_POINT},LineNavColumns.NAV_LINE_ID  + "='"+lineID+"'", null, null,null,null,null);
+		String passPointStr = null;
+		List<String> passPoints=new ArrayList<>();
+		while(mCursor.moveToNext()){
+			 passPointStr=mCursor.getString(mCursor.getColumnIndex(LineNavColumns.PASS_POINT));
+
+			if(passPointStr!=null&&!"".equals(passPointStr)){
+				String temp[]=passPointStr.split(",");
+				for(int i=0;i<temp.length;i++){
+
+					String mBDPoint = temp[i];
+					passPoints.add(mBDPoint);
+				}
+			}
+		}
+		mCursor.close();
+		return passPoints;
+	}
+
+
+
 	/**
 	 * @param rowId
 	 * @return
@@ -192,13 +242,19 @@ public class BDLineNavOperation {
 					  passPoints.add(mBDPoint);
 				  }
 			 }
-			 if((currentIndex+1)==totalCount){//标识当前是最后一条
+			 if((currentIndex+1)==totalCount){
+				 //标识当前是最后一条
 				 //输入该条语句
 				 mBDLineNav.setPassPoints(passPoints);
 				 navList.add(mBDLineNav);
 				 //重新创建对象
 				 passPoints=new ArrayList<BDPoint>();
 				 mBDLineNav=new BDLineNav();
+			 }else {
+				 //标识当前不是最后一条
+				 //添加
+				 //passPoints.add(mBDPoint);
+
 			 }
 		}
 		mCursor.close();
