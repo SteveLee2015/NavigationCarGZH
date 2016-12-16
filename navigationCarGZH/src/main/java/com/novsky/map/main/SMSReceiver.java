@@ -25,6 +25,7 @@ import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
 import com.mapabc.android.activity.utils.ReceiverAction;
 import com.novsky.map.util.BDMSG;
+import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.util.Config;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.FriendsLocation;
@@ -72,6 +73,9 @@ public class SMSReceiver extends BroadcastReceiver {
 			}else{
 				try {
 					msg = new String(info.getMessage(),"GBK");
+
+
+
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
@@ -91,6 +95,8 @@ public class SMSReceiver extends BroadcastReceiver {
 			}
 			if(msg.startsWith("$BDNAL")){
 
+				String s = CollectionUtils.trimEnter(msg);
+				msg = s;
 				BDLineNavOperation navOper=new BDLineNavOperation(mContext);
 
 				try {
@@ -223,6 +229,8 @@ public class SMSReceiver extends BroadcastReceiver {
 
 			}else if(msg.startsWith("$BDNAC")){
 
+				String s = CollectionUtils.trimEnter(msg);
+				msg = s;
 
 				try {
 					String[] msgArr=msg.split(",");

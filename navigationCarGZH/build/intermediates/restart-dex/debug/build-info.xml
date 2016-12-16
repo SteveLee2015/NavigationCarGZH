@@ -5,29 +5,29 @@
     density="ldpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="1167754496775"
+    timestamp="8284201295476"
     token="1652615535180923149"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="1651" />
+        duration="153" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="1519" />
+        duration="8" />
     <task
         name="verifier"
-        duration="341" />
+        duration="1" />
 
     <artifact
         location="F:\as_wordspace\NavigationCarGZH\navigationCarGZH\build\outputs\apk\navigationCarGZH-debug.apk"
         type="MAIN" />
 
     <build
-        timestamp="1167754496775"
+        timestamp="8284201295476"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="F:\as_wordspace\NavigationCarGZH\navigationCarGZH\build\outputs\apk\navigationCarGZH-debug.apk"

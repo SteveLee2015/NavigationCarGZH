@@ -47,4 +47,19 @@ public class CollectionUtils {
         list.addAll(set);
         return list;
     }
+
+
+    /**
+     * 去除回车换行
+     * @param src
+     * @return
+     */
+    public static String trimEnter(String src){
+
+        String str = src;
+        str.replace("\n", "");
+        String result = str.trim();
+        return result;
+    }
+
 }
