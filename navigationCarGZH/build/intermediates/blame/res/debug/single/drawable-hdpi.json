@@ -500,12 +500,12 @@
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-hdpi\\currentpoint_add_to_favorite.png"
     },
     {
-        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\gps_v_1.png",
-        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-hdpi\\gps_v_1.png"
-    },
-    {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\settingforlike_displaymodel.png",
         "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-hdpi\\settingforlike_displaymodel.png"
+    },
+    {
+        "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\gps_v_1.png",
+        "source": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\src\\main\\res\\drawable-hdpi\\gps_v_1.png"
     },
     {
         "merged": "F:\\as_wordspace\\NavigationCarGZH\\navigationCarGZH\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\cp_extra_night_normal.png",

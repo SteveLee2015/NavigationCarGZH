@@ -565,6 +565,8 @@ public class SendMsgRequestFragment extends Fragment implements OnClickListener 
 	                        Utils.COUNT_DOWN_TIME=cardManager.getCardInfo().mSericeFeq; 
 	                    }
 						manager.sendSMSCmdBDV21(sendAddress,mMsgCommunicationType,Utils.checkMsg(message),"N", message);
+						//清空 发送文本框
+						msgContent.setText("");
 					} catch (Exception e) {
 						isSend = false;
 						e.printStackTrace();

@@ -123,7 +123,7 @@ public class SMSReceiver extends BroadcastReceiver {
 							notificationNaviLine(info, navOper, lineId);
 						}else{
 							//发送回执命令 补充数据 暂时关闭
-							//sendBDNAR(info, lineId, lineNum, lineTotalNum);
+							sendBDNAR(info, lineId, lineNum, lineTotalNum);
 						}
 
 					}else {
@@ -137,7 +137,7 @@ public class SMSReceiver extends BroadcastReceiver {
 							notificationNaviLine(info, navOper, lineId);
 						}else{
 							//发送回执命令 补充数据  暂时关闭
-							//sendBDNAR(info, lineId, lineNum, lineTotalNum);
+							sendBDNAR(info, lineId, lineNum, lineTotalNum);
 						}
 
 						/**
@@ -661,7 +661,8 @@ public class SMSReceiver extends BroadcastReceiver {
 	 * @param lineTotalNum
      */
 	private void sendBDNAR(BDMessageInfo info, String lineId, int lineNum, int lineTotalNum) {
-		String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum+"*41";//有问题??
+		//String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum+"*41";//有问题??
+		String mMessageContenet="$BDNAR,"+lineId+","+lineNum+","+lineTotalNum;//有问题??
 		try{
             manager.sendSMSCmdBDV21(info.mUserAddress,1, Utils.checkMsg(mMessageContenet),"N", mMessageContenet);
         } catch (BDUnknownException e) {
