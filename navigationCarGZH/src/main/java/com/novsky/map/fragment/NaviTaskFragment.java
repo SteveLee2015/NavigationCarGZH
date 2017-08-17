@@ -142,7 +142,12 @@ public class NaviTaskFragment extends Fragment{
 					final BDInstructionNav bdInstructionNav=navs.get(position);
 					AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 					builder.setTitle("查看指令导航信息");
-					builder.setMessage("指令ID:"+bdInstructionNav.getLineId()+"\r\n"+"目标点:"+bdInstructionNav.getTargetPoint().getLat()+","+bdInstructionNav.getTargetPoint().getLon()+",\n途经点:"+bdInstructionNav.getPassPointsString()+",\n规避点:"+bdInstructionNav.getEvadePointsString());
+					//builder.setMessage("指令ID:"+bdInstructionNav.getLineId()+"\r\n"+"目标点:"+bdInstructionNav.getTargetPoint().getLat()+","+bdInstructionNav.getTargetPoint().getLon()+",\n途经点:"+bdInstructionNav.getPassPointsString()+",\n规避点:"+bdInstructionNav.getEvadePointsString());
+					String info = "指令ID:"+bdInstructionNav.getLineId()+"\r\n"+
+							"目标点:"+bdInstructionNav.getTargetPoint().getLon()+","+bdInstructionNav.getTargetPoint().getLonDirection()+","+bdInstructionNav.getTargetPoint().getLat()+","+bdInstructionNav.getTargetPoint().getLatDirection()+
+							",\n途经点:"+bdInstructionNav.getPassPointsString()+
+							",\n规避点:"+bdInstructionNav.getEvadePointsString();
+					builder.setMessage(info);
 					builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {

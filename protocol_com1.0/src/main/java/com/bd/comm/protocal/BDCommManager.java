@@ -1,16 +1,5 @@
 package com.bd.comm.protocal;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidParameterException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +28,18 @@ import android.net.ParseException;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
 import android_serialport_api.SerialPort;
 
 /**
@@ -278,7 +279,7 @@ public class BDCommManager {
 				String baudrate = properties.getProperty("baudrate");
 				
 				if (baudrate.isEmpty()) {
-					Toast.makeText(mContext, "请配置串口波特率", 0).show();
+					Toast.makeText(mContext, "请配置串口波特率", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				
@@ -286,7 +287,7 @@ public class BDCommManager {
 				
 				if (serialport.isEmpty()) {
 
-					Toast.makeText(mContext, "请配置串口", 0).show();
+					Toast.makeText(mContext, "请配置串口", Toast.LENGTH_SHORT).show();
 					throw new RuntimeException("assett未配置串口" + TAG);
 
 				} else {
@@ -849,7 +850,7 @@ public class BDCommManager {
 	/**
 	 * 得到和校验
 	 * 
-	 * @param sb
+	 * @param buffer
 	 * @return
 	 */
 	private byte[] getCrc(byte[] buffer) {
@@ -1505,6 +1506,8 @@ public class BDCommManager {
 //						if (mBDSatellite.getPrn()<160) {
 //							mBDSatellite.setPrn(mBDSatellite.getPrn()+160);
 //						}
+						if(mBDSatellite.getPrn() < 160)
+							mBDSatellite.setPrn(mBDSatellite.getPrn()+160);
 						
 						if (mBDFixNumberArray[mBDSatellite.getPrn()-160]==1) {
 							mBDSatellite.setUsedInFix(true);
@@ -1578,7 +1581,17 @@ public class BDCommManager {
 				} else {
 					Log.i(TAG, "mGPSatelliteListeners is null!");
 				}
-			} else if (cmd.startsWith("$GPGSA") || cmd.startsWith("$BDGSA")
+			} else if (cmd.startsWith("$BDGSA")) {
+				String[] gsa = cmd.split(",");
+				for (int i = 3; i <= 14; i++) {
+					Integer prn = Integer.valueOf("".equals(gsa[i]) ? "0"
+							: gsa[i]);
+					if(prn < 160)
+						prn += 160;
+					mBDFixNumberArray[prn-160]=1;
+				}
+
+			}else if (cmd.startsWith("$GPGSA")
 					|| cmd.startsWith("$GNGSA")) {
 				String[] gsa = cmd.split(",");
 				for (int i = 3; i <= 14; i++) {

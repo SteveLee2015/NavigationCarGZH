@@ -120,7 +120,7 @@ public class LineTaskFragment extends Fragment{
 		/*1.从数据库中查询所有的短信数据,如果数据库没有数据则发送指令请求最新插入的数据*/
 		navs = operation.getNavLineList();
 		mLineTaskAdapter=new LineTaskAdapter(getActivity(), navs);
-		if(navs.size()>1000){
+		if(navs.size()>100){
 			AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
 			builder.setTitle("提示");
 			builder.setMessage("指令导航数量超过1000条,请删除不必要的指令导航信息!");

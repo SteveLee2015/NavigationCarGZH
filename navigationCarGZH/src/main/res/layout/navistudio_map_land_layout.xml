@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_mapview"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+             android:id="@+id/fl_mapview"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
 
     <!-- 主地图 -->
-
     <View
         android:id="@+id/v_mapsview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
-     <RelativeLayout
+        android:layout_height="fill_parent"/>
+    <!--声音比例尺-->
+    <RelativeLayout
+        android:id="@+id/rl_navinfo"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/rl_navinfo">
-         <!-- 声音 -->
+        android:layout_height="fill_parent">
+        <!-- 声音 -->
         <ImageButton
             android:id="@+id/ib_btn_volume"
             android:layout_width="wrap_content"
@@ -24,7 +23,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dip"
             android:layout_marginRight="85dip"
-            android:background="@drawable/navistudio_volume_normal" />
+            android:background="@drawable/navistudio_volume_normal"/>
         <!-- 比例尺 -->
 
         <TextView
@@ -39,35 +38,34 @@
             android:gravity="center|top"
             android:text="100m"
             android:textColor="@color/black"
-            android:textSize="12dip" />
-    </RelativeLayout>  
+            android:textSize="12dip"/>
+    </RelativeLayout>
     <!-- 导航指引层 -->
     <FrameLayout
         android:id="@+id/fl_navilayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-       
+        android:layout_height="fill_parent">
+
         <!-- 路口放大图 -->
         <RelativeLayout
             android:id="@+id/ll_crossinglayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <View
                 android:id="@+id/view_crossing"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-                
+                android:layout_height="fill_parent"/>
+
         </RelativeLayout>
 
         <!-- 指引信息 -->
-
         <RelativeLayout
             android:id="@+id/rl_navilayout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent">
 
             <!-- 主界面顶部的状态栏 -->
 
@@ -78,7 +76,7 @@
                 android:background="@drawable/navistudio_roadname_land_day"
                 android:gravity="center"
                 android:orientation="horizontal">
-                 
+
                 <!-- GPS信号 -->
                 <ImageButton
                     android:id="@+id/ib_gpsstate"
@@ -88,25 +86,25 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="1dip"
                     android:layout_marginRight="1dip"
-                    android:visibility="visible"
-                    android:src="@drawable/navistudio_gps_0_x" />
-                
-                	<!-- android:src="@drawable/navistudio_gps_0_x" -->
-                
+                    android:src="@drawable/navistudio_gps_0_x"
+                    android:visibility="visible"/>
+
+                <!-- android:src="@drawable/navistudio_gps_0_x" -->
+
                 <!-- BD信号 -->
-                 <ImageButton
+                <ImageButton
                     android:id="@+id/ib_bdstate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="1dip"
-                    android:visibility="visible"
                     android:layout_marginRight="1dip"
-                    android:src="@drawable/navistudio_bd_0_"/>
-                
+                    android:src="@drawable/navistudio_bd_0_"
+                    android:visibility="visible"/>
 
-                 <!-- 剩余里程图标 -->
+
+                <!-- 剩余里程图标 -->
                 <ImageButton
                     android:id="@+id/ib_navi_remain_dis_unit"
                     android:layout_width="wrap_content"
@@ -114,9 +112,9 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/ib_gpsstate"
                     android:background="@drawable/navistudio_remaindis_km"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"/>
 
-             	<!-- 剩余里程公里数 -->   
+                <!-- 剩余里程公里数 -->
                 <TextView
                     android:id="@+id/tv_navi_remain_dis"
                     android:layout_width="wrap_content"
@@ -127,7 +125,7 @@
                     android:textColor="@color/black"
                     android:textSize="18dip"
                     android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
                 <!-- 下一个路口显示控件 -->
                 <com.mapabc.android.activity.base.NextRoadView
@@ -147,11 +145,11 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:scrollHorizontally="true"
                     android:textColor="@color/black"
-                    android:textSize="24dip" />
+                    android:textSize="24dip"/>
             </RelativeLayout>
             <!-- 视图模式按钮 -->
             <!-- 转向 -->
-			<!-- 修改前代码   android:layout_width="160dip"
+            <!-- 修改前代码   android:layout_width="160dip"
                 android:layout_height="wrap_content" 
                 android:orientation="horizontal"
                 android:background="@drawable/navistudio_roadname_land_day" 参考该为背景
@@ -165,7 +163,7 @@
                 android:layout_below="@+id/rl_mapbar"
                 android:background="@drawable/navistudio_direct_port_day"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <!-- 转向标志 -->
                 <ImageView
@@ -173,8 +171,8 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="15dip" />
-                
+                    android:layout_marginLeft="15dip"/>
+
                 <!-- 路段剩余距离 -->
                 <TextView
                     android:id="@+id/tv_navi_turn_dis"
@@ -186,9 +184,9 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="22dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
-            
+
             <!-- 无放大路口时的车道 -->
             <ImageView
                 android:id="@+id/iv_no_crossing_lane"
@@ -196,8 +194,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_mapbar"
                 android:layout_toRightOf="@id/ll_navi_turn_layout"
-                android:visibility="gone" />
-            
+                android:visibility="gone"/>
+
             <!-- 摄像头 -->
             <ImageView
                 android:id="@+id/iv_navi_camera"
@@ -205,9 +203,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/ll_navi_turn_layout"
-                android:layout_marginTop="1dip"
                 android:layout_marginLeft="100dp"
-                android:visibility="gone" />
+                android:layout_marginTop="1dip"
+                android:visibility="gone"/>
 
             <!--超速  -->
             <ImageView
@@ -217,18 +215,18 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/iv_navi_camera"
                 android:layout_marginTop="1dip"
-                android:visibility="gone" />
-              <!-- 有放大路口时的车道 -->
+                android:visibility="gone"/>
+            <!-- 有放大路口时的车道 -->
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="380px" >
+                android:layout_marginTop="380px">
 
                 <ImageView
                     android:id="@+id/iv_crossing_lane"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <!-- 视图按钮 -->
@@ -241,8 +239,8 @@
                 android:layout_below="@id/rl_mapbar"
                 android:layout_marginRight="2dip"
                 android:layout_marginTop="2dip"
-                android:background="#00000000" />
-            
+                android:background="#00000000"/>
+
             <!-- 速度显示 -->
             <TextView
                 android:id="@+id/tv_navi_speed"
@@ -256,18 +254,16 @@
                 android:textColor="@color/black"
                 android:textSize="18dip"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </RelativeLayout>
     </FrameLayout>
-    <!-- 操作层 -->
-
+    <!-- 操作层 搜索和路径-->
     <RelativeLayout
         android:id="@+id/rl_operatelayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
-        <!-- 返回车位 -->
-
+        <!-- 返回当前点车位 -->
         <ImageButton
             android:id="@+id/ib_btn_car"
             android:layout_width="wrap_content"
@@ -275,115 +271,125 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dip"
-            android:background="@drawable/navistudio_carbutton_day" />
-        <!-- 放大缩小 -->
+            android:background="@drawable/navistudio_carbutton_day"/>
 
+        <!-- 放大缩小 -->
         <LinearLayout
             android:id="@+id/ll_zoomlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/ib_btnZoomIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/navistudio_zoomin_day" />
+                android:background="@drawable/navistudio_zoomin_day"/>
 
             <ImageButton
                 android:id="@+id/ib_btnZoomOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/navistudio_zoomout_day" />
+                android:background="@drawable/navistudio_zoomout_day"/>
         </LinearLayout>
-        
-        
-        
-        <LinearLayout 
+
+        <!--搜索 和 路径管理-->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="200dp"
             android:layout_marginLeft="3dp"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical"
             >
-            <ImageButton 
+
+            <ImageButton
                 android:id="@+id/location_research_imagebtn"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:src="@drawable/menu_icon_search"
                 android:background="@drawable/btn_send_dialog_corner_bg"
+                android:src="@drawable/menu_icon_search"
                 />
-            
-             <ImageButton 
+
+            <ImageButton
                 android:id="@+id/route_image_btn"
                 android:layout_width="90dp"
                 android:layout_height="120dp"
-                android:src="@drawable/menu_icon_route"
-                android:background="@drawable/btn_send_dialog_corner_bg"
                 android:layout_marginTop="4dp"
+                android:background="@drawable/btn_send_dialog_corner_bg"
+                android:src="@drawable/menu_icon_route"
                 />
-             
+
         </LinearLayout>
 
-        
+
     </RelativeLayout>
-      
-     <RelativeLayout android:id="@+id/operatelayout" 
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">
-		    <!-- 当前点和设置目的地 -->
-			<LinearLayout 
-			        android:id="@+id/current_popint_linearlayout"
-			        android:layout_width="wrap_content" 
-					android:layout_height="wrap_content" 
-					android:layout_alignParentBottom="true"
-					android:layout_marginRight="4dip"
-					android:layout_centerHorizontal="true"
-					android:orientation="horizontal">
-			        
-					<ImageButton android:id="@+id/btn_current_position" 
-						android:layout_width="wrap_content" 
-						android:layout_height="wrap_content" 
-						android:background="@drawable/currentpoint_day"/>
-					<ImageButton android:id="@+id/btn_calculate" 
-						android:layout_width="wrap_content" 
-						android:layout_height="wrap_content" 
-						android:background="@drawable/extra_day"
-						/>
-		    </LinearLayout>
-		    <LinearLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:orientation="vertical"
-		        android:layout_toLeftOf="@id/current_popint_linearlayout"
-		        android:layout_alignParentBottom="true"
-		        >
-		         <ImageButton 
-		                android:id="@+id/send_message_imagebtn"
-		                android:layout_width="110dp"
-		                android:layout_height="80dp"
-		                android:src="@drawable/menu_icon_traffic"
-		                android:background="@drawable/btn_send_half_corner_bg"
-		                android:layout_marginRight="4dp"
-	               />
-		    </LinearLayout>
-		     <LinearLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:orientation="vertical"
-		        android:layout_toRightOf="@id/current_popint_linearlayout"
-		        android:layout_alignParentBottom="true"
-		        >
-		         <ImageButton 
-		                android:id="@+id/more_function_imageButton"
-		                android:layout_width="110dp"
-		                android:layout_height="80dp"
-		                android:src="@drawable/menu_icon_more"
-		                android:background="@drawable/btn_send_half_corner_bg"
-	               />
-		    </LinearLayout>
+    <!--快捷操作 短报文和更多-->
+    <RelativeLayout
+        android:id="@+id/operatelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <!-- 当前点和设置目的地 -->
+        <LinearLayout
+            android:id="@+id/current_popint_linearlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="4dip"
+            android:orientation="horizontal">
+
+            <!--当前点-->
+            <ImageButton
+                android:id="@+id/btn_current_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/currentpoint_day"/>
+
+            <!--目的地-->
+            <ImageButton
+                android:id="@+id/btn_calculate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/extra_day"
+                />
+        </LinearLayout>
+        <!--短报文通信-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/current_popint_linearlayout"
+            android:orientation="vertical"
+            >
+
+            <ImageButton
+                android:id="@+id/send_message_imagebtn"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/btn_send_half_corner_bg"
+                android:src="@drawable/menu_icon_traffic"
+                />
+        </LinearLayout>
+        <!--更多信息-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/current_popint_linearlayout"
+            android:orientation="vertical"
+            >
+
+            <ImageButton
+                android:id="@+id/more_function_imageButton"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
+                android:background="@drawable/btn_send_half_corner_bg"
+                android:src="@drawable/menu_icon_more"
+                />
+        </LinearLayout>
     </RelativeLayout>
 
 </FrameLayout>
