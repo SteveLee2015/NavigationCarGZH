@@ -1,9 +1,5 @@
 package com.novsky.map.main;
 
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,10 +18,15 @@ import android.os.PowerManager.WakeLock;
 
 import com.bd.comm.protocal.BDCommManager;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.log.Logger;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.LocSetDatabaseOperation;
 import com.novsky.map.util.LocationSet;
 import com.novsky.map.util.Utils;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 循环位置报告服务
@@ -158,6 +159,7 @@ public class CycleLocationService extends Service {
 	};
 
 	private void playSoundAndVibrate() {
+		Logger.e("CycleLocationService","CycleLocationService mediaPlayer start2222");
 		if (mediaPlayer != null) {
 			mediaPlayer.start();
 		}

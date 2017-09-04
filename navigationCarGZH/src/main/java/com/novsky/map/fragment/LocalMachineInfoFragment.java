@@ -12,7 +12,6 @@ import android.location.BDParameterException;
 import android.location.BDUnknownException;
 import android.location.CardInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -62,12 +61,12 @@ public class LocalMachineInfoFragment extends Fragment {
 	private BDEventListener listener = new BDEventListener.LocalInfoListener() {
 		public void onCardInfo(CardInfo card) {
 			BDCardInfoManager.getInstance().setCardInfo(card);
-			Log.d(TAG, "card.mCardAddress=" + card.getCardAddress()
-					+ ",card.mSerialNum=" + card.mSerialNum
-					+ ",card.mSericeFeq=" + card.mSericeFeq
-					+ ",card.mCommLevel=" + card.mCommLevel
-					+ ",card.checkEncryption=" + card.checkEncryption
-					+ ",card.mCardAddress=" + card.mCardAddress);
+//			Log.d(TAG, "card.mCardAddress=" + card.getCardAddress()
+//					+ ",card.mSerialNum=" + card.mSerialNum
+//					+ ",card.mSericeFeq=" + card.mSericeFeq
+//					+ ",card.mCommLevel=" + card.mCommLevel
+//					+ ",card.checkEncryption=" + card.checkEncryption
+//					+ ",card.mCardAddress=" + card.mCardAddress);
 
 			localAddressTx.setText(card.getCardAddress());
 			serialNumTx.setText(card.mSerialNum);
@@ -105,13 +104,17 @@ public class LocalMachineInfoFragment extends Fragment {
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	private void queryCardInfo(){
 		try {
 			manager.sendAccessCardInfoCmdBDV21(0, 0);
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -155,8 +158,8 @@ public class LocalMachineInfoFragment extends Fragment {
 				return true;
 			}			
 		});
-		
-		
+
+		init();
 		serialNumTx.setOnLongClickListener(new OnLongClickListener(){
 			public boolean onLongClick(View arg0) {
 				AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());
@@ -175,10 +178,32 @@ public class LocalMachineInfoFragment extends Fragment {
 			}
 			
 		});
+		queryCardInfo();
 		return view;
 	}
 
-
+	private void init(){
+		CardInfo card = BDCardInfoManager.getInstance().getCardInfo();
+		if(card !=  null) {
+			localAddressTx.setText(card.getCardAddress());
+			serialNumTx.setText(card.mSerialNum);
+			serviceFeqTx.setText(card.mSericeFeq + "");
+			communicationLevelTx.setText(String.valueOf(card.mCommLevel));
+			if ("N".equals(card.checkEncryption)) {
+				cardTypeTx.setText("非密卡");
+			} else if ("E".equals(card.checkEncryption)) {
+				cardTypeTx.setText("加密卡");
+			}
+			//prmTX.setText("无PRM");
+			String cardStatus = "";
+			if ("2097151".equals(card.mCardAddress)) {
+				cardStatus = "无卡";
+			} else {
+				cardStatus = "有卡";
+			}
+			ICCardStatus.setText(cardStatus);
+		}
+	}
 
 	public void onStart() {
 		super.onStart();

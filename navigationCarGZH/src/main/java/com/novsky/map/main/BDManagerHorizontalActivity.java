@@ -18,7 +18,6 @@ import com.novsky.map.fragment.BDSoftwareFragment;
 import com.novsky.map.fragment.BDTimeFragment;
 import com.novsky.map.fragment.BDZuoZhanTimeFragment;
 import com.novsky.map.fragment.FriendsLocationFragment;
-import com.novsky.map.fragment.GPSStatusFragment;
 import com.novsky.map.fragment.LocalMachineInfoFragment;
 import com.novsky.map.fragment.LocationModelFragment;
 import com.novsky.map.fragment.ManagerInfoFragment;
@@ -68,7 +67,7 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 		fragments.put(6, new LocalMachineInfoFragment());//5
 		fragments.put(7, new AutoCheckedFragment());//6北斗1信号
 		fragments.put(8, new BD2StatusFragment());//北斗2信号
-		fragments.put(9, new GPSStatusFragment());//GPS信号
+//		fragments.put(9, new GPSStatusFragment());//GPS信号
 		fragments.put(10, new BDTimeFragment());//北斗校时
 		fragments.put(11, new BDZuoZhanTimeFragment());//作战时间
 		fragments.put(12, new ManagerInfoFragment());//11 管理信息
@@ -191,17 +190,17 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 			   trx.show(fragments.get(8)).commit();
 			   lastIndex=8;
 			   break;
-		   case 9:
-//			   Intent gpsIntent=new Intent();
-//			   gpsIntent.setClass(BDManagerHorizontalActivity.this, GPSStatusActivity.class);
-//			   startActivity(gpsIntent);
-			   trx.hide(fragments.get(lastIndex));
-			   if (!fragments.get(9).isAdded()){
-	                trx.add(R.id.message_detail_container, fragments.get(9));
-	           }
-			   trx.show(fragments.get(9)).commit();
-			   lastIndex=9;
-			   break;
+//		   case 9:
+////			   Intent gpsIntent=new Intent();
+////			   gpsIntent.setClass(BDManagerHorizontalActivity.this, GPSStatusActivity.class);
+////			   startActivity(gpsIntent);
+//			   trx.hide(fragments.get(lastIndex));
+//			   if (!fragments.get(9).isAdded()){
+//	                trx.add(R.id.message_detail_container, fragments.get(9));
+//	           }
+//			   trx.show(fragments.get(9)).commit();
+//			   lastIndex=9;
+//			   break;
 		   case 10:
 //			   Intent timeIntent=new Intent();
 //			   timeIntent.setClass(BDManagerHorizontalActivity.this, BDTimeActivity.class);

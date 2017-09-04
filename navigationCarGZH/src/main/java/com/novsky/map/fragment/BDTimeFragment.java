@@ -1,9 +1,5 @@
 package com.novsky.map.fragment;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -29,6 +25,10 @@ import com.mapabc.android.activity.R;
 import com.novsky.map.main.SystemDateTime;
 import com.novsky.map.util.BDLocationManager;
 import com.novsky.map.util.Utils;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * 北斗时间 

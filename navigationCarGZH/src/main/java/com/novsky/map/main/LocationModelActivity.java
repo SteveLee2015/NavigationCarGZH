@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.BDRNSSManager;
-import android.location.BDRNSSManager.LocationStrategy;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,6 +89,7 @@ public class LocationModelActivity extends Activity implements OnClickListener{
 		getWindow().setAttributes(p);     //设置生效  
 		initUI();
 	}
+	String[] locationModels,locModelOrders;
 	/**
 	 * 初始化UI
 	 */
@@ -100,29 +101,32 @@ public class LocationModelActivity extends Activity implements OnClickListener{
 		}
 		mySpinner=(CustomListView)this.findViewById(R.id.bd_location_model);
 		setButton=(Button)this.findViewById(R.id.setBtn);
-		mySpinner.setData(new String[]{"单GPS","单北斗","北斗GPS混合"});
+		locationModels = getResources().getStringArray(R.array.mss_order_name);
+		locModelOrders =  getResources().getStringArray(R.array.mss_order_content);
+		mySpinner.setData(locationModels);
 		mySpinner.setOnCustomListener(new OnCustomListListener(){
 			public void onListIndex(int index) {
-				if(index==0){
-					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;
-				}else if(index==1){
-					FLAG=LocationStrategy.BD_ONLY_STRATEGY;
-				}else if(index==2){
-					FLAG=LocationStrategy.HYBRID_STRATEGY;
-				}	
+				FLAG = index;
+//				if(index==0){
+//					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;
+//				}else if(index==1){
+//					FLAG=LocationStrategy.BD_ONLY_STRATEGY;
+//				}else if(index==2){
+//					FLAG=LocationStrategy.HYBRID_STRATEGY;
+//				}
 			}
 		});
 		SharedPreferences share = getSharedPreferences(PREFERENCE_NAME, MODE);  
-        FLAG=share.getInt("LOCATION_MODEL",0);  
-        int index=0;
-        if(FLAG==LocationStrategy.GPS_ONLY_STRATEGY){
-        	index=0;
-        }else if(FLAG==LocationStrategy.BD_ONLY_STRATEGY){
-        	index=1;
-        }else if(FLAG==LocationStrategy.HYBRID_STRATEGY){
-        	index=2;
-        }
-        mySpinner.setIndex(index);
+        FLAG=share.getInt("LOCATION_MODEL11",0);
+//        int index=0;
+//        if(FLAG==LocationStrategy.GPS_ONLY_STRATEGY){
+//        	index=0;
+//        }else if(FLAG==LocationStrategy.BD_ONLY_STRATEGY){
+//        	index=1;
+//        }else if(FLAG==LocationStrategy.HYBRID_STRATEGY){
+//        	index=2;
+//        }
+        mySpinner.setIndex(FLAG);
 		setButton.setOnClickListener(this);
 	}
 	
@@ -132,15 +136,27 @@ public class LocationModelActivity extends Activity implements OnClickListener{
 		switch(view.getId()){
 			case R.id.setBtn:
 				try {
-					if("S500".equals(Utils.DEVICE_MODEL)){
-						mRnssManager.setLocationStrategy(FLAG);
-						mRnssManager.setLocationStrategy(FLAG);
-					}else{
-						manager.setLocationStrategy(FLAG);
-					}
-					Utils.RNSS_CURRENT_LOCATION_MODEL=FLAG;
-					SharedPreferences share = getSharedPreferences(PREFERENCE_NAME, MODE);  
-			        share.edit().putInt("LOCATION_MODEL", FLAG).commit();
+//					if("S500".equals(Utils.DEVICE_MODEL)){
+//						mRnssManager.setLocationStrategy(FLAG);
+//						mRnssManager.setLocationStrategy(FLAG);
+//					}else{
+//						manager.setLocationStrategy(FLAG);
+//					}
+
+					StringBuilder builder = new StringBuilder();
+					builder.append("$");
+					String info = locModelOrders[FLAG];
+					builder.append(info);
+					builder.append("*");
+					builder.append(getXor(info));
+					builder.append("\r\n");
+					manager.write(builder.toString().getBytes());
+					Utils.RNSS_CURRENT_LOCATION_MODEL= BDRNSSManager.LocationStrategy.HYBRID_STRATEGY;
+					SharedPreferences share = getSharedPreferences(PREFERENCE_NAME, MODE);
+					SharedPreferences.Editor editor = share.edit();
+					editor.putInt("LOCATION_MODEL", BDRNSSManager.LocationStrategy.HYBRID_STRATEGY);
+					editor.putInt("LOCATION_MODEL11", FLAG);
+					editor.commit();
 					Toast.makeText(this, "设置定位模式成功!", Toast.LENGTH_SHORT).show();
 					LocationModelActivity.this.finish();
 				} catch (Exception e) {
@@ -151,5 +167,22 @@ public class LocationModelActivity extends Activity implements OnClickListener{
 			default:
 				break;
 		}
+	}
+	private String getXor(String info) {
+		if (!TextUtils.isEmpty(info)) {
+			byte[] bytes = info.getBytes();
+			int index = 0;
+			byte xor = bytes[index];
+			index++;
+			for (; index < bytes.length; index++) {
+				xor ^= bytes[index];
+			}
+
+			String hexinfo = Integer.toHexString(xor);
+			if(hexinfo.length() == 1)
+				hexinfo = "0"+hexinfo;
+			return hexinfo;
+		}
+		return null;
 	}
 }

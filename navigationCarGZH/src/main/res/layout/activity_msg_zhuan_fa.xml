@@ -80,7 +80,6 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="horizontal"
-		    android:id="@+id/msg_com_type_layout"
 	   >
        <TextView 
             android:id="@+id/show_msg_num"

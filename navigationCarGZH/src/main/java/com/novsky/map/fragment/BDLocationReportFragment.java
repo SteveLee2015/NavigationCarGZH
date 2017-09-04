@@ -14,6 +14,7 @@ import android.location.BDUnknownException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,9 +172,9 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			int remainder_time=msg.arg1;
-			int frequency=reportSwitch.getInt("REPORT_FREQUENCY",0);
+			int frequ=reportSwitch.getInt("REPORT_FREQUENCY",0);
 			//循环报位
-			if(frequency>0){
+			if(frequ>0){
 				if(sendBtn!=null){
 				    sendBtn.setText("结束报位("+remainder_time+"秒)");	
 				}
@@ -182,6 +183,14 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			else{
 				if(remainder_time!=0){
 					if(sendBtn!=null&&getActivity()!=null){
+						if(frequency > 0 && checkBox.isChecked()) {
+							if (frequency - cardManager.getCardInfo().mSericeFeq > remainder_time) {
+								Utils.COUNT_DOWN_TIME = 0;
+							} else {
+								Utils.COUNT_DOWN_TIME = cardManager.getCardInfo().mSericeFeq - (frequency - remainder_time);
+								frequency = 0;
+							}
+						}
 						sendBtn.setText("确  定("+remainder_time+"秒)");
 					}
 				}else{
@@ -326,7 +335,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onClick(View view) {
 		switch(view.getId()){
@@ -364,6 +373,7 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 					mIntent.setClass(getActivity(), CycleLocationReportServiceRN.class);
 					getActivity().stopService(mIntent);
 					paramControl.setClickable(true);
+
 				}else if (isStartRD){
 					sendBtn.setText(getActivity().getResources().getString(R.string.common_submit_btn));
 					reportSwitch.edit().putInt("REPORT_FREQUENCY", 0).commit();
@@ -538,10 +548,10 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 				BDLocationReport report = new BDLocationReport();
 				report.setHeightUnit("M");
 				report.setLongitude(rnsslocation.getLongitude());
-				report.setLongitudeDir("");
+				report.setLongitudeDir(rnsslocation.getExtras().getString("londir"));
 				report.setHeight(rnsslocation.getAltitude());
 				report.setLatitude(rnsslocation.getLatitude());
-				report.setLatitudeDir("");
+				report.setLatitudeDir(rnsslocation.getExtras().getString("latdir"));
 				report.setMsgType(1);
 				//report.setReportFeq(Integer.valueOf(frequency));
 				report.setReportFeq(0);
@@ -570,9 +580,17 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			    Cursor cursor=getActivity().getContentResolver().query(result, BDContactColumn.COLUMNS, null, null, null);
                 String mUserAddress="";
 			    if(cursor.moveToFirst()){
-                	String name=cursor.getString(cursor.getColumnIndexOrThrow(BDContactColumn.USER_NAME));
-                	String num=cursor.getString(cursor.getColumnIndexOrThrow(BDContactColumn.CARD_NUM));
+                	final String name=cursor.getString(cursor.getColumnIndexOrThrow(BDContactColumn.USER_NAME));
+                	final String num=cursor.getString(cursor.getColumnIndexOrThrow(BDContactColumn.CARD_NUM));
                 	mUserAddress=name+"("+num+")";
+					new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							addressEditText.setText(num);
+							addressEditText.postInvalidate();
+						}
+					},500);
+
 			    }
 			    cursor.close();
 			    SharedPreferences sharedPreferences=getActivity().getSharedPreferences("BD_REPORT_CONTACT_PREF",getActivity().MODE_PRIVATE);
@@ -580,5 +598,29 @@ public class BDLocationReportFragment extends Fragment implements OnClickListene
 			}
 		}
 	}
-	
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		if(hidden){
+			try {
+				timeManager.unRegisterBDTimeFreqListener(BDLocationReportFragment.class.getSimpleName());
+				mananger.removeBDEventListener(fkilistener,mBDRNSSLocationListener);
+			} catch (BDParameterException e) {
+				e.printStackTrace();
+			} catch (BDUnknownException e) {
+				e.printStackTrace();
+			}
+		}else{
+			timeManager.registerBDTimeFreqListener(BDLocationReportFragment.class.getSimpleName()
+					,timeFreqListener);
+			try {
+				mananger.addBDEventListener(fkilistener,mBDRNSSLocationListener);
+			} catch (BDParameterException e) {
+				e.printStackTrace();
+			} catch (BDUnknownException e) {
+				e.printStackTrace();
+			}
+		}
+		super.onHiddenChanged(hidden);
+	}
 }

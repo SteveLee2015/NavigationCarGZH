@@ -351,7 +351,28 @@
         <item>4</item>
         <item>5</item>
     </string-array>
-    
+    <string-array name="mss_order_name">
+        <item>BD2 B1 C码定位</item>
+        <item>BD2 B1 P码 直捕</item>
+        <item>BD2 B1 P码 引导</item>
+        <item>BD2 B3 C码定位</item>
+        <item>BD2 B3 P码 引导</item>
+        <item>BD2 B3 P码 直捕</item>
+        <item>BD2 B1B3 C码双频定位</item>
+        <item>BD2 B1B3 P码引导定位</item>
+        <item>BD2 B1B3 P码直捕定位</item>
+    </string-array>
+    <string-array name="mss_order_content">
+        <item>CCMSS,Z,1,B1,C,,,,</item>
+        <item>CCMSS,Z,1,B1,P,,,,</item>
+        <item>CCMSS,Z,1,B1,A,,,,</item>
+        <item>CCMSS,Z,1,B3,C,,,,</item>
+        <item>CCMSS,Z,1,B3,A,,,,</item>
+        <item>CCMSS,Z,1,B3,P,,,,</item>
+        <item>CCMSS,Z,2,B1,C,B3,C,,</item>
+        <item>CCMSS,Z,2,B1,A,B3,A,,</item>
+        <item>CCMSS,Z,2,B1,P,B3,P,,</item>
+    </string-array>
    <string name="common_save_str">保存</string>
    
     

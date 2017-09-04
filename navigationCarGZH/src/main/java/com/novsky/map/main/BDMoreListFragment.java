@@ -44,7 +44,7 @@ public class BDMoreListFragment extends ListFragment{
 		addItem(6,"本机信息",false,R.drawable.system_serial_set);
 		addItem(7,"北斗Ⅰ 信号",false,R.drawable.system_bs_staus);
 		addItem(8,"北斗Ⅱ信号",false,R.drawable.system_bd2_status);
-		addItem(9,"GPS信号",false,R.drawable.system_gps_status);
+//		addItem(9,"GPS信号",false,R.drawable.system_gps_status);
 		addItem(10,"北斗校时",false,R.drawable.location_report);
 		addItem(11,"作战时间",false,R.drawable.location_report);
 		addItem(12,"管理信息",false,R.drawable.system_manager_set);

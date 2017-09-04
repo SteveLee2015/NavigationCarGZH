@@ -113,10 +113,10 @@ public class BaseReportService extends Service{
             BDLocationReport report = new BDLocationReport();
             report.setHeightUnit("M");
             report.setLongitude(rnsslocation.getLongitude());
-            report.setLongitudeDir("");
+            report.setLongitudeDir(rnsslocation.getExtras().getString("londir"));
+            report.setLatitudeDir(rnsslocation.getExtras().getString("latdir"));
             report.setHeight(rnsslocation.getAltitude());
             report.setLatitude(rnsslocation.getLatitude());
-            report.setLatitudeDir("");
             report.setMsgType(1);
             //report.setReportFeq(Integer.valueOf(frequency));
             report.setReportFeq(0);

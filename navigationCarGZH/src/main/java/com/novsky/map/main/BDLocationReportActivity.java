@@ -1,8 +1,5 @@
 package com.novsky.map.main;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,6 +36,9 @@ import com.novsky.map.util.BDLocationTabManager;
 import com.novsky.map.util.BDTimeCountManager;
 import com.novsky.map.util.BDTimeFreqChangedListener;
 import com.novsky.map.util.Utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * 位置报送
  * @author steve
@@ -450,10 +450,10 @@ public class BDLocationReportActivity extends Activity implements
 				BDLocationReport report = new BDLocationReport();
 				report.setHeightUnit("m");
 				report.setLongitude(location.getLongitude());
-				report.setLongitudeDir("");
 				report.setHeight(location.getAltitude());
 				report.setLatitude(location.getLatitude());
-				report.setLatitudeDir("");
+				report.setLongitudeDir(location.getExtras().getString("londir"));
+				report.setLatitudeDir(location.getExtras().getString("latdir"));
 				report.setMsgType(1);
 				report.setReportFeq(Integer.valueOf(frequency));
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");
@@ -470,10 +470,10 @@ public class BDLocationReportActivity extends Activity implements
 				BDLocationReport report = new BDLocationReport();
 				report.setHeightUnit("m");
 				report.setLongitude(location.getLongitude());
-				report.setLongitudeDir("");
 				report.setHeight(location.getAltitude());
 				report.setLatitude(location.getLatitude());
-				report.setLatitudeDir("");
+				report.setLongitudeDir(location.getExtras().getString("londir"));
+				report.setLatitudeDir(location.getExtras().getString("latdir"));
 				report.setMsgType(1);
 				report.setReportFeq(Integer.valueOf(frequency));
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss)");

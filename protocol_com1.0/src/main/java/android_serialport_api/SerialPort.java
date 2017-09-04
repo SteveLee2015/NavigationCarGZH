@@ -62,9 +62,13 @@ public class SerialPort {
 	 public InputStream getInputStream(){
 		 return mFileInputStream;
 	 }
-	 
+
 	 public OutputStream getOutputStream(){
 		 return mFileOutputStream;
+	 }
+
+	 public FileDescriptor getFD(){
+		 return mFd;
 	 }
 	 
 	 //JNI 方法

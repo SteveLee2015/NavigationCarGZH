@@ -95,26 +95,21 @@ public class BD2LocFragment extends Fragment implements OnCustomListListener{
 	private SimpleDateFormat sdf = null;
 	
 	private BDCommManager mBDCommManager=null;
-	
+	LocationUI  locationUI = new LocationUI();
 	private Handler mHandler=new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			BDRNSSLocation location=(BDRNSSLocation)msg.obj;
-			BDRNSSLocationInfoManager singleton=BDRNSSLocationInfoManager.getInstance();
-            BDLocation bdloc=new BDLocation();
-            bdloc.setLongitude(location.getLongitude());
-            bdloc.setLatitude(location.getLatitude());
-            bdloc.setEarthHeight(location.getAltitude());
-            singleton.setBDLocation(bdloc);
-			BDLocation bdlocation = Utils.translate(bdloc,COOD_FLAG);
-			mSwitchCoodriate(bdlocation);
-			mTime.setText(sdf.format(new Date(location.getTime()+8*60*60*1000)));
-			logdata ="\r\n"+"时间:"+mTime.getText().toString()
-					+"\r\n"+"经度:"+location.getLongitude()
-					+"\r\n"+"纬度:"+location.getLatitude()
-					+"\r\n"+"高程:"+location.getAltitude()
-					+"\r\n"+"速度:"+location.getSpeed();
+			LocationUI location=(LocationUI)msg.obj;
+			mTime.setText(location.time);
+			mLongitude.setText(location.lon);
+			mLatitude.setText(location.lat);
+			mHeight.setText(location.height);
+//			logdata ="\r\n"+"时间:"+mTime.getText().toString()
+//					+"\r\n"+"经度:"+location.getLongitude()
+//					+"\r\n"+"纬度:"+location.getLatitude()
+//					+"\r\n"+"高程:"+location.getAltitude()
+//					+"\r\n"+"速度:"+location.getSpeed();
 		}
 	};
 
@@ -122,8 +117,33 @@ public class BD2LocFragment extends Fragment implements OnCustomListListener{
 		
 		@Override
 		public void onLocationChanged(BDRNSSLocation arg0) {
+			BDLocation bdloc=new BDLocation();
+			bdloc.setLongitude(arg0.getLongitude());
+			bdloc.setLatitude(arg0.getLatitude());
+			bdloc.setEarthHeight(arg0.getAltitude());
+			BDRNSSLocationInfoManager.getInstance().setBDLocation(bdloc);
+			if(locationUI != null){
+
+				locationUI.time = sdf.format(new Date(arg0.getTime()+8*60*60*1000));
+				locationUI.lon  = Double.toString(arg0.getLongitude());
+
+				locationUI.lat = Double.toString(arg0.getLatitude());
+				locationUI.height = (arg0 != null && arg0.getAltitude() != 0.0) ? String
+						.valueOf(arg0.getAltitude()) : getActivity().getResources()
+						.getString(R.string.common_dadi_heigh_value);
+//				locationUI.time = sdf.format(new Date(arg0.getTime()+8*60*60*1000));
+//				BDLocation bdlocation = Utils.translate(bdloc,COOD_FLAG);
+//				locationUI.lon = (bdlocation != null && bdlocation.mLongitude != 0.0) ? Utils.setDoubleNumberDecimalDigit(bdlocation.mLongitude, 10): getActivity()
+//						.getResources().getString(R.string.common_lon_value);
+//				locationUI.lat =(bdlocation != null && bdlocation.mLatitude != 0.0) ? Utils.setDoubleNumberDecimalDigit(bdlocation.mLatitude, 10): getActivity()
+//						.getResources().getString(R.string.common_lat_value);
+//				locationUI.height = (bdlocation != null && bdlocation.getEarthHeight() != 0.0) ? String
+//						.valueOf(bdlocation.getEarthHeight()) : getActivity().getResources()
+//						.getString(R.string.common_dadi_heigh_value);
+			}
+
 			Message message=mHandler.obtainMessage();
-			message.obj=arg0;
+			message.obj=locationUI;
 			mHandler.sendMessage(message);
 		}
 
@@ -137,6 +157,15 @@ public class BD2LocFragment extends Fragment implements OnCustomListListener{
 		public void onStatusChanged(String arg0, int arg1, Bundle arg2){}
 		
 	};
+
+	protected  class LocationUI{
+		String time;
+		String lat;
+		String lon;
+		String height;
+	}
+
+
 
 	/**
 	 * 定位监听
@@ -306,7 +335,6 @@ public class BD2LocFragment extends Fragment implements OnCustomListListener{
 		mHeight.setText((bdlocation != null && bdlocation.getEarthHeight() != 0.0) ? String
 				.valueOf(bdlocation.getEarthHeight()) : getActivity().getResources()
 				.getString(R.string.common_dadi_heigh_value));
-		
 	}
 	
 	/**

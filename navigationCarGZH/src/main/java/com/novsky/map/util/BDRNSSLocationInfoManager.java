@@ -36,7 +36,7 @@ public class BDRNSSLocationInfoManager {
 	 * 设置北斗定位信息
 	 * @param location
 	 */
-	public void setBDLocation(BDLocation location) {
+	public void  setBDLocation(BDLocation location) {
 		synchronized(this){
 			this.location=location;	
 		}

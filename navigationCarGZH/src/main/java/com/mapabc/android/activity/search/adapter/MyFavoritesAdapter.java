@@ -1,10 +1,5 @@
 package com.mapabc.android.activity.search.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -45,6 +40,11 @@ import com.mapabc.naviapi.type.Const;
 import com.mapabc.naviapi.type.NSLonLat;
 import com.mapabc.naviapi.type.PageOptions;
 import com.mapabc.naviapi.utils.AndroidUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @description: ExpandableList适配器，装载收藏夹数据
@@ -336,13 +336,11 @@ public class MyFavoritesAdapter extends BaseExpandableListAdapter{
 				+ "");
 		holder.txtName.setTextSize(20);
 		holder.txtName.setTextColor(Color.BLACK);
-		holder.txtName.setId(100);
 		holder.txtDetailAddr.setWidth(width*9/10);
 		holder.txtDetailAddr.setText(mGroupData.get(groupPosition).get(mGroupFrom[2])
 				+ "");
 		holder.txtDetailAddr.setTextSize(15);
 		holder.txtDetailAddr.setTextColor(Color.GRAY);
-		holder.txtDetailAddr.setId(101);
 		holder.txtDist.setText(mGroupData.get(groupPosition).get(mGroupFrom[3])
 				+ "");
 		

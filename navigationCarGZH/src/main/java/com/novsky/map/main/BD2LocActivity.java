@@ -1,11 +1,5 @@
 package com.novsky.map.main;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
@@ -20,7 +14,6 @@ import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +21,12 @@ import com.mapabc.android.activity.R;
 import com.novsky.map.util.LocationParam;
 import com.novsky.map.util.OnCustomListListener;
 import com.novsky.map.util.Utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BD2LocActivity extends Activity{
 	
@@ -39,7 +38,7 @@ public class BD2LocActivity extends Activity{
 	private TextView  mLatitude= null;
 	private TextView  mHeight = null;
 	private TextView  mTime = null;
-	private Button savedata,deletedata;
+	private TextView savedata,deletedata;
 	private TextView  mLongitudeLable= null;
 	private TextView  mLatitudeLable= null;
 	private TextView  mHeightLable = null;
@@ -322,8 +321,8 @@ public class BD2LocActivity extends Activity{
 		mLatitude = (TextView) this.findViewById(R.id.bdloc_lat);
 		mHeight = (TextView) this.findViewById(R.id.bdloc_height);
 		mTime= (TextView) this.findViewById(R.id.bdloc_time);
-		savedata = (Button) this.findViewById(R.id.save_data);
-		deletedata = (Button) this.findViewById(R.id.delete_data);
+		savedata = (TextView) this.findViewById(R.id.save_data);
+		deletedata = (TextView)this.findViewById(R.id.delete_data);
 		mLongitudeLable = (TextView) this.findViewById(R.id.bdloc_lon_lable);
 		mLatitudeLable = (TextView) this.findViewById(R.id.bdloc_lat_lable);
 		mHeightLable = (TextView) this.findViewById(R.id.bdloc_height_lable);

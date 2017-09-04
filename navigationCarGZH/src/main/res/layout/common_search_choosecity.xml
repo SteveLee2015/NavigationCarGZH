@@ -22,9 +22,7 @@
             android:id="@+id/elv_chooseCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/lstChooseCity"
-            android:layout_alignLeft="@+id/lstChooseCity"
-            android:layout_alignRight="@+id/lstChooseCity" >
+          >
         </ExpandableListView>
     </RelativeLayout>
 

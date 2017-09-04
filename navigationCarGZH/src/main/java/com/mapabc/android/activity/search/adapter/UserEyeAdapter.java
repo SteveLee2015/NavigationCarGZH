@@ -316,13 +316,11 @@ public class UserEyeAdapter extends BaseExpandableListAdapter{
 				+ "");
 		holder.txtName.setTextSize(20);
 		holder.txtName.setTextColor(Color.BLACK);
-		holder.txtName.setId(100);
 		holder.txtDetailAddr.setWidth(width*9/10);
 		holder.txtDetailAddr.setText(mGroupData.get(groupPosition).get(mGroupFrom[2])
 				+ "");
 		holder.txtDetailAddr.setTextSize(15);
 		holder.txtDetailAddr.setTextColor(Color.GRAY);
-		holder.txtDetailAddr.setId(101);
 		holder.txtDist.setText(mGroupData.get(groupPosition).get(mGroupFrom[3])
 				+ "");
 		

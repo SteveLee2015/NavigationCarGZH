@@ -1,8 +1,5 @@
 package com.mapabc.android.activity.search.adapter;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils.TruncateAt;
 import android.text.util.Linkify;
@@ -31,6 +28,9 @@ import com.mapabc.naviapi.search.AdminInfo;
 import com.mapabc.naviapi.search.SearchResultInfo;
 import com.mapabc.naviapi.type.NSLonLat;
 import com.mapabc.naviapi.utils.AndroidUtils;
+
+import java.text.DecimalFormat;
+import java.util.List;
 
 /**
  * @description: 查询结果适配器
@@ -103,7 +103,6 @@ public class InfoExpandListAdapter extends BaseExpandableListAdapter {
 				holder=new ViewHolder();
 				view = layoutFlater.inflate(R.layout.poi_result_info, parent,false);
 				holder.detailAddrTextView=new NextRoadView(view.getContext());
-				holder.detailAddrTextView.setId(1);
 				holder.distTextView=new TextView(view.getContext());
 				holder.nameTextView = (TextView) view.findViewById(R.id.tv_poi_result_name);
 				view.setTag(holder); 

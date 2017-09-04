@@ -107,6 +107,9 @@ import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 
+import static com.novsky.map.util.Utils.LOCATION_LATDIR;
+import static com.novsky.map.util.Utils.LOCATION_LONDIR;
+
 @SuppressLint("NewApi")
 public class NaviStudioActivity extends BaseActivity {
 
@@ -217,6 +220,8 @@ public class NaviStudioActivity extends BaseActivity {
 		public void onLocationChanged(BDRNSSLocation location) {
 			com.novsky.map.util.Utils.LOCATION_REPORT_LON = location
 					.getLongitude();
+			com.novsky.map.util.Utils.LOCATION_LONDIR = location.getExtras().getString("londir");
+			com.novsky.map.util.Utils.LOCATION_LATDIR = location.getExtras().getString("latdir");
 			com.novsky.map.util.Utils.LOCATION_REPORT_LAT = location
 					.getLatitude();
 			com.novsky.map.util.Utils.LOCATION_REPORT_ALTITUDE = location
@@ -557,7 +562,14 @@ public class NaviStudioActivity extends BaseActivity {
 		SettingForLikeTools.saveMapScale(this, scale);
 		super.onPause();
 		com.novsky.map.util.Utils.checkNaviMap = false;
-	}
+        try {
+            mananger.removeBDEventListener(mBDRNSSLocationListener);
+        } catch (BDUnknownException e) {
+            e.printStackTrace();
+        } catch (BDParameterException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	protected void onRestart() {
@@ -1019,7 +1031,7 @@ public class NaviStudioActivity extends BaseActivity {
 
 		gpsControl = new GpsControl(this, mapView);
 		gpsstate.setOnClickListener(gpsControl);
-
+		gpsstate.setVisibility(View.INVISIBLE);
 		BDControl bdControl = new BDControl(this, mapView);
 		bdstate.setOnClickListener(bdControl);
 		DisPatchInfo.getInstance().addGpsInfoListener("GpsControl", gpsControl);

@@ -21,10 +21,7 @@
         <ExpandableListView
             android:id="@+id/lv_chooseType"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/lstChooseCity"
-            android:layout_alignLeft="@+id/lstChooseCity"
-            android:layout_alignRight="@+id/lstChooseCity" >
+            android:layout_height="wrap_content">
         </ExpandableListView>
 
         <!-- TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/categoriestable"></TableLayout -->

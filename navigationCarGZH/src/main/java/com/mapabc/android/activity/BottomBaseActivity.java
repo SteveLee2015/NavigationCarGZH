@@ -1,8 +1,6 @@
 package com.mapabc.android.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.BDBeam;
@@ -31,7 +29,6 @@ import com.mapabc.android.activity.base.BaseActivity;
 import com.novsky.map.main.AutoCheckedActivity;
 import com.novsky.map.main.BD2StatusActivity;
 import com.novsky.map.main.BDAvailableStatelliteManager;
-import com.novsky.map.main.GPSStatusActivity;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.util.Utils;
 
@@ -369,19 +366,7 @@ public abstract class BottomBaseActivity extends BaseActivity {
 		statellitesManager = BDAvailableStatelliteManager.getInstance();
 		manager = BDCommManager.getInstance(this);
 		locationStatusManager = LocationStatusManager.getInstance();
-		if ("S500".equals(Utils.DEVICE_MODEL)) {
 
-		} else {
-			try {
-				manager.addBDEventListener(mBDBeamStatusListener,
-						mBDRNSSLocationListener, mBDSatelliteListener,
-						mGPSatelliteListener);
-			} catch (BDParameterException e) {
-				e.printStackTrace();
-			} catch (BDUnknownException e) {
-				e.printStackTrace();
-			}
-		}
 
 		initView();
 		initListener();
@@ -408,37 +393,74 @@ public abstract class BottomBaseActivity extends BaseActivity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		if ("S500".equals(Utils.DEVICE_MODEL)) {
+
+		} else {
+			try {
+				manager.addBDEventListener(mBDBeamStatusListener,
+						mBDRNSSLocationListener, mBDSatelliteListener,
+						mGPSatelliteListener);
+			} catch (BDParameterException e) {
+				e.printStackTrace();
+			} catch (BDUnknownException e) {
+				e.printStackTrace();
+			}
+		}
+		super.onResume();
+	}
+
 	/**
 	 * 星图选择对话框
 	 */
 	protected void alertChooseDia() {
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.navicontrol_select);
-		
-		builder.setPositiveButton(R.string.navicontrol_bd_state, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+		Intent mIntent = new Intent(mContext, BD2StatusActivity.class);
+		startActivity(mIntent);
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setTitle(R.string.navicontrol_select);
+//
+//		builder.setPositiveButton(R.string.navicontrol_bd_state, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//
+//				Intent mIntent = new Intent(mContext, BD2StatusActivity.class);
+//				startActivity(mIntent);
+//
+//			}
+//		});
+//
+//		builder.setNegativeButton(R.string.navicontrol_gps_state, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//
+//				Intent mIntent = new Intent(mContext, GPSStatusActivity.class);
+//				startActivity(mIntent);
+//
+//			}
+//		});
+//
+//		builder.show();
+	}
 
-				Intent mIntent = new Intent(mContext, BD2StatusActivity.class);
-				startActivity(mIntent);
-				
-			}
-		});
-		
-		builder.setNegativeButton(R.string.navicontrol_gps_state, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if ("S500".equals(Utils.DEVICE_MODEL)) {
 
-				Intent mIntent = new Intent(mContext, GPSStatusActivity.class);
-				startActivity(mIntent);
-				
+		} else {
+			try {
+				manager.removeBDEventListener(mBDBeamStatusListener,
+						mBDRNSSLocationListener, mBDSatelliteListener,
+						mGPSatelliteListener);
+			} catch (BDParameterException e) {
+				e.printStackTrace();
+			} catch (BDUnknownException e) {
+				e.printStackTrace();
 			}
-		});
-		
-		builder.show();
+		}
 	}
 
 	/**
