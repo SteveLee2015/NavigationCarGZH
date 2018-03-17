@@ -316,9 +316,9 @@ public class SettingForLikeTools {
 		ContentResolver aContentResolver = context.getContentResolver();
 		ISAUTOBRIGHTNESS = SettingForLikeTools.isAutoBrightness(aContentResolver);
 		int index = SettingForLikeTools.getIntSysPara(context, POWERMODEL, 0);
-   	    if(index==1){
-		    SettingForLikeTools.setIntSysPara(context, POWERMODEL, 0);
-   	    }else{
+   	    if(index != 1){
+//		    SettingForLikeTools.setIntSysPara(context, POWERMODEL, 0);
+//   	    }else{
 		    SettingForLikeTools.setIntSysPara(context, POWERMODEL, 1);
    	    }
 		SettingForLikeTools.setPowerModel(context);
