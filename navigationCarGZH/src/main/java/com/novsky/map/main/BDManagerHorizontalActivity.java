@@ -191,17 +191,17 @@ public class BDManagerHorizontalActivity extends BottomBaseActivity implements B
 			   trx.show(fragments.get(8)).commit();
 			   lastIndex=8;
 			   break;
-//		   case 9:
-////			   Intent gpsIntent=new Intent();
-////			   gpsIntent.setClass(BDManagerHorizontalActivity.this, GPSStatusActivity.class);
-////			   startActivity(gpsIntent);
-//			   trx.hide(fragments.get(lastIndex));
-//			   if (!fragments.get(9).isAdded()){
-//	                trx.add(R.id.message_detail_container, fragments.get(9));
-//	           }
-//			   trx.show(fragments.get(9)).commit();
-//			   lastIndex=9;
-//			   break;
+		   case 9:
+//			   Intent gpsIntent=new Intent();
+//			   gpsIntent.setClass(BDManagerHorizontalActivity.this, GPSStatusActivity.class);
+//			   startActivity(gpsIntent);
+			   trx.hide(fragments.get(lastIndex));
+			   if (!fragments.get(9).isAdded()){
+	                trx.add(R.id.message_detail_container, fragments.get(9));
+	           }
+			   trx.show(fragments.get(9)).commit();
+			   lastIndex=9;
+			   break;
 		   case 10:
 //			   Intent timeIntent=new Intent();
 //			   timeIntent.setClass(BDManagerHorizontalActivity.this, BDTimeActivity.class);

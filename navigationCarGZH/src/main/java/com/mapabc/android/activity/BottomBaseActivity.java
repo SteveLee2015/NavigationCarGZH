@@ -2,6 +2,7 @@ package com.mapabc.android.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.BDBeam;
 import android.location.BDEventListener;
@@ -29,6 +30,7 @@ import com.mapabc.android.activity.base.BaseActivity;
 import com.novsky.map.main.AutoCheckedActivity;
 import com.novsky.map.main.BD2StatusActivity;
 import com.novsky.map.main.BDAvailableStatelliteManager;
+import com.novsky.map.main.GPSStatusActivity;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.util.Utils;
 
@@ -41,7 +43,8 @@ import java.util.List;
  * 
  */
 public abstract class BottomBaseActivity extends BaseActivity {
-
+	public static final String PREFERENCE_NAME = "LOCATION_MODEL_ACTIVITY";
+	public static final String LOCATION_MODEL = "LOCATION_MODEL";
 	/**
 	 * rnss 数目
 	 */
@@ -415,8 +418,15 @@ public abstract class BottomBaseActivity extends BaseActivity {
 	 * 星图选择对话框
 	 */
 	protected void alertChooseDia() {
-		Intent mIntent = new Intent(mContext, BD2StatusActivity.class);
-		startActivity(mIntent);
+		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, LocationStrategy.HYBRID_STRATEGY);
+		int mode = share.getInt(LOCATION_MODEL,LocationStrategy.HYBRID_STRATEGY);
+		if(mode == LocationStrategy.GPS_ONLY_STRATEGY){
+			Intent mIntent = new Intent(mContext, GPSStatusActivity.class);
+			startActivity(mIntent);
+		}else {
+			Intent mIntent = new Intent(mContext, BD2StatusActivity.class);
+			startActivity(mIntent);
+		}
 //		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //		builder.setTitle(R.string.navicontrol_select);
 //

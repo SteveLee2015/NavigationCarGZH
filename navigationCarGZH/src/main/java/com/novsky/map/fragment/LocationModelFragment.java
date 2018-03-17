@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.location.BDRNSSManager;
 import android.location.BDRNSSManager.LocationStrategy;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,63 +26,61 @@ import com.novsky.map.util.Utils;
  * 设置当前北斗模块的定位模式(单北斗,单GPS,北斗GPS混合)
  * @author steve
  */
-public class LocationModelFragment extends Fragment implements OnClickListener{	
-	
+public class LocationModelFragment extends Fragment implements OnClickListener{
+
 	private Context mContext;
-	
+
 	/**
 	 * 日志标识
 	 */
 	private static final String TAG="LocationModelFragment";
-	
+
 
 	/**
 	 * RDSS中间件
 	 */
-    private  BDCommManager manager=null;
+	private  BDCommManager manager=null;
 
-    private BDRNSSManager mRnssManager=null;
-    
-    /**
-     * 下拉菜单组件
-     */
-	private  CustomListView mySpinner=null;
-	
+	private BDRNSSManager mRnssManager=null;
+
 	/**
-	 * 设置定位模式按钮1
+	 * 下拉菜单组件
+	 */
+	private  CustomListView mySpinner=null;
+
+	/**
+	 * 设置定位模式按钮
 	 */
 	private  Button  setButton=null;
-	
-	
+
+
 	//private TabSwitchActivityData mInstance=null;
-	
+
 	/**
 	 * 定义访问模式为私有模式
 	 */
 	public static int MODE = Context.MODE_PRIVATE;
-	 
+
 	/**
 	 * 设置保存时的文件的名称
 	 */
-    public static final String PREFERENCE_NAME = "LOCATION_MODEL_ACTIVITY";
-    public static final String LOCATION_MODEL = "LOCATION_MODEL11";
+	public static final String PREFERENCE_NAME = "LOCATION_MODEL_ACTIVITY";
+	public static final String LOCATION_MODEL = "LOCATION_MODEL";
 
 	/**
 	 * 定位模式的标识
 	 */
-    private int FLAG=0;
-
-    String[] locationModels,locModelOrders;
+	private int FLAG=0;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		View contentView;
 		mContext = getActivity();
 		contentView = View.inflate(mContext, R.layout.fragment_location_model, null);
 		initUI(contentView);
 		return contentView;
 	}
-	
+
 	/**
 	 * 初始化UI
 	 */
@@ -90,80 +88,60 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 		if("S500".equals(Utils.DEVICE_MODEL)){
 			mRnssManager=BDRNSSManager.getInstance(mContext);
 		}else{
-			manager=BDCommManager.getInstance(mContext);	
+			manager=BDCommManager.getInstance(mContext);
 		}
 
 		SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
 		FLAG=share.getInt(LOCATION_MODEL,0);
 
-        locationModels = getResources().getStringArray(R.array.mss_order_name);
-        locModelOrders =  getResources().getStringArray(R.array.mss_order_content);
-
 		mySpinner=(CustomListView)contentView.findViewById(R.id.bd_location_model);
-
 		setButton=(Button)contentView.findViewById(R.id.setBtn);
-		mySpinner.setData(locationModels);
+		mySpinner.setData(new String[]{"北斗GPS混合","单北斗","单GPS"});
 		mySpinner.setOnCustomListener(new OnCustomListListener(){
 			public void onListIndex(int index) {
-                FLAG = index;
-//				if(index==0){
-//					FLAG=LocationStrategy.HYBRID_STRATEGY;//0
-//				}else if(index==1){
-//					FLAG=LocationStrategy.BD_ONLY_STRATEGY;//1
-//				}else if(index==2){
-//					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;//2
-//				}
+				if(index==0){
+					FLAG=LocationStrategy.HYBRID_STRATEGY;//0
+				}else if(index==1){
+					FLAG=LocationStrategy.BD_ONLY_STRATEGY;//1
+				}else if(index==2){
+					FLAG=LocationStrategy.GPS_ONLY_STRATEGY;//2
+				}
 			}
 		});
 
-//        int index=0;
-//        if(FLAG==LocationStrategy.GPS_ONLY_STRATEGY){
-//        	index=2;
-//        }else if(FLAG==LocationStrategy.BD_ONLY_STRATEGY){
-//        	index=1;
-//        }else if(FLAG==LocationStrategy.HYBRID_STRATEGY){
-//        	index=0;
-//        }
-        mySpinner.setIndex(FLAG);
+		int index=0;
+		if(FLAG==LocationStrategy.GPS_ONLY_STRATEGY){
+			index=2;
+		}else if(FLAG==LocationStrategy.BD_ONLY_STRATEGY){
+			index=1;
+		}else if(FLAG==LocationStrategy.HYBRID_STRATEGY){
+			index=0;
+		}
+		mySpinner.setIndex(index);
 		setButton.setOnClickListener(this);
 	}
-	
-	
-	
+
+
+
 	public void onClick(View view) {
 		switch(view.getId()){
 			case R.id.setBtn:
 				try {
-//					if("S500".equals(Utils.DEVICE_MODEL)){
-//						mRnssManager.setLocationStrategy(FLAG);
-//						mRnssManager.setLocationStrategy(FLAG);
-//					}else{
-//						manager.setLocationStrategy(FLAG);
-//						new Handler().postDelayed(new Runnable() {
-//							@Override
-//							public void run() {
-//								manager.setLocationStrategy(FLAG);
-//							}
-//						},500);
-//					}
-
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("$");
-                    String info = locModelOrders[FLAG];
-                    builder.append(info);
-                    builder.append("*");
-                    builder.append(getXor(info));
-                    builder.append("\r\n");
-                    manager.write(builder.toString().getBytes());
-					Utils.RNSS_CURRENT_LOCATION_MODEL=LocationStrategy.BD_ONLY_STRATEGY;
-					manager.setLocationStrategy(LocationStrategy.BD_ONLY_STRATEGY);
+					if("S500".equals(Utils.DEVICE_MODEL)){
+						mRnssManager.setLocationStrategy(FLAG);
+						mRnssManager.setLocationStrategy(FLAG);
+					}else{
+						manager.setLocationStrategy(FLAG);
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								manager.setLocationStrategy(FLAG);
+							}
+						},500);
+					}
+					Utils.RNSS_CURRENT_LOCATION_MODEL=FLAG;
 					SharedPreferences share = mContext.getSharedPreferences(PREFERENCE_NAME, MODE);
-					SharedPreferences.Editor editor = share.edit();
-					editor.putInt("LOCATION_MODEL", BDRNSSManager.LocationStrategy.HYBRID_STRATEGY);
-					editor.putInt(LOCATION_MODEL, FLAG);
-					editor.commit();
-
-
+					share.edit().putInt(LOCATION_MODEL, FLAG).commit();
 					Toast.makeText(mContext, "设置定位模式成功!", Toast.LENGTH_SHORT).show();
 
 					//设置成功后 如何 通知界面
@@ -193,21 +171,4 @@ public class LocationModelFragment extends Fragment implements OnClickListener{
 				break;
 		}
 	}
-    private String getXor(String info) {
-        if (!TextUtils.isEmpty(info)) {
-            byte[] bytes = info.getBytes();
-            int index = 0;
-            byte xor = bytes[index];
-            index++;
-            for (; index < bytes.length; index++) {
-                xor ^= bytes[index];
-            }
-
-            String hexinfo = Integer.toHexString(xor);
-            if(hexinfo.length() == 1)
-                hexinfo = "0"+hexinfo;
-            return hexinfo;
-        }
-        return null;
-    }
 }

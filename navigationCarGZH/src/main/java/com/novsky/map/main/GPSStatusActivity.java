@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class GPSStatusActivity extends Activity implements View.OnClickListener {
 
-    public static final String TAG = "GPSStatusFragment";
+    public static final String TAG = "GPSStatusActivity";
 
     private final static int LOCATION_RESULT = 0x1000,
             GP_SATELLIATE_STATUS = 0x1001, BD_SATELLIATE_STATUS = 0x1002;

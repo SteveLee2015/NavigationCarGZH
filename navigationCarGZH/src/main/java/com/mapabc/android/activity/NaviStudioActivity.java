@@ -1031,7 +1031,7 @@ public class NaviStudioActivity extends BaseActivity {
 
 		gpsControl = new GpsControl(this, mapView);
 		gpsstate.setOnClickListener(gpsControl);
-		gpsstate.setVisibility(View.INVISIBLE);
+		gpsstate.setVisibility(View.VISIBLE);
 		BDControl bdControl = new BDControl(this, mapView);
 		bdstate.setOnClickListener(bdControl);
 		DisPatchInfo.getInstance().addGpsInfoListener("GpsControl", gpsControl);
