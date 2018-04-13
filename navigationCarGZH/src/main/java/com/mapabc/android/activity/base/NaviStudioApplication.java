@@ -19,6 +19,7 @@ import com.bd.comm.protocal.SerialApplication;
 import com.bd.comm.protocal.ZDATime;
 import com.mapabc.android.activity.utils.ReceiverAction;
 import com.mapabc.naviapi.type.Const;
+import com.novsky.map.DBLocationService;
 import com.novsky.map.main.ReportPosManager;
 import com.novsky.map.util.Config;
 import com.novsky.map.util.FriendsLocation;
@@ -82,6 +83,7 @@ public class NaviStudioApplication extends  SerialApplication{
 		Log.d(TAG,"onCreate");
 		//注册位置报告 监听器 接收到数据后保存到数据库
 		//同时 发送广播通知 友邻信息界面 更新数据
+		DBLocationService.mContext = this;
 		mananger = BDCommManager.getInstance(this);
 		try {
 			mananger.addBDEventListener(locReportListener,zdaListener);

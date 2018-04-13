@@ -30,6 +30,7 @@ import com.novsky.map.util.Config;
 import com.novsky.map.util.DatabaseOperation;
 import com.novsky.map.util.FriendsLocation;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
+import com.novsky.map.util.LocSetDatabaseOperation;
 import com.novsky.map.util.Utils;
 
 import java.io.UnsupportedEncodingException;
@@ -462,7 +463,7 @@ public class SMSReceiver extends BroadcastReceiver {
 
 				}else if (flag1==(byte)0xA2){
 					Intent mIntent=new Intent();
-					mIntent.setClassName(mContext, "com.bd.comm.protocol.BDLocationService");
+					mIntent.setClassName(mContext, "com.novsky.map.DBLocationService");
 					mContext.startService(mIntent);
 				}else if (msg.startsWith("F1")) {//1个字节
 					// 友邻位置
