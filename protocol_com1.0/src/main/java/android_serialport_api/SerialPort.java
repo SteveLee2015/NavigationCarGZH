@@ -78,7 +78,7 @@ public class SerialPort {
 	 /**
 	  * 加载库
 	  */
-	 static {
-		 System.loadLibrary("serial_port");
-	 }
+//	 static {
+//		 System.loadLibrary("serial_port");
+//	 }
 }

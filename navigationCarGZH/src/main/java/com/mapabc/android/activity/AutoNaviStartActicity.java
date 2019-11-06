@@ -137,10 +137,10 @@ public class AutoNaviStartActicity extends Activity {
         }, 50);
 
         if ("".equals(FMSharedPreferenceUtils.getInstance().getString("MY_ADDRESS_SOS", ""))) {
-            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_SOS", "459542");
+            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_SOS", "459540");
         }
         if ("".equals(FMSharedPreferenceUtils.getInstance().getString("MY_ADDRESS_WZ", ""))) {
-            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_WZ", "459542");
+            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_WZ", "459540");
         }
         if ("".equals(FMSharedPreferenceUtils.getInstance().getString("MY_SECOND", ""))) {
             FMSharedPreferenceUtils.getInstance().putString("MY_SECOND", "180");
@@ -151,7 +151,8 @@ public class AutoNaviStartActicity extends Activity {
             FMSharedPreferenceUtils.getInstance().putString("MY_JYXX", "行车安全警情，请求立刻救援！");
         }
         if ("".equals(sosSetAddress)) {
-            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_SOSSET", "459542");
+            sosSetAddress = "459540";
+            FMSharedPreferenceUtils.getInstance().putString("MY_ADDRESS_SOSSET", sosSetAddress);
         }
         try {
             manager.sendSOSSettingsCmd(sosSetAddress, 2, Utils.getSOSSettings(sosSetContent));

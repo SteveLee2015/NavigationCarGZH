@@ -97,7 +97,6 @@ import com.novsky.map.main.FriendBDPoint;
 import com.novsky.map.main.FriendLocation;
 import com.novsky.map.main.ReportPosListener;
 import com.novsky.map.main.ReportPosManager;
-import com.novsky.map.main.SosActivity;
 import com.novsky.map.main.TimeService;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.CollectionUtils;
@@ -706,25 +705,25 @@ public class NaviStudioActivity extends BaseActivity {
 				}
 			}
 		});
-		View tv_sos = this
-				.findViewById(R.id.tv_sos);
-		tv_sos.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-//				if (com.novsky.map.util.Utils.isLand) {
-//					Intent intent = new Intent();
-//					intent.setClass(mContext, BDManagerHorizontalActivity.class);
-//					startActivity(intent);
-//				} else {
-//					Intent intent = new Intent();
-//					intent.setClass(mContext, BDManagerActivity.class);
-//					startActivity(intent);
-//				}
-				Intent intent = new Intent();
-				intent.setClass(mContext, SosActivity.class);
-				startActivity(intent);
-			}
-		});
+//		View tv_sos = this
+//				.findViewById(R.id.tv_sos);
+//		tv_sos.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+////				if (com.novsky.map.util.Utils.isLand) {
+////					Intent intent = new Intent();
+////					intent.setClass(mContext, BDManagerHorizontalActivity.class);
+////					startActivity(intent);
+////				} else {
+////					Intent intent = new Intent();
+////					intent.setClass(mContext, BDManagerActivity.class);
+////					startActivity(intent);
+////				}
+//				Intent intent = new Intent();
+//				intent.setClass(mContext, SosActivity.class);
+//				startActivity(intent);
+//			}
+//		});
 		// 轨迹管理
 		ImageButton routeImageButton = (ImageButton) this
 				.findViewById(R.id.route_image_btn);
@@ -771,46 +770,46 @@ public class NaviStudioActivity extends BaseActivity {
 				}
 			}
 		});
-		mExitNaviBtn = findViewById(R.id.exit_navi_textView);
-        mExitNaviBtn.setVisibility(View.GONE);
-        mExitNaviBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-				AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
-				mBuilder.setTitle(mContext.getResources().getString(R.string.common_tip));
-				mBuilder.setMessage(mContext.getResources().getString(R.string.comfirm_stop_navi));
-				mBuilder.setPositiveButton(R.string.common_confirm,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								// TODO Auto-generated method stub
-								if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_REALNAVI){
-									NaviControl.getInstance().stopRealNavi();
-								}else if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_SIMNAVI){
-									NaviControl.getInstance().stopSimNavi();
-									MapAPI.getInstance().setVehiclePosInfo(RouteAPI.getInstance().getStartPoint(), 0);
-								}
-
-								if(RouteAPI.getInstance().clearRoute()){
-									RouteLayer r = new RouteLayer();
-									r.deleteLayer();
-								}
-								mapView.goBackCar();
-								mExitNaviBtn.setVisibility(View.GONE);
-								//itemadapter.notifyDataSetChanged();
-							}
-						});
-				mBuilder.setNegativeButton(R.string.common_cancel,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								// TODO Auto-generated method stub
-
-							}
-						});
-				mBuilder.show();
-            }
-        });
+//		mExitNaviBtn = findViewById(R.id.exit_navi_textView);
+//        mExitNaviBtn.setVisibility(View.GONE);
+//        mExitNaviBtn.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//				AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+//				mBuilder.setTitle(mContext.getResources().getString(R.string.common_tip));
+//				mBuilder.setMessage(mContext.getResources().getString(R.string.comfirm_stop_navi));
+//				mBuilder.setPositiveButton(R.string.common_confirm,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog, int which) {
+//								// TODO Auto-generated method stub
+//								if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_REALNAVI){
+//									NaviControl.getInstance().stopRealNavi();
+//								}else if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_SIMNAVI){
+//									NaviControl.getInstance().stopSimNavi();
+//									MapAPI.getInstance().setVehiclePosInfo(RouteAPI.getInstance().getStartPoint(), 0);
+//								}
+//
+//								if(RouteAPI.getInstance().clearRoute()){
+//									RouteLayer r = new RouteLayer();
+//									r.deleteLayer();
+//								}
+//								mapView.goBackCar();
+//								mExitNaviBtn.setVisibility(View.GONE);
+//								//itemadapter.notifyDataSetChanged();
+//							}
+//						});
+//				mBuilder.setNegativeButton(R.string.common_cancel,
+//						new DialogInterface.OnClickListener() {
+//
+//							@Override
+//							public void onClick(DialogInterface dialog, int which) {
+//								// TODO Auto-generated method stub
+//
+//							}
+//						});
+//				mBuilder.show();
+//            }
+//        });
 	}
 
 	@Override

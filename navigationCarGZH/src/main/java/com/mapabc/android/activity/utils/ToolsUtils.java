@@ -467,7 +467,7 @@ public class ToolsUtils {
             off = android.provider.Settings.System.getInt(context.getContentResolver(), android.provider.Settings.System.SCREEN_OFF_TIMEOUT);
             Log.e("turnScreen_OffDown", "turnScreen_OffDown:" + off);
             CacheUtil.newInstance().put(android.provider.Settings.System.SCREEN_OFF_TIMEOUT, off);
-            android.provider.Settings.System.putInt(context.getContentResolver(), android.provider.Settings.System.SCREEN_OFF_TIMEOUT, -1);
+            //android.provider.Settings.System.putInt(context.getContentResolver(), android.provider.Settings.System.SCREEN_OFF_TIMEOUT, -1);
         } catch (SettingNotFoundException e) {
             e.printStackTrace();
         }
