@@ -4,7 +4,7 @@
    <string name="history_destination_num_prompt">500</string>
    <string name="speed_coefficient">3.6</string>
    <!-- <string name="device_com_path">/dev/ttyS3</string> -->
-   <string name="device_com_path">/dev/ttyS0</string>
+   <string name="device_com_path">/dev/ttyS1</string>
    <string name="device_com_baudrate">115200</string>
     
 </resources>

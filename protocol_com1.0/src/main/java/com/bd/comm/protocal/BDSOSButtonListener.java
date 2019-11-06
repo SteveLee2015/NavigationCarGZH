@@ -1,4 +1,7 @@
 package com.bd.comm.protocal;
 
-public class BDSOSButtonListener {
+import android.location.BDEventListener;
+
+public interface BDSOSButtonListener extends BDEventListener {
+    public void onSosReceipt(int status) ;
 }
