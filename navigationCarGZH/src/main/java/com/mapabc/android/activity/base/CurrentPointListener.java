@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
@@ -46,6 +48,9 @@ public class CurrentPointListener implements OnTouchListener{
 	public AlertDialog ad;
 	private MapView mMapView;
 	private ProgressDialog pdg;
+
+	private Button mExitNaviBtn;
+
 	private Handler h = new Handler(){
 
 		@Override
@@ -66,6 +71,7 @@ public class CurrentPointListener implements OnTouchListener{
 		this.activity=activity;
 		this.currentPointBtn=this.activity.currentPointBtn;
 		this.plantRouteBtn=this.activity.plantRouteBtn;
+		this.mExitNaviBtn = this.activity.mExitNaviBtn;
 		this.mMapView=mapView;
 	}
 	
@@ -94,6 +100,7 @@ public class CurrentPointListener implements OnTouchListener{
 				setDestination(lonlat,0);
 				plantRouteBtn.setClickable(true);
 			}
+			mExitNaviBtn.setVisibility(View.VISIBLE);
 			break;
 		default:
 			break;

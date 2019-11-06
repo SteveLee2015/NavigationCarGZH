@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bd.comm.protocal.BDCommManager;
 import com.bd.comm.protocal.BDRNSSLocation;
 import com.bd.comm.protocal.BDRNSSLocationListener;
+import com.mapabc.android.activity.listener.CustomBDRNSSLocationListener;
 import com.mapabc.android.activity.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
@@ -80,9 +81,10 @@ public class BaseReportService extends Service{
         }
     }
 
-    private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){
+    private BDRNSSLocationListener mBDRNSSLocationListener=new CustomBDRNSSLocationListener(){
         @Override
         public void onLocationChanged(BDRNSSLocation arg0) {
+            super.onLocationChanged(arg0);
             rnsslocation = arg0;
         }
 

@@ -1,5 +1,6 @@
 package com.mapabc.android.activity.base;
 
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -24,6 +25,7 @@ public class CarBackEvent {
 				return ;
 			}
 			if (naviStudioActivity.back_car.equals(v)) {
+				Log.i("TEST" ,"=========================>goBackCar");
 				goBackCar();
 			}
 		}

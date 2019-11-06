@@ -25,6 +25,7 @@ import com.bd.comm.protocal.BDCommManager;
 import com.bd.comm.protocal.BDRNSSLocation;
 import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.listener.CustomBDRNSSLocationListener;
 import com.novsky.map.util.BDLocationManager;
 import com.novsky.map.util.Utils;
 
@@ -156,9 +157,10 @@ public class BDZuoZhanTimeFragment extends Fragment {
 		}
 	};
 
-	private BDRNSSLocationListener mBDRNSSLocationListener=new BDRNSSLocationListener(){	
+	private BDRNSSLocationListener mBDRNSSLocationListener=new CustomBDRNSSLocationListener(){
 		@Override
 		public void onLocationChanged(BDRNSSLocation arg0) {
+			super.onLocationChanged(arg0);
 			locationTime=arg0.getTime();
 		}
 

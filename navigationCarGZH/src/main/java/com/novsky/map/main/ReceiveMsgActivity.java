@@ -45,7 +45,7 @@ import com.novsky.map.util.Utils;
  * @author llg
  */
 public class ReceiveMsgActivity extends Activity {
-	
+
 	private ListView listView=null;
 	private SendMsgAdapter adapter=null;
 	private List<Item> items=null;
@@ -55,7 +55,7 @@ public class ReceiveMsgActivity extends Activity {
 	private Context mContext=this;
 	private TabSwitchActivityData mInstance=TabSwitchActivityData.getInstance();
 	private DatabaseOperation operation=null;
-	
+
 	/**
 	 * 广播接受者
 	 */
@@ -64,7 +64,6 @@ public class ReceiveMsgActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent){
 			long rowId=intent.getLongExtra("ROWID", 0);
-			DatabaseOperation operation=new DatabaseOperation(mContext);
 			//查询
 			Cursor cursor=operation.get(rowId);
 			List<Map<String,Object>> mlist=build(cursor);
@@ -94,10 +93,10 @@ public class ReceiveMsgActivity extends Activity {
 		String send_content = String.valueOf(map.get("SEND_CONTENT"));
 		String send_date = String.valueOf(map.get("SEND_DATE"));
 		//Long rowId = (Long) (map.get("KEY_ROWID"));
-		Long rowId = Long.valueOf(String.valueOf(map.get("COLUMNN_ID")));  
+		Long rowId = Long.valueOf(String.valueOf(map.get("COLUMNN_ID")));
 		Drawable message_flag = (Drawable) (map.get("MESSAGE_FLAG"));
 		Boolean checked = false;
-		
+
 		item.send_id=send_id;
 		item.send_content=send_content;
 		item.send_date=send_date;
@@ -105,7 +104,7 @@ public class ReceiveMsgActivity extends Activity {
 		item.checked=checked;
 		item.rowId = rowId;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,10 +122,8 @@ public class ReceiveMsgActivity extends Activity {
 		bd.setDither(true);
 		linear.setBackgroundDrawable(bd);
 		listView=(ListView)this.findViewById(R.id.msg_sended_listview);
-		operation=new DatabaseOperation(this);
-		
-		//TODO  怎么清除notification??
-		
+		operation = DatabaseOperation.getInstance();
+
 	}
 	@Override
 	protected void onResume() {
@@ -134,7 +131,7 @@ public class ReceiveMsgActivity extends Activity {
 		if (items==null) {
 			items=new ArrayList<Item>();
 		}
-		
+
 //		list=new ArrayList<Map<String,Object>>();
 		Cursor cursor=operation.getAll();
 		showListView(cursor);
@@ -144,20 +141,20 @@ public class ReceiveMsgActivity extends Activity {
 		IntentFilter filter=new IntentFilter("com.bd.action.MESSAGE_ACTION");
 		this.registerReceiver(receiver, filter);
 		//TODO  怎么清除notification??
-		
+
 		if (Utils.destoryNotification!=null) {
 			Utils.destoryMessageNotification(mContext);
 		}
-		
+
 		initListener();
 	}
-	
-	
+
+
 	private void deleteSelecedMsg() {
 
 		//遍历 checked 为true 删除
 		int k = items.size();
-		
+
 		for(int i=0; i<k; i++){
 			if (items.get(i).checked) {//被选中
 				//删除 数据库数据
@@ -167,9 +164,9 @@ public class ReceiveMsgActivity extends Activity {
 				//items.remove(items.get(i));
 				toRemoveItems.add(items.get(i));
 				//adapter.notifyDataSetChanged();
-			} 
-		}	
-		
+			}
+		}
+
 		items.removeAll(toRemoveItems);
 		toRemoveItems.clear();
 		if (toRemoveItems.size()==0) {
@@ -178,8 +175,8 @@ public class ReceiveMsgActivity extends Activity {
 		}
 		//更新界面
 		adapter.notifyDataSetChanged();
-		
-		
+
+
 	}
 	/**
 	 * 各种点击事件
@@ -188,38 +185,38 @@ public class ReceiveMsgActivity extends Activity {
 
 		//删除所选中的条目
 		btn_delete.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				deleteSelecedMsg();
 			}
 
 		});
-		
+
 		//全选
 		btn_select_all.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				int k = items.size();
 				for(int i=0; i<k; i++){
-					 items.get(i).checked = true;	
-				}	
+					 items.get(i).checked = true;
+				}
 				adapter.notifyDataSetChanged();
 			}
 		});
 		//取消全选
 		btn_cancel_all.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				int k = items.size();
 				for(int i=0; i<k; i++){
-					 items.get(i).checked = false;	
-				}	
+					 items.get(i).checked = false;
+				}
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -230,15 +227,15 @@ public class ReceiveMsgActivity extends Activity {
 		super.onPause();
 		this.unregisterReceiver(receiver);
 	}
-	
-	
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.delete_message_menu, menu);
 		return true;
 	}
-	
-	
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -249,11 +246,11 @@ public class ReceiveMsgActivity extends Activity {
 				builder.setPositiveButton("确定",new DialogInterface.OnClickListener(){
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
-						deleteAllMsg();				
+						deleteAllMsg();
 					}
 
 				});
-				
+
 				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {}
@@ -261,11 +258,11 @@ public class ReceiveMsgActivity extends Activity {
 				builder.show();
 				break;
 			default:
-				break;						
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void deleteAllMsg() {
 		boolean istrue=operation.deleteReceiveMessages();
 		if(istrue){
@@ -276,16 +273,13 @@ public class ReceiveMsgActivity extends Activity {
 		}else{
 			Toast.makeText(mContext, "删除所有收件箱内容失败!", Toast.LENGTH_LONG).show();
 		}
-	}	
-	
+	}
+
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-		if(operation!=null){
-		   operation.close();
-		}
 	}
-	
+
 	private List<Map<String,Object>> build(Cursor cursor){
 		List<Map<String,Object>> templist=new ArrayList<Map<String,Object>>();
 		Calendar calendar=Calendar.getInstance();
@@ -296,7 +290,7 @@ public class ReceiveMsgActivity extends Activity {
 			Map<String,Object> map=new HashMap<String, Object>();
 			String msg=cursor.getString(cursor.getColumnIndex(CustomColumns.COLUMNS_MSG_CONTENT));
 			if(msg.length()>28){
-			   msg=msg.substring(0, 26)+"...";	
+			   msg=msg.substring(0, 26)+"...";
 			}
 			map.put("COLUMNN_ID", cursor.getString(cursor.getColumnIndex(CustomColumns._ID)));
 			map.put("SEND_CONTENT_SIZE", cursor.getString(cursor.getColumnIndex(CustomColumns.COLUMNS_MSG_LEN)));
@@ -304,11 +298,11 @@ public class ReceiveMsgActivity extends Activity {
 			String date=cursor.getString((cursor.getColumnIndex(CustomColumns.COLUMNS_SEND_TIME)));
 			/**
 			 *1.如果短信日期不是当天的信息,则仅仅显示月、日
-			 *2.如果短信日期不是当年的信息,则显示年、月、日 
+			 *2.如果短信日期不是当年的信息,则显示年、月、日
 			 */
 			String reg="[0-9,-]{2}:[0-9,-]{2}";
 			Pattern pattern=Pattern.compile(reg);
-			Matcher matcher = pattern.matcher(date); 
+			Matcher matcher = pattern.matcher(date);
 			if(matcher.matches()){//如果事件格式00:00
 				date=date.replaceAll("-", "0");
 			}else{//時間格式yyyy-MM-dd HH:mm:ss
@@ -361,13 +355,13 @@ public class ReceiveMsgActivity extends Activity {
 				map.put("SEND_ID", "发件人: "+cursor.getString(cursor.getColumnIndex(CustomColumns.COLUMNS_SEND_ADDRESS)));
 				map.put("MESSAGE_FLAG", this.getResources().getDrawable(R.drawable.message_not_read));
 			}else {
-				
+
 			}
 			templist.add(map);
 		}
 		return templist;
 	}
-	
+
 	private void showListView(Cursor cursor){
 		//list=build(cursor);
 		final List<Map<String,Object>> list=build(cursor);
@@ -375,47 +369,47 @@ public class ReceiveMsgActivity extends Activity {
 		Item item = null;
 		items.clear();
 		for (Map<String, Object> map : list) {
-			
+
 			item = new Item();
 			toItemObject(map, item);
 			items.add(item);
-			
+
 		}
 		if (adapter!=null) {
 			adapter.notifyDataSetChanged();
 			return;
 		}
-		
+
 		/*2.把数据转换成List*/
 		adapter=new SendMsgAdapter(ReceiveMsgActivity.this, items);
 //		adapter=new SendMsgAdapter(ReceiveMsgActivity.this, list);
 		//回调
 		adapter.setOnCheckBoxClickLinstener(new OnCheckBoxClickLinstener() {
-			
+
 			@Override
 			public void onCheckBoxClicked(int positon,List<Item> items) {
 
 				for (Item item : items) {
-					
+
 					if (item.checked) {
-						
+
 						ll_checked_title.setVisibility(View.VISIBLE);
 						return;
 					}
 				}
-				
+
 				ll_checked_title.setVisibility(View.GONE);
-				
+
 			}
 		});
-		
+
 		/*增加选项*/
 		//短按
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
+
 				Log.w("ReceiveMsgActivity", "setOnItemClickListener");
 				String rowId=String.valueOf(list.get(position).get("COLUMNN_ID"));
 				/*转发功能*/
@@ -423,7 +417,7 @@ public class ReceiveMsgActivity extends Activity {
 				intent.putExtra("MSG_DEL_ID",rowId);
 				intent.setClass(mContext,MsgZhuanFaActivity.class);
 			    mContext.startActivity(intent);
-			    
+
 			}
 		});
 		//长按
@@ -437,15 +431,15 @@ public class ReceiveMsgActivity extends Activity {
 				alert.setPositiveButton("删除", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface arg0, int index1) {
-						DatabaseOperation operation=new DatabaseOperation(mContext.getApplicationContext());
-						int id=Integer.valueOf(String.valueOf(list.get(index).get("COLUMNN_ID")));  
+                        DatabaseOperation operation = DatabaseOperation.getInstance();
+						int id=Integer.valueOf(String.valueOf(list.get(index).get("COLUMNN_ID")));
 						boolean istrue=operation.delete(id);
 						if(istrue){
 							list.remove(index);
 							adapter.notifyDataSetChanged();
-						   Toast.makeText(mContext, mContext.getResources().getString(R.string.bd_msg_del_success), Toast.LENGTH_SHORT).show();  
+						   Toast.makeText(mContext, mContext.getResources().getString(R.string.bd_msg_del_success), Toast.LENGTH_SHORT).show();
 						}else{
-						   Toast.makeText(mContext,mContext.getResources().getString(R.string.bd_msg_del_fail), Toast.LENGTH_SHORT).show();   
+						   Toast.makeText(mContext,mContext.getResources().getString(R.string.bd_msg_del_fail), Toast.LENGTH_SHORT).show();
 						}
 					}
 				});
@@ -461,5 +455,5 @@ public class ReceiveMsgActivity extends Activity {
 		listView.setChoiceMode(listView.CHOICE_MODE_SINGLE);
 		listView.setAdapter(adapter);
 	}
-	
+
 }

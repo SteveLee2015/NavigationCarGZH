@@ -26,7 +26,6 @@ import com.mapabc.naviapi.route.SatInfo;
  * 
  */
 public class GpsControl implements OnClickListener ,ReceiveInfo{
-
 	private NaviStudioActivity naviStudioActivity;
 	public ImageButton gpsstate;
 	public MapView mapView;
@@ -58,7 +57,6 @@ public class GpsControl implements OnClickListener ,ReceiveInfo{
 					}
 //					Logger.e("GpsControl", "GpsControl被触发了,s_count:"+s_count);
 					if (NaviControl.mgpsStatus == 3) {
-						
 						switch (s_count) {
 						case 0:
 							//gpsstate.setImageResource(R.drawable.navistudio_gps_0_x);
@@ -104,7 +102,6 @@ public class GpsControl implements OnClickListener ,ReceiveInfo{
 		msg.what=UPDATEGPSSTATUS;
 		msg.obj=gpsInfo;
 		handler.sendMessage(msg);
-		
 	}
 	
 	
@@ -122,7 +119,6 @@ public class GpsControl implements OnClickListener ,ReceiveInfo{
 		}
 	}
 
-	
 	private void gpsInfo(){
 		Intent in = new Intent(Constants.ACTIVITY_GPSINFO);
 		this.naviStudioActivity.startActivity(in);

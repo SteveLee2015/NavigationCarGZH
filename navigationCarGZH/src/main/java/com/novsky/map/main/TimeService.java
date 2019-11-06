@@ -65,7 +65,7 @@ public class TimeService extends Service {
 			@Override
 			public void run() {
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Log.i(TAG, "start time:"+sdf.format(new Date())+",Utils.COUNT_DOWN_TIME="+Utils.COUNT_DOWN_TIME);
+				//Log.i(TAG, "start time:"+sdf.format(new Date())+",Utils.COUNT_DOWN_TIME="+Utils.COUNT_DOWN_TIME);
 				if (Utils.COUNT_DOWN_TIME >= 0){
 					Map<String, BDTimeFreqChangedListener> map = timeCountMananger
 							.getTimeFreqListeners();
@@ -79,7 +79,7 @@ public class TimeService extends Service {
 				}else{
 					
 				}
-				Log.i(TAG, "stop time:"+sdf.format(new Date())+",Utils.COUNT_DOWN_TIME="+Utils.COUNT_DOWN_TIME);
+				//Log.i(TAG, "stop time:"+sdf.format(new Date())+",Utils.COUNT_DOWN_TIME="+Utils.COUNT_DOWN_TIME);
 			}
 		},1000,1000);
 		return super.onStartCommand(intent, flags, startId);

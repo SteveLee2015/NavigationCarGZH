@@ -8,7 +8,7 @@ import com.mapabc.naviapi.RouteAPI;
 public class RoutUtils {
 	
 	public static void removeCurrentRoute() {
-		
+
 		if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_REALNAVI){
 			NaviControl.getInstance().stopRealNavi();
 		}else if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_SIMNAVI){

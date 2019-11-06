@@ -250,6 +250,8 @@
     <string name="tianxian_height_value">天线高度</string>
     <string name="bdloc_report_checkbox_str">启用连续位置报告</string>
     <string name="bdloc_userAddress_str">收方地址</string>
+    <string name="pt_num_str">平台号码</string>
+    <string name="jy_str">救援信息</string>
     <string name="common_second">秒</string>
     
     <string-array name="msg_research_array">
@@ -374,6 +376,8 @@
         <item>CCMSS,Z,2,B1,P,B3,P,,</item>
     </string-array>
    <string name="common_save_str">保存</string>
-   
-    
+
+    <string name="now_sow_cmd">正在发送SOS命令!</string>
+    <string name="out_line_prompt">请注意您的行驶区域!</string>
+    <string name="comfirm_stop_navi">确定停止导航?</string>
 </resources>

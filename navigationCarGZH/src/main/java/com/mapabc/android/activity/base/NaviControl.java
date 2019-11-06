@@ -40,6 +40,7 @@ import com.mapabc.android.activity.R;
 import com.mapabc.android.activity.listener.CrossingZoomListener;
 import com.mapabc.android.activity.listener.DisPatchInfo;
 import com.mapabc.android.activity.listener.MyMapListener;
+import com.mapabc.android.activity.route.RouteManagerActivity;
 import com.mapabc.android.activity.utils.SettingForLikeTools;
 import com.mapabc.android.activity.utils.ToolsUtils;
 import com.mapabc.naviapi.MapAPI;
@@ -138,18 +139,17 @@ public class NaviControl extends RouteListener implements CarLinesListener {
             super.handleMessage(msg);
             if (msg.what > 0 && msg.what < 60) {
                 overSpeedsend = false;
-                Log.e(TAG, "overSpeedsend=false  正在倒计时");
+                //Log.e(TAG, "overSpeedsend=false  正在倒计时");
             } else {
                 overSpeedsend = true;
-                Log.e(TAG, "overSpeedsend=true  计时器空闲");
+                //Log.e(TAG, "overSpeedsend=true  计时器空闲");
             }
             if (msg.what == 0) {
                 timer.cancel();
                 timer.purge();
                 timer = new Timer();
-                Log.e(TAG, "overSpeedsend=false  清除计时器");
+               // Log.e(TAG, "overSpeedsend=false  清除计时器");
             }
-
 
             switch (msg.what) {
                 case OVER_SPEED_DIALOG:
@@ -173,10 +173,8 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                     m_mapView.goBackCar();
                     NSLonLat mlonlat = (NSLonLat) msg.obj;
                     routeInfo = null;
-                    Log.e(TAG, "ceshi1");
                     //开始导航
                     startNavigate();
-                    Log.e(TAG, "ceshi2");
                     if (mlonlat != null) {
                         CurrentPointListener currentPointListener = new CurrentPointListener(
                                 m_activity, m_mapView);
@@ -197,28 +195,25 @@ public class NaviControl extends RouteListener implements CarLinesListener {
 //				 * 由于卫星返回原始速度是除以3.6系数得到的,底层判断是否超速也默认除以3.6系数,但是由于七寸屏使用的是外置连接方式,
 //				 * 返回的数据没有系数的，而底层默认还是除以3.6系数,所以在此得到的原始速度需要除以3.6系数。
 //				 */
-//				float newSpeed = routeInfo1.speed/3.6f;
-//				routeInfo1.speed = newSpeed;
-
+                    float newSpeed = routeInfo1.speed / 3.6f;
+                    routeInfo1.speed = newSpeed;
                     if (routeInfo1.remainDis > 10000000) {
                         Log.e(TAG, "routeInfo1.remainDis:" + routeInfo1.remainDis);
                     }
                     // Log.e(TAG,
                     // "底层坐标："+routeInfo.vehicleLonLat.x+","+routeInfo.vehicleLonLat.y);
                     //超速报警代码
-//				if (routeInfo1.overSpeed) {
-//					if (SettingForLikeTools.getOverSpeed(m_activity) == 1) {
-//						TTSAPI.getInstance()
-//								.addPlayContent(
-//										m_activity
-//												.getString(R.string.navicontrol_overspeed),
-//										Const.AGPRIORITY_NORMAL);
-//					}
-//				}
-
+                    if (routeInfo1.overSpeed) {
+                        if (SettingForLikeTools.getOverSpeed(m_activity) == 1) {
+                            TTSAPI.getInstance()
+                                    .addPlayContent(
+                                            m_activity
+                                                    .getString(R.string.navicontrol_overspeed),
+                                            Const.AGPRIORITY_NORMAL);
+                        }
+                    }
 
                     showCamara(routeInfo1);//控制显示电子眼
-
                     if (routeInfo1.vehicleLonLat != null
                             && routeInfo1.vehicleLonLat.x > 0) {
                         NaviControl.this.routeInfo = routeInfo1;
@@ -338,7 +333,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                     NaviControl.this.updateNaviSpeed(msg.arg1);
                     break;
                 case H_GPS_FIRST_FIXED:// 定位成功，重新计算路径
-                    // Log.e(TAG, "定位成功，重新计算路径1");
+                     Log.e(TAG, "定位成功，重新计算路径1");
                     firstfixed_recal = 0;
                     MVPSPosition pos = (MVPSPosition) msg.obj;
                     IntValue distance = new IntValue();
@@ -362,12 +357,14 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                         } else {
                             MapAPI.getInstance().setVehiclePosInfo(lonlat, 0);
                         }
-                        // Log.e(TAG, "定位成功，重新计算路径5");
+                         Log.e(TAG, "定位成功，重新计算路径5");
                         offsetGuide();
                     }
                     break;
                 case CAR_GPS_SATUS:// 刷新车位gps状态
-                    m_mapView.invalidate();
+                    if (m_mapView != null) {
+                        m_mapView.invalidate();
+                    }
                     break;
                 case H_CONTINUEROUTE:// 续航结束
                     if (dlgRecalculateRoute != null) {
@@ -381,8 +378,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                         startNavigate();
                         Log.e(TAG, "H_CONTINUEROUTE end");
                     } else {
-                        ToolsUtils.showTipInfo(m_activity,
-                                R.string.navicontrol_continue_route_failed);
+                        ToolsUtils.showTipInfo(m_activity, R.string.navicontrol_continue_route_failed);
                     }
                     break;
             }
@@ -546,9 +542,8 @@ public class NaviControl extends RouteListener implements CarLinesListener {
             return;
         }
         if (MapAPI.getInstance().getMapView() == Const.MAP_VIEWSTATE_NORTH) {
-            if (MapAPI.getInstance().isCarInCenter()) {
-                MapAPI.getInstance().setVehiclePosInfo(lonlat,
-                        angle);
+            if (!MapAPI.getInstance().isCarInCenter()) {
+                MapAPI.getInstance().setVehiclePosInfo(lonlat, angle);
                 MapAPI.getInstance().setMapCenter(lonlat);
             } else {
                 MapAPI.getInstance().setVehiclePosInfo(lonlat,
@@ -557,14 +552,13 @@ public class NaviControl extends RouteListener implements CarLinesListener {
             Log.e(TAG, "设置的车辆角度：" + angle);
         } else {
             MapAPI.getInstance().setMapAngle(360 - angle);
-            if (MapAPI.getInstance().isCarInCenter()) {
+            if (!MapAPI.getInstance().isCarInCenter()) {
                 MapAPI.getInstance().setVehiclePosInfo(lonlat, 0);
                 MapAPI.getInstance().setMapCenter(lonlat);
             } else {
                 MapAPI.getInstance().setVehiclePosInfo(lonlat, 0);
             }
         }
-
     }
 
     /*
@@ -1155,11 +1149,10 @@ public class NaviControl extends RouteListener implements CarLinesListener {
     @Override
     public void onGPSInfo(GpsInfo gpsInfo, MVPSVPPosition vpPosition) {
 //		 Log.e(TAG, "_________________________onGPSInfo_________________");
-        Log.e(TAG, "x:" + gpsInfo.longitude + ",y:" + gpsInfo.latitude + ",matchx:" + vpPosition.pos.matchx + ",matchy:" + vpPosition.pos.matchy + ",time:" + gpsInfo.time.hour + ":" + gpsInfo.time.minute + ":" + gpsInfo.time.second);
+        Log.i(TAG, "x:" + gpsInfo.longitude + ",y:" + gpsInfo.latitude + ",matchx:" + vpPosition.pos.matchx + ",matchy:" + vpPosition.pos.matchy + ",time:" + gpsInfo.time.hour + ":" + gpsInfo.time.minute + ":" + gpsInfo.time.second);
         //获取实时速度
-        Log.e(TAG, "----0GpsInfo()  speed:" + gpsInfo.speed);
-        Log.i(TAG, "----0gpsInfo.speed" + gpsInfo.speed);
-
+        //Log.i(TAG, "----0GpsInfo()  speed:" + gpsInfo.speed);
+        //Log.i(TAG, "----0gpsInfo.speed" + gpsInfo.speed);
 
         overSpeednum = m_activity.getSharedPreferences("BD_OVER_SPEED_NUM", 0);
         overSpeedMax = m_activity.getSharedPreferences("BD_OVER_SPEED_MAX", 0);
@@ -1172,7 +1165,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
             String message = "超速报警，此时速度:" + gpsInfo.speed * 3.6 + "km/h,超速报告上限:" + speed + "km/h";
 
 
-            Log.e(TAG, "----0000num0000" + num + "000max0000" + max);
+            //Log.i(TAG, "----0000num0000" + num + "000max0000" + max);
 
             if (gpsInfo.speed * 3.6 >= speed && overSpeedsend) {
 
@@ -1180,7 +1173,6 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                 Log.e(TAG, "----进入超速报告圈 ");
                 TimerTask timerTask = new TimerTask() {
                     int i = 60;
-
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
@@ -1190,21 +1182,9 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                         Log.e(TAG, "----0000timerTask  倒计时:" + i);
                     }
                 };
-
                 Message msg = Message.obtain();
                 msg.what = OVER_SPEED_DIALOG;
                 mHandler.sendMessage(msg);
-            /*超速发送报文方法*/
-                try {
-                    manager.sendSMSCmdBDV21(num, 1,
-                            Utils.checkMsg(message), "N", message);
-                } catch (BDUnknownException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (BDParameterException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
                 timer.schedule(timerTask, 0, 1000);
             }
 
@@ -1226,8 +1206,8 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                 msg.what = H_UPDATE_UI_SPEED;
                 String numString = m_activity.getString(R.string.speed_coefficient);
                 float xnum = Float.parseFloat(numString);
-                Log.i(TAG, "xnum =" + xnum);
-                Log.i(TAG, "----1gpsinfo界面更新原始速度 speed = " + gpsInfo.speed);
+                //Log.i(TAG, "xnum =" + xnum);
+                //Log.i(TAG, "----1gpsinfo界面更新原始速度 speed = " + gpsInfo.speed);
                 msg.arg1 = (int) (xnum * gpsInfo.speed);
                 Log.i(TAG, "----1gpsinfo界面更新速度*3.6 speed = " + xnum * gpsInfo.speed);
 //				msg.arg1 = (int) (1.8*3.6 * gpsInfo.speed);
@@ -1280,34 +1260,38 @@ public class NaviControl extends RouteListener implements CarLinesListener {
      */
     @Override
     public void onGPSStatus(int gpsStatus) {
-        // Log.e(TAG, "onGPSStatus:"+gpsStatus);
-        Log.e(TAG, "gpsStatus:" + gpsStatus);
-        MapAPI.getInstance().setVehicleGPS(gpsStatus);
+        //Log.e(TAG, "onGPSStatus:"+gpsStatus);
+        if (gpsStatus == 0) {
+            gpsStatus = 1;
+        }
+        try {
+            MapAPI.getInstance().setVehicleGPS(gpsStatus);
+        } catch (Exception e) {
+        }
         if (gpsStatus != 3) {
-            gpsStatus = 2;
+            gpsStatus = 1;
         }
         if (this.mgpsStatus != gpsStatus) {
             mgpsStatus = gpsStatus;
             // Log.e(TAG, "mgpsStatus:"+mgpsStatus);
             if (mgpsStatus == Const.GPS_STATE_CONNECT_FIXED) {
-
                 //判断状态
-                //if (myapp.isLocationed) {
-
-                if (!IS_SPEAK_HAVEGPS) {
-                    TTSAPI
-                            .getInstance()
-                            .addPlayContent(
-                                    m_activity
-                                            .getString(R.string.navicontrol_gpsfixed),
-                                    Const.AGPRIORITY_CRITICAL);
-                    IS_SPEAK_HAVEGPS = true;
+                if (myapp != null && myapp.isLocationed) {
+                    if (!IS_SPEAK_HAVEGPS) {
+                        TTSAPI.getInstance()
+                                .addPlayContent(
+                                        m_activity
+                                                .getString(R.string.navicontrol_gpsfixed),
+                                        Const.AGPRIORITY_CRITICAL);
+                        IS_SPEAK_HAVEGPS = true;
+                    }
+                    firstfixed_recal = 1;
+                } else {
+                    try {
+                        MapAPI.getInstance().setVehicleGPS(2);
+                    } catch (Exception e) {
+                    }
                 }
-                firstfixed_recal = 1;
-//				}else {
-//					 MapAPI.getInstance().setVehicleGPS(2);
-//				}
-
             } else {
                 firstfixed_recal = 0;
                 if (m_activity != null) {
@@ -1369,7 +1353,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
     @Override
     public void onSimNaviMode(int simNaviMode) {
         // TODO Auto-generated method stub
-        Log.e(TAG, "_________________________OnSimNaviMode:" + simNaviMode);
+        //Log.e(TAG, "_________________________OnSimNaviMode:" + simNaviMode);
         if (simNaviMode == Const.SIM_NAVI_MODE_STOP) {
             Message msg = Message.obtain();
             msg.what = H_SIMNAVI_STOP;
@@ -1532,8 +1516,6 @@ public class NaviControl extends RouteListener implements CarLinesListener {
     public void startNavigate() {
         this.stopSimNavi();
         if (RouteAPI.getInstance().isRouteValid()) {
-            Log.e(TAG, "ceshi3");
-            Log.e(TAG, "存在线路");
             if (this.naviStatus != NAVI_STATUS_REALNAVI) {
                 if (RouteAPI.getInstance().startGPSNavi()) {
                     this.naviStatus = NAVI_STATUS_REALNAVI;
@@ -1543,7 +1525,6 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                 }
             }
         }
-        Log.e(TAG, "ceshi4");
         showNaviInfo();
     }
 
@@ -1552,7 +1533,6 @@ public class NaviControl extends RouteListener implements CarLinesListener {
      */
     public void showNaviInfo() {
         if (routeInfo == null || routeInfo.remainDis == 0) {
-            Log.e(TAG, "ceshi5");
             routeInfo = new GPSRouteInfo();
             RouteSegInfo segInfo = new RouteSegInfo();
             RouteAPI.getInstance().getSegmentInfo(0, segInfo);
@@ -1566,10 +1546,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                 RouteAPI.getInstance().getSegmentInfo(1, segInfo);
             }
             routeInfo.nextRoadName = segInfo.segName;
-            Log.e(TAG, "ceshi7");
         }
-        Log.e(TAG, "ceshi6");
-        Log.e(TAG, "routeInfo.remainDis:" + routeInfo.remainDis);
         this.updateUIForNavi(routeInfo);
     }
 
@@ -1624,7 +1601,6 @@ public class NaviControl extends RouteListener implements CarLinesListener {
             }
         });
         pdg.show();
-        Log.i("calculatpath", "calculatpath");
         m_activity.resetStatus();
         executorService.execute(new Runnable() {
             @Override
@@ -1813,7 +1789,7 @@ public class NaviControl extends RouteListener implements CarLinesListener {
                 canvas.drawBitmap(bmps[i], bmps[i].getWidth() * i, 0, null);
             }
         }
-        canvas.save(Canvas.ALL_SAVE_FLAG);// 保存
+        canvas.save();// 保存
         canvas.restore();// 存储
         return bmp;
 

@@ -9,6 +9,8 @@ import android.location.BDUnknownException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,12 @@ import android.view.ViewGroup;
 import com.bd.comm.protocal.BDCommManager;
 import com.mapabc.android.activity.R;
 import com.novsky.map.main.CustomProgressView;
+import com.novsky.map.util.DatabaseOperation;
+import com.novsky.map.util.DistanceLoc;
+import com.novsky.map.util.LocationUtils;
 import com.novsky.map.util.Utils;
+
+import java.util.List;
 
 /**
  * 波速状态
@@ -114,11 +121,11 @@ public class AutoCheckedFragment extends Fragment {
 		}
 	};
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
+
 	
 	
 //	@Override

@@ -63,7 +63,7 @@ public class MsgOpenActivity extends Activity {
 		setContentView(R.layout.activity_msg_open);
 		Intent intent=getIntent();
 		int index=Integer.valueOf(intent.getStringExtra("MSG_DEL_ID"));
-		DatabaseOperation operation=new DatabaseOperation(this);
+		DatabaseOperation operation = DatabaseOperation.getInstance();
 		Cursor cursor=operation.get(index);
 		
 		if(cursor.getCount()==0){
@@ -109,7 +109,6 @@ public class MsgOpenActivity extends Activity {
 			}
 		}
 		cursor.close();
-		operation.close();
 		userAddress.setText(address);
 		msgContent.setText(msg);
 		bdMsgDate.setText(time);

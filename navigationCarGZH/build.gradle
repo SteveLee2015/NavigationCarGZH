@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '25.0.0'
-
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.mapabc.android.activity"
-        minSdkVersion 11
+        minSdkVersion 16
         targetSdkVersion 20
 
         ndk {
@@ -32,9 +31,9 @@ android {
 }
 
 dependencies {
-    compile project(':protocol_com1.0')
-    compile 'com.android.support:support-v4:20.+'
-    compile files('libs/dom4j-1.6.1.jar')
-    compile files('libs/generalfunction.jar')
-    compile files('libs/NaviStudio_PoJie_1.0.2.jar')
+    compile  project(':protocol_com1.0')
+    compile  'com.android.support:support-v4:26.+'
+    compile  files('libs/dom4j-1.6.1.jar')
+    compile  files('libs/generalfunction.jar')
+    compile  files('libs/NaviStudio_PoJie_1.0.2.jar')
 }

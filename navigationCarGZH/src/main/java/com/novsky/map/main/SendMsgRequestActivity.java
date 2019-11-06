@@ -163,10 +163,7 @@ public class SendMsgRequestActivity extends Activity implements
 	 * 检查是否发送短信至手机
 	 */
 	private CheckBox  checkSendPhoneSMS=null;
-	
-	
-	private boolean isSendPhoneSMS=false;
-	
+
 	
 	/**
 	 * 反馈信息监听器
@@ -201,18 +198,7 @@ public class SendMsgRequestActivity extends Activity implements
 					BDMessageManager messageManager=BDMessageManager.getInstance();					
 					String mMessageContenet=messageManager.getMessage();
 					sendAddress=messageManager.getUserAddress();
-					//Toast.makeText(mContext, "mMessageContenet="+mMessageContenet+",sendAddress="+sendAddress, Toast.LENGTH_LONG).show();
-					if(isSendPhoneSMS){
-						SharedPreferences pref=mContext.getSharedPreferences("BD_RELAY_STATION_PREF", mContext.MODE_PRIVATE);	
-					    String address=pref.getString("BD_RELAY_STATION_NUM", "");
-					    String phoneNum=sendAddress;
-					    if(!address.equals("")){
-					    	sendAddress=address;
-					    }
-					    mMessageContenet=Utils.buildSendPhoneSMS(phoneNum, mMessageContenet);
-					}
 					try {
-						//manager.sendSMSCmdBDV21(arg0, arg1, arg2, arg3);
 						manager.sendSMSCmdBDV21(sendAddress,mMsgCommunicationType,Utils.checkMsg(mMessageContenet),"N", mMessageContenet);
 						Utils.COUNT_DOWN_TIME =Utils.BD_MESSAGE_FREQUNENCY;
 					} catch (BDUnknownException e) {
@@ -259,7 +245,6 @@ public class SendMsgRequestActivity extends Activity implements
 		SharedPreferences pref=mContext.getSharedPreferences("BD_RELAY_STATION_PREF", mContext.MODE_PRIVATE);	
         boolean checked=pref.getBoolean("BD_RELAY_STATUS", false);
         checkSendPhoneSMS.setChecked(checked);
-        isSendPhoneSMS=checked;
 		fkilistener = new BDResponseListener(mContext);
 		manager=BDRDSSManager.getDefault(mContext);
 		timeInstance=BDTimeCountManager.getInstance();
@@ -338,7 +323,6 @@ public class SendMsgRequestActivity extends Activity implements
 			public void onCheckedChanged(CompoundButton arg0, boolean check) {
 				   SharedPreferences pref=mContext.getSharedPreferences("BD_RELAY_STATION_PREF", mContext.MODE_PRIVATE);	
 	               pref.edit().putBoolean("BD_RELAY_STATUS", check).commit();
-	               isSendPhoneSMS=check;
 	               userAddress.setText("");	
 	               if(check){
 					   userAddress.setHint("请输入手机号码!");
@@ -540,7 +524,6 @@ public class SendMsgRequestActivity extends Activity implements
 						return;
 					}
 					/* 发送通讯申请 */
-					boolean isSend = true;
 					try {
 						message= msgContent.getText().toString();
 						sendAddress = userAddress.getText().toString();
@@ -562,28 +545,7 @@ public class SendMsgRequestActivity extends Activity implements
 						messageManager.setMessage(message);
 						messageManager.setMsgContentType(mMsgCommunicationType);
 						messageManager.setUserAddress(sendAddress);
-						
-						
-						if(isSendPhoneSMS){
-							//获得设置的中继站的号码
-							SharedPreferences pref=mContext.getSharedPreferences("BD_RELAY_STATION_PREF", mContext.MODE_PRIVATE);	
-						    String address=pref.getString("BD_RELAY_STATION_NUM", "");
-						    //手机地址
-						    String phoneNum=sendAddress;
-						    message=Utils.buildSendPhoneSMS(phoneNum, message);
-						    if(!address.equals("")){
-						    	sendAddress=address;
-						    }else{
-						       Utils.createAlertDialog(SendMsgRequestActivity.this.getParent(), "提示", "请先设置'系统'->'中继站管理'!", false, 
-							        new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
-										}
-							   }, "取消").show();
-						       return;
-						   }
-						}
+
 						if (Utils.BD_MESSAGE_FREQUNENCY> 0) {		
 							Utils.isStopCycleMessage=true;
 							Utils.COUNT_DOWN_TIME=Utils.BD_MESSAGE_FREQUNENCY;
@@ -595,7 +557,6 @@ public class SendMsgRequestActivity extends Activity implements
 	                    }
 						manager.sendSMSCmdBDV21(sendAddress,mMsgCommunicationType,Utils.checkMsg(message),"N", message);
 					} catch (Exception e) {
-						isSend = false;
 						e.printStackTrace();
 					}
 					saveToDatabase();
@@ -614,7 +575,7 @@ public class SendMsgRequestActivity extends Activity implements
 	 */
 	public void saveToDatabase(){
 		/* 在数据库中保存该数据 */
-		DatabaseOperation operation = new DatabaseOperation(SendMsgRequestActivity.this);
+		DatabaseOperation operation = DatabaseOperation.getInstance();
 		BDMSG msg = new BDMSG();
 		String address = userAddress.getText().toString();
 		msg.setColumnsUserAddress(address);
@@ -627,7 +588,6 @@ public class SendMsgRequestActivity extends Activity implements
 		msg.setColumnsCrc("0");
 		msg.setColumnsMsgFlag("1");
 		long id = operation.insert(msg);
-		operation.close();
 	}	
 
 	@Override

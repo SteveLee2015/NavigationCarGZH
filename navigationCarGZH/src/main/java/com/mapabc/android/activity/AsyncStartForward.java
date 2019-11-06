@@ -23,6 +23,7 @@ import com.mapabc.naviapi.search.SearchOption;
 import com.mapabc.naviapi.tts.TTSOptions;
 import com.mapabc.naviapi.type.Const;
 import com.mapabc.naviapi.utils.SysParameterManager;
+import com.novsky.map.util.SCConstants;
 
 /**
  * 系统初始化线程

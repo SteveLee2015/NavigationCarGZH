@@ -1,11 +1,5 @@
 package com.mapabc.android.activity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +17,6 @@ import android.location.BDParameterException;
 import android.location.BDRNSSManager.LocationStrategy;
 import android.location.BDUnknownException;
 import android.location.CardInfo;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -40,6 +32,7 @@ import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -71,6 +64,7 @@ import com.mapabc.android.activity.base.TMCControl;
 import com.mapabc.android.activity.base.VolumeControl;
 import com.mapabc.android.activity.base.ZoomControl;
 import com.mapabc.android.activity.listener.BackListener;
+import com.mapabc.android.activity.listener.CustomBDRNSSLocationListener;
 import com.mapabc.android.activity.listener.DisPatchInfo;
 import com.mapabc.android.activity.listener.MyMapListener;
 import com.mapabc.android.activity.listener.NaviMapTouchListener;
@@ -82,6 +76,7 @@ import com.mapabc.android.activity.utils.UIResourceUtil;
 import com.mapabc.naviapi.MapAPI;
 import com.mapabc.naviapi.MapView;
 import com.mapabc.naviapi.RouteAPI;
+import com.mapabc.naviapi.TTSAPI;
 import com.mapabc.naviapi.listener.DayOrNightListener;
 import com.mapabc.naviapi.listener.MapListener;
 import com.mapabc.naviapi.map.DayOrNightControl;
@@ -102,20 +97,23 @@ import com.novsky.map.main.FriendBDPoint;
 import com.novsky.map.main.FriendLocation;
 import com.novsky.map.main.ReportPosListener;
 import com.novsky.map.main.ReportPosManager;
+import com.novsky.map.main.SosActivity;
 import com.novsky.map.main.TimeService;
 import com.novsky.map.util.BDCardInfoManager;
 import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.util.FriendsLocationDatabaseOperation;
 
-import static com.novsky.map.util.Utils.LOCATION_LATDIR;
-import static com.novsky.map.util.Utils.LOCATION_LONDIR;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @SuppressLint("NewApi")
 public class NaviStudioActivity extends BaseActivity {
 
 	private static final String TAG = "NaviStudioActivity";
-	public static ExecutorService executorService = Executors
-			.newFixedThreadPool(10);
+	public static ExecutorService executorService = Executors.newFixedThreadPool(10);
 	public MapView mapView = null;// 地图实例
 	public ImageButton zoomin, zoomout, volume, ibMapModel, gpsstate, back_car;
 	public ImageView bdstate;
@@ -152,10 +150,10 @@ public class NaviStudioActivity extends BaseActivity {
 	private Intent cycleLocationService = null;
 	private ProgressDialog progressDialog = null;
 	private SharedPreferences share = null;
-	
+
 	//保存友邻位置的sp
 	private SharedPreferences friendID_Sp;
-	
+
 	private Editor friendID_editor;
 
 	/**
@@ -165,13 +163,13 @@ public class NaviStudioActivity extends BaseActivity {
 	private BackListener back;
 	public boolean blEnableSearch = true;// 是否禁用地点搜索菜单
 
-	private final static int BD_SATELLATE_ITEM = 0x10111,
-			GPS_SATELLATE_ITEM = 0x10112;
+	private final static int BD_SATELLATE_ITEM = 0x10111, GPS_SATELLATE_ITEM = 0x10112;
 
-	/**
-	 * ??????????????
-	 */
+
 	private int bdCurrentAvailable = 0, gpsCurrentAvailable = 0;
+
+	public Button mExitNaviBtn;
+	private SharedPreferences ttsVolumePrefs = null;
 
 	private BDEventListener localInfoListener = new BDEventListener.LocalInfoListener() {
 		@Override
@@ -186,7 +184,7 @@ public class NaviStudioActivity extends BaseActivity {
 		}
 	};
 
-	
+
 	/**
 	 * GPS 卫星状态监听
 	 */
@@ -214,14 +212,14 @@ public class NaviStudioActivity extends BaseActivity {
 	};
 
 
-	private BDRNSSLocationListener mBDRNSSLocationListener = new BDRNSSLocationListener() {
-
+	private BDRNSSLocationListener mBDRNSSLocationListener = new CustomBDRNSSLocationListener() {
 		@Override
 		public void onLocationChanged(BDRNSSLocation location) {
+            super.onLocationChanged(location);
 			com.novsky.map.util.Utils.LOCATION_REPORT_LON = location
 					.getLongitude();
-			com.novsky.map.util.Utils.LOCATION_LONDIR = location.getExtras().getString("londir");
-			com.novsky.map.util.Utils.LOCATION_LATDIR = location.getExtras().getString("latdir");
+			//com.novsky.map.util.Utils.LOCATION_LONDIR = location.getExtras().getString("londir");
+			//com.novsky.map.util.Utils.LOCATION_LATDIR = location.getExtras().getString("latdir");
 			com.novsky.map.util.Utils.LOCATION_REPORT_LAT = location
 					.getLatitude();
 			com.novsky.map.util.Utils.LOCATION_REPORT_ALTITUDE = location
@@ -246,8 +244,8 @@ public class NaviStudioActivity extends BaseActivity {
 		@Override
 		public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		}
-
 	};
+
 	/**
 	 * 处理其他对象或者线程发送过来的消息
 	 */
@@ -300,7 +298,7 @@ public class NaviStudioActivity extends BaseActivity {
 			case BD_SATELLATE_ITEM: {
 				List<BDSatellite> bdsatellites = (List<BDSatellite>) msg.obj;
 				if (bdsatellites != null && bdsatellites.size() > 0) {
-					
+
 					 Iterator<BDSatellite> it = bdsatellites.iterator();
 					while (it.hasNext()) {
 						BDSatellite satellite = it.next();
@@ -311,17 +309,17 @@ public class NaviStudioActivity extends BaseActivity {
 								bdCurrentAvailable++;
 							}
 						}
-						Log.i(TAG, "statelliteID=" + statelliteID
-								+ ",zaizaobi=" + zaizaobi);
+//						Log.i(TAG, "statelliteID=" + statelliteID
+//								+ ",zaizaobi=" + zaizaobi);
 					}
 					// Log.i(TAG, "bdCurrentAvailable="+bdCurrentAvailable);
-					
+
 					//TODO  通过修改该参数 改变信号量
 					//bdCurrentAvailable = 9;
 					int locationModel = share.getInt("LOCATION_MODEL", 0);
 					if (locationModel == LocationStrategy.BD_ONLY_STRATEGY
 							|| locationModel == LocationStrategy.HYBRID_STRATEGY) {
-						Log.d(TAG, "handler 单北斗和混合模式");
+						//Log.d(TAG, "handler 单北斗和混合模式");
 						if (bdCurrentAvailable > 0) {
 							if (bdCurrentAvailable > 0
 									&& bdCurrentAvailable < 4) {
@@ -348,7 +346,7 @@ public class NaviStudioActivity extends BaseActivity {
 				}
 				break;
 			}
-			
+
 			//GPS 卫星条目数
 			case GPS_SATELLATE_ITEM: {
 				List<GPSatellite> list = (List<GPSatellite>) msg.obj;
@@ -372,7 +370,7 @@ public class NaviStudioActivity extends BaseActivity {
 					//gpsCurrentAvailable = 9;
 					if (locationModel1 == LocationStrategy.GPS_ONLY_STRATEGY
 							|| locationModel1 == LocationStrategy.HYBRID_STRATEGY) {
-						Log.d(TAG, "handler 单GPS和混合模式");
+						//Log.d(TAG, "handler 单GPS和混合模式");
 						if (gpsCurrentAvailable > 0) {
 							if (gpsCurrentAvailable > 0
 									&& gpsCurrentAvailable < 4) {
@@ -392,12 +390,12 @@ public class NaviStudioActivity extends BaseActivity {
 							}
 							gpsCurrentAvailable = 0;
 						}else {
-							
+
 							gpsstate.setImageResource(R.drawable.navistudio_gps_0_x);
 //						gpsstate.setBackground(mContext.getResources()
 //								.getDrawable(R.drawable.navistudio_gps_0_x));
 						}
-					} 
+					}
 				}
 				break;
 			}
@@ -415,8 +413,6 @@ public class NaviStudioActivity extends BaseActivity {
 			updateUIStyle(status);
 		}
 	};
-	
-	
 
 	/*
 	 * 与黑夜白天相关控件样式更新
@@ -471,8 +467,9 @@ public class NaviStudioActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setRequestedOrientation(com.novsky.map.util.Utils.isLand ? Configuration.ORIENTATION_LANDSCAPE
-				: Configuration.ORIENTATION_PORTRAIT);
+		Log.i("TEST" ,"=========================>onCreate");
+		this.setRequestedOrientation(com.novsky.map.util.Utils.isLand ? Configuration.ORIENTATION_LANDSCAPE : Configuration.ORIENTATION_PORTRAIT);
+		ttsVolumePrefs = mContext.getSharedPreferences("TTS_VOLUME", 0);
 		audioManager = (AudioManager) getSystemService(Activity.AUDIO_SERVICE);
 		statellitesManager = BDAvailableStatelliteManager.getInstance();
 		share = mContext.getSharedPreferences("LOCATION_MODEL_ACTIVITY", 0);
@@ -488,7 +485,6 @@ public class NaviStudioActivity extends BaseActivity {
 			e1.printStackTrace();
 		}
 		if ("S500".equals(com.novsky.map.util.Utils.DEVICE_MODEL)) {
-
 		} else {
 			try {
 				mananger.addBDEventListener(mBDSatelliteListener,mGPSatelliteListener);
@@ -501,8 +497,7 @@ public class NaviStudioActivity extends BaseActivity {
 		// 增加在JS_OnInit方法中
 		if ("S500".equals(com.novsky.map.util.Utils.DEVICE_MODEL)) {
 			/* 发送开启BD和GPS共同显示星图的广播 */
-			Intent intentReport = new Intent(
-					"android.intent.action.BDGPS_REPORT");
+			Intent intentReport = new Intent("android.intent.action.BDGPS_REPORT");
 			intentReport.putExtra("bdreport", 1);
 			sendStickyBroadcast(intentReport);
 		}
@@ -520,43 +515,19 @@ public class NaviStudioActivity extends BaseActivity {
 		ToolsUtils.continueRoute();
 		startTimeService();
 		/* 发送开启BD和GPS共同显示星图的广播 */
-		Intent satelliteIntent = new Intent(
-				"android.intent.action.BDGPS_REPORT");
+		Intent satelliteIntent = new Intent("android.intent.action.BDGPS_REPORT");
 		satelliteIntent.putExtra("bdreport", 1);
 		sendStickyBroadcast(satelliteIntent);
-		SharedPreferences reportCfgPrefs = getSharedPreferences(
-				"LOCATION_REPORT_CFG", 0);
+		SharedPreferences reportCfgPrefs = getSharedPreferences("LOCATION_REPORT_CFG", 0);
 		String address = reportCfgPrefs.getString("USER_ADDRESS", "");
-		SharedPreferences autoReportPreferences = getSharedPreferences(
-				"AUTO_REPORT_TYPE_PREFS", 0);
-		int autoReportType = autoReportPreferences
-				.getInt("AUTO_REPORT_TYPE", 0);
-		// 判断当前循环位置回报是否启动以及address是否为空并且是否设置为自动位置回报
-		// if((autoReportType==0)&&address!=null&&!"".equals(address)&&(!com.novsky.map.util.Utils.isServiceRunning(this,
-		// "CycleLocationReportService"))){
-		// cycleLocationService = new
-		// Intent(this,CycleLocationReportService.class);
-		// startService(cycleLocationService);
-		// reportCfgPrefs.edit().putString("REPORT_SWITCH", "on").commit();
-		// }else{
-		// reportCfgPrefs.edit().putString("REPORT_SWITCH", "off").commit();
-		// }
-		// 启动服务开始校时
-		// Intent checkTimeIntent=new Intent(this,CheckTimeService.class);
-		// startService(checkTimeIntent);
-		// Date date=new Date();
-		// try {
-		// SystemDateTime.setDateTime(date.getTime()+8*60*60*1000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
+		SharedPreferences autoReportPreferences = getSharedPreferences("AUTO_REPORT_TYPE_PREFS", 0);
+		int autoReportType = autoReportPreferences.getInt("AUTO_REPORT_TYPE", 0);
 	}
 
 	@Override
 	protected void onPause() {
 		mapListener.isStart = false;// 暂时关闭自动回车位功能
+		Log.i("TEST" ,"=========================>onPause");
 		/*************** 离开当前界面保存地图的比例尺 ******************/
 		int scale = (int) MapAPI.getInstance().getMapScale();
 		SettingForLikeTools.saveMapScale(this, scale);
@@ -599,74 +570,7 @@ public class NaviStudioActivity extends BaseActivity {
 		addListener();
 		int scale = SettingForLikeTools.getMapScale(this);
 		MapAPI.getInstance().setMapScale(scale);
-		// }
-		// COUNT_LAUNCHER_TOTAL++;
-		/* 检测北斗通信和北斗导航是否打开 */
-		// LocationManager locationManager
-		// =(LocationManager)this.getSystemService(LOCATION_SERVICE);
-		// ContentResolver resolver = this.getContentResolver();
-		// boolean bdMessageOn = Settings.Secure.isLocationProviderEnabled(
-		// resolver, BDRDSSManager.BD_MESSAGE_PROVIDER);
-		// final boolean gpsOn =
-		// locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
-		// if (!gpsOn) {
-		// final AlertDialog alert = new AlertDialog.Builder(this)
-		// .setTitle("提示")
-		// .setMessage("北斗导航未启用,是否进入启用?")
-		// .setCancelable(false)
-		// .setNegativeButton("否",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int whichButton) {
-		// Intent intent = new Intent(
-		// Intent.ACTION_MAIN);
-		// intent.addCategory(Intent.CATEGORY_HOME);
-		// startActivity(intent);
-		// // 关闭串口
-		// System.exit(0);
-		// }
-		// })
-		// .setPositiveButton("是",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int whichButton) {
-		// Intent intent = new Intent(
-		// Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		// startActivityForResult(intent, 0); // 此为设置完成后返回到获取界面
-		// }
-		// }).create();
-		// alert.show();
-		// return;
-		// }else if (!bdMessageOn) {
-		// final AlertDialog alert = new AlertDialog.Builder(this)
-		// .setTitle("提示")
-		// .setMessage("北斗短报文未启用,是否进入启用?")
-		// .setCancelable(false)
-		// .setNegativeButton("否",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int whichButton) {
-		// Intent intent = new Intent(
-		// Intent.ACTION_MAIN);
-		// intent.addCategory(Intent.CATEGORY_HOME);
-		// startActivity(intent);
-		// // 关闭串口
-		// System.exit(0);
-		// }
-		// })
-		// .setPositiveButton("是",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int whichButton) {
-		// Intent intent = new Intent(
-		// "android.settings.BD_SETTINGS");
-		// intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// startActivity(intent);
-		// }
-		// }).create();
-		// alert.show();
-		// return ;
-		// }else{
+
 		if ("S500".equals(com.novsky.map.util.Utils.DEVICE_MODEL)) {
 			manager.initLocation();
 		} else {
@@ -678,7 +582,6 @@ public class NaviStudioActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 		}
-		// }
 		ReportPosManager.addEventListener(new ReportPosListener() {
 			@Override
 			public void reportPos(BDLocationReport location) {
@@ -708,13 +611,16 @@ public class NaviStudioActivity extends BaseActivity {
 		audioManager = (AudioManager) getSystemService(Activity.AUDIO_SERVICE);
 		if (RouteAPI.getInstance().isRouteValid()) {
 			if (NaviControl.getInstance().naviStatus == NaviControl.NAVI_STATUS_SIMNAVI) {
-				// NaviControl.getInstance().guideBegin();
-				// this.mapView.goBackCar();
+				 this.mapView.goBackCar();
+				 Log.i("TEST" ,"===============================>NAVI_STATUS_SIMNAVI");
 			} else {
 				if (NaviControl.getInstance().naviStatus != NaviControl.NAVI_STATUS_REALNAVI) {
-					NaviControl.getInstance().startNavigate();
+					//NaviControl.getInstance().startNavigate();
+					Log.i("TEST" ,"===============================>startNavigate");
 				} else {
 					this.mapView.goBackCar();
+					Log.i("TEST" ,"===============================>showNaviInfo");
+					//NaviControl.getInstance().showNaviInfo();
 					NaviControl.getInstance().showNaviInfo();
 				}
 			}
@@ -723,54 +629,19 @@ public class NaviStudioActivity extends BaseActivity {
 		currentPointListener.setFootView();
 		setMapCenterRoadName();
 		NaviControl.getInstance().fleshLane();// 解决从其他页面跳转到主界面时车道线不显示的问题
-		// ///////注册陀螺仪////////////
-		// OrientationSensorManager.getInstance(this,NaviControl.getInstance()).register();
-		// Activity parentActivity = this.getParent();
-		// if (parentActivity != null) {
-		// NaviControl.getInstance().stopSimNavi();
-		// NaviControl.getInstance().stopRealNavi();
-		// RouteAPI.getInstance().clearRoute();
-		// NaviControl.getInstance().guideEnd();
-		// final FloatValue matchAngle = new FloatValue();
-		// final NSLonLat matchPos = new NSLonLat();
-		// NSLonLat vehiclePos = new NSLonLat();
-		// NSLonLat VPPos = new NSLonLat();
-		// int count =
-		// MapAPI.getInstance().getOverlayCount(ReportLayer.REPORT_LAY);
-		// 从位置报告列表中跳转到地图页面显示点
-		// if (x != null && y != null && !"".equals(x) && !"".equals(y)){
-		// vehiclePos.x = Float.valueOf(x);
-		// vehiclePos.y = Float.valueOf(y);
-		// RouteAPI.getInstance().matchProc(vehiclePos, 0, VPPos,matchPos,
-		// matchAngle);
-		// reportLayer.addReportPos(NaviStudioActivity.this, matchPos,count,
-		// userAddress);
-		// }
-		// /* 从通知栏跳转到地图页面画点 */
-		// if (com.novsky.map.util.Utils.LAT_VALUE != 0.0f
-		// && com.novsky.map.util.Utils.LON_VALUE != 0.0f){
-		// vehiclePos.x = Float.valueOf(com.novsky.map.util.Utils.LON_VALUE);
-		// vehiclePos.y = Float.valueOf(com.novsky.map.util.Utils.LAT_VALUE);
-		// String address = com.novsky.map.util.Utils.BD_REPORT_USER_ADDRESS;
-		// RouteAPI.getInstance().matchProc(vehiclePos, 0, VPPos,matchPos,
-		// matchAngle);
-		// reportLayer.addReportPos(NaviStudioActivity.this, matchPos,count,
-		// address);
-		// com.novsky.map.util.Utils.LON_VALUE = 0.0f;
-		// com.novsky.map.util.Utils.LAT_VALUE = 0.0f;
-		// }
-		// }
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		com.novsky.map.util.Utils.checkNaviMap = true;
+		Log.i("TEST" ,"=========================>onStart");
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		Log.i("TEST" ,"=========================>onStop");
 		com.novsky.map.util.Utils.checkNaviMap = false;
 		ActivityStack.newInstance().setBlMapBack(true);// 来自地图返回
 	}
@@ -778,6 +649,7 @@ public class NaviStudioActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		Log.i("TEST" ,"=========================>onDestroy");
 		DayOrNightControl.getIntance().removieDayOrNightListener(
 				dayOrNightListener);
 		mapView.hideTip();
@@ -834,7 +706,25 @@ public class NaviStudioActivity extends BaseActivity {
 				}
 			}
 		});
-
+		View tv_sos = this
+				.findViewById(R.id.tv_sos);
+		tv_sos.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				if (com.novsky.map.util.Utils.isLand) {
+//					Intent intent = new Intent();
+//					intent.setClass(mContext, BDManagerHorizontalActivity.class);
+//					startActivity(intent);
+//				} else {
+//					Intent intent = new Intent();
+//					intent.setClass(mContext, BDManagerActivity.class);
+//					startActivity(intent);
+//				}
+				Intent intent = new Intent();
+				intent.setClass(mContext, SosActivity.class);
+				startActivity(intent);
+			}
+		});
 		// 轨迹管理
 		ImageButton routeImageButton = (ImageButton) this
 				.findViewById(R.id.route_image_btn);
@@ -881,28 +771,75 @@ public class NaviStudioActivity extends BaseActivity {
 				}
 			}
 		});
+		mExitNaviBtn = findViewById(R.id.exit_navi_textView);
+        mExitNaviBtn.setVisibility(View.GONE);
+        mExitNaviBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+				AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
+				mBuilder.setTitle(mContext.getResources().getString(R.string.common_tip));
+				mBuilder.setMessage(mContext.getResources().getString(R.string.comfirm_stop_navi));
+				mBuilder.setPositiveButton(R.string.common_confirm,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_REALNAVI){
+									NaviControl.getInstance().stopRealNavi();
+								}else if(NaviControl.getInstance().naviStatus==NaviControl.NAVI_STATUS_SIMNAVI){
+									NaviControl.getInstance().stopSimNavi();
+									MapAPI.getInstance().setVehiclePosInfo(RouteAPI.getInstance().getStartPoint(), 0);
+								}
 
+								if(RouteAPI.getInstance().clearRoute()){
+									RouteLayer r = new RouteLayer();
+									r.deleteLayer();
+								}
+								mapView.goBackCar();
+								mExitNaviBtn.setVisibility(View.GONE);
+								//itemadapter.notifyDataSetChanged();
+							}
+						});
+				mBuilder.setNegativeButton(R.string.common_cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+
+							}
+						});
+				mBuilder.show();
+            }
+        });
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		int volumePref = ttsVolumePrefs.getInt("TTS_VOLUME" , 5);
 		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-			// adjustStreamVolume: 调整指定声音类型的音量
-			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);// 调低声音
-			if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0) {
+			volumePref --;
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volumePref, AudioManager.FLAG_SHOW_UI);// 调低声音
+			audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, volumePref, AudioManager.FLAG_VIBRATE);// 调低声音
+			if (volumePref >= 0) {
+				TTSAPI.getInstance().setVolumn(volumePref);
+				ttsVolumePrefs.edit().putInt("TTS_VOLUME", volumePref).commit();
+			} else {
 				volume.setBackgroundResource(R.drawable.navistudio_volumemute);
+				ttsVolumePrefs.edit().putInt("TTS_VOLUME", 0).commit();
 			}
 			return true;
 		} else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+			volumePref ++;
 			audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-			// 第一个参数：声音类型
-			// 第二个参数：调整音量的方向
-			// 第三个参数：可选的标志位
-			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI); // 调高声音
-			if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) > 0) {
+			int maxValue = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volumePref, AudioManager.FLAG_SHOW_UI);// 调低声音
+			audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, volumePref, AudioManager.FLAG_VIBRATE);// 调低声音
+			if (volumePref <= maxValue) {
 				volume.setBackgroundResource(R.drawable.navistudio_volumemax);
+				TTSAPI.getInstance().setVolumn(volumePref);
+				ttsVolumePrefs.edit().putInt("TTS_VOLUME", volumePref ).commit();
+			} else {
+				ttsVolumePrefs.edit().putInt("TTS_VOLUME", maxValue ).commit();
 			}
 			return true;
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -936,11 +873,11 @@ public class NaviStudioActivity extends BaseActivity {
 		initMapView();
 		if (RouteAPI.getInstance().isRouteValid()) {
 			if (MapAPI.getInstance().isCarInCenter()) {
-				if (NaviControl.getInstance().naviStatus == NaviControl.NAVI_STATUS_SIMNAVI) {
-					NaviControl.getInstance().guideBegin();
-				} else {
-					NaviControl.getInstance().startNavigate();
-				}
+//				if (NaviControl.getInstance().naviStatus == NaviControl.NAVI_STATUS_SIMNAVI) {
+//					NaviControl.getInstance().guideBegin();
+//				} else {
+//					NaviControl.getInstance().startNavigate();
+//				}
 			}
 			NaviControl.getInstance().fleshLane();// 解决横竖屏切换时车道线不显示的问题
 		}
@@ -1052,7 +989,6 @@ public class NaviStudioActivity extends BaseActivity {
 
 		currentPointBtn.setOnTouchListener(currentPointListener);
 		plantRouteBtn.setOnTouchListener(currentPointListener);
-
 	}
 
 	/*
@@ -1236,7 +1172,7 @@ public class NaviStudioActivity extends BaseActivity {
 
 	/**
 	 * 由其它界面跳转到地图界面后进行的操作。
-	 * 
+	 *
 	 * @param intent
 	 */
 	private void receiveEvent(Intent intent) {
@@ -1246,22 +1182,23 @@ public class NaviStudioActivity extends BaseActivity {
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
 			int intentAction = extras.getInt(Constants.INTENT_ACTION);
+			Log.i("TEST" ,"===================================>receiveEvent intentAction= " + intentAction);
 			switch (intentAction) {
 			case Constants.INTENT_TYPE_FRIEND_LOCATION_ITEM:// 单个友邻位置
-				
+
 				FriendBDPoint friendBDPoint = (FriendBDPoint) extras.getSerializable("friendBDPoint");
 				//showFriendLocation(friendBDPoint);
 				showPOI(friendBDPoint);
-				
+
 				break;
 			case Constants.INTENT_TYPE_FRIEND_LOCATION_LIST_NOTIFYCATION:// 多个友邻位置  在notification中
-					
+
 					ArrayList<FriendBDPoint> friendLocationList2 = (ArrayList<FriendBDPoint>) extras.getSerializable("friendLocationList");
 					//多个友邻位置显示
 					showFriendLocation(friendLocationList2);
 					break;
 			case Constants.INTENT_TYPE_FRIEND_LOCATION_LIST:// 多个友邻位置
-				
+
 				ArrayList<FriendBDPoint> friendLocationList = (ArrayList<FriendBDPoint>) extras.getSerializable("friendLocationList");
 				//多个友邻位置显示
 				showFriendLocation(friendLocationList);
@@ -1270,9 +1207,9 @@ public class NaviStudioActivity extends BaseActivity {
 				blEnableSearch = false;
 				poiInfo = (SearchResultInfo) extras
 						.getSerializable(Constants.POI_DATA);
-				
+
 				showPOI(poiInfo);
-				
+
 				break;
 			case Constants.INTENT_TYPE_SETSTARTPOINT:// 设置起点
 				NaviControl.getInstance().stopSimNavi();
@@ -1531,7 +1468,7 @@ public class NaviStudioActivity extends BaseActivity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @Copyright:mapabc
 	 * @description:设置道路中心点名称
 	 * @author fei.zhan
@@ -1696,9 +1633,6 @@ public class NaviStudioActivity extends BaseActivity {
 			currentPointListener.setDestination(end_mPos);
 			currentPointListener.reCalculatePath(1);
 		}
-		
-		
-		//友邻位置
 	}
 
 	/**
@@ -1742,11 +1676,11 @@ public class NaviStudioActivity extends BaseActivity {
 	 * @param friendLocationList
 	 */
 	private void showFriendLocation(ArrayList<FriendBDPoint> friendLocationList) {
-		
+
 		//从sp中获取 保存的友邻id
 		String spToDelID = friendID_Sp.getString("Stored_friend_id", "");
 		for (FriendBDPoint friendBDPoint : friendLocationList) {
-			
+
 			int count = MapAPI.getInstance().getOverlayCount(
 					ReportLayer.REPORT_LAY);
 			final FloatValue matchAngle = new FloatValue();
@@ -1759,12 +1693,12 @@ public class NaviStudioActivity extends BaseActivity {
 					matchAngle);
 			reportLayer.addReportPosDontDel(NaviStudioActivity.this, matchPos, count,
 					friendBDPoint.getFriendID());
-			
+
 			//保存  friendID 数 根据friendID删除  根据保存的id去删除 指定的友邻  该方法作废  计划在RouteManagerActivity 中调用
 			String friendID = friendBDPoint.getFriendID();
 			spToDelID=spToDelID+"@"+friendID;
 		}
-		
+
 		friendID_editor.putString("Stored_friend_id", spToDelID);
 		friendID_editor.commit();
 	}

@@ -1,0 +1,163 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/function_bg"
+    >
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       android:orientation="horizontal"
+       android:layout_marginTop="24dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_marginLeft="4dp"
+          android:layout_weight="1"
+          android:background="@drawable/txt_bg"
+          android:gravity="center"
+          android:text="@string/pt_num_str"
+          android:textSize="@dimen/txtSize" />
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_weight="3"
+          android:background="@drawable/edit_txt_bg"
+          android:gravity="center"
+          android:orientation="horizontal" >
+         <EditText
+             android:id="@+id/bdloc_userAddress_et"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="4"
+             android:background="@null"
+             android:gravity="center"
+             android:inputType="number"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+
+         <ImageView
+             android:id="@+id/bdloc_linker"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:contentDescription="@string/kou_lin_linker_str"
+             android:src="@drawable/msg_select_address" />
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       android:orientation="horizontal"
+       android:layout_marginTop="24dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_weight="4"
+          android:background="@drawable/txt_bg"
+          android:gravity="center"
+          android:text="@string/jy_str"
+          android:textSize="@dimen/txtSize" />
+
+
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="150dp"
+       android:gravity="center"
+       android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="150dp"
+          android:layout_weight="4"
+          android:background="@drawable/edit_txt_bg"
+          android:gravity="center"
+          android:orientation="horizontal" >
+         <EditText
+             android:id="@+id/ed_jyxx"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:background="@null"
+             android:gravity="center"
+             android:text="行车安全警情，请求立刻救援！"
+             android:hint="行车安全警情，请求立刻救援！"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+
+
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+   <!--确认按钮-->
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="48dp"
+       android:gravity="center"
+       android:orientation="horizontal" >
+
+      <Button
+          android:id="@+id/bdloc_report_submit_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:layout_marginRight="50dp"
+          android:background="@drawable/btn_bg_selector"
+          android:text="@string/common_submit_btn"
+          android:textSize="@dimen/txtSize" />
+      <Button
+          android:id="@+id/bdloc_report_cancle_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:visibility="gone"
+          android:layout_marginLeft="50dp"
+          android:background="@drawable/btn_bg_selector"
+          android:text="@string/common_cancle_btn"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+</LinearLayout>

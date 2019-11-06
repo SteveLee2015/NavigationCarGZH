@@ -98,7 +98,11 @@ public class BDResponseListener implements BDFKIListener {
 					break;
 				/* 超频 */
 				case BD_OVER_TIME:
-					Utils.COUNT_DOWN_TIME = (cardManager.getCardInfo().mSericeFeq + msg.arg1);					
+					if (cardManager != null && cardManager.getCardInfo() != null) {
+						Utils.COUNT_DOWN_TIME = (cardManager.getCardInfo().mSericeFeq + msg.arg1);
+					} else {
+						Utils.COUNT_DOWN_TIME = (60 + msg.arg1);
+					}
 					break;
 				default:
 					break;

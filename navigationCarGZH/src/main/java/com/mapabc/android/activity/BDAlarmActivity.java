@@ -77,12 +77,12 @@ public class BDAlarmActivity extends Activity {
 									.replace("CMD", "位置报告2"),
 							Toast.LENGTH_SHORT).show();
 				} else if (mark != null && "TXA".equals(mark)) {
-					Toast.makeText(
-							mContext,
-							mContext.getResources()
-									.getString(R.string.cmd_success)
-									.replace("CMD", "报警"), Toast.LENGTH_SHORT)
-							.show();
+//					Toast.makeText(
+//							mContext,
+//							mContext.getResources()
+//									.getString(R.string.cmd_success)
+//									.replace("CMD", "报警"), Toast.LENGTH_SHORT)
+//							.show();
 				}
 				Utils.CARD_FREQ = Utils.getCardInfo().mSericeFeq;
 				break;
@@ -115,12 +115,12 @@ public class BDAlarmActivity extends Activity {
 							.show();
 				}
 				if (mark != null && "TXA".equals(mark)) {
-					Toast.makeText(
-							mContext,
-							mContext.getResources()
-									.getString(R.string.cmd_fail)
-									.replace("CMD", "报警"), Toast.LENGTH_SHORT)
-							.show();
+//					Toast.makeText(
+//							mContext,
+//							mContext.getResources()
+//									.getString(R.string.cmd_fail)
+//									.replace("CMD", "报警"), Toast.LENGTH_SHORT)
+//							.show();
 				}
 				Utils.CARD_FREQ = Utils.getCardInfo().mSericeFeq;
 				break;

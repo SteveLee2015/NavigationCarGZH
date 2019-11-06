@@ -104,6 +104,19 @@
                     android:visibility="visible"/>
 
 
+                <Button
+                    android:id="@+id/exit_navi_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="退出导航   ×"
+                    android:textSize="20px"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/ib_bdstate"
+                    android:layout_marginLeft="16px"
+                    android:clickable="true"
+                    />
+
+
                 <!-- 剩余里程图标 -->
                 <ImageButton
                     android:id="@+id/ib_navi_remain_dis_unit"
@@ -330,6 +343,18 @@
         android:id="@+id/operatelayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/tv_sos"
+            android:layout_width="150dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="SOS"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_circle_red"
+            android:layout_height="65dp" />
         <!-- 当前点和设置目的地 -->
         <LinearLayout
             android:id="@+id/current_popint_linearlayout"
@@ -379,16 +404,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/current_popint_linearlayout"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/more_function_imageButton"
                 android:layout_width="110dp"
                 android:layout_height="80dp"
                 android:background="@drawable/btn_send_half_corner_bg"
-                android:src="@drawable/menu_icon_more"
-                />
+                android:src="@drawable/menu_icon_more" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -39,6 +39,7 @@ import com.mapabc.naviapi.type.Const;
 import com.mapabc.naviapi.utils.SysParameterManager;
 import com.novsky.map.util.TabSwitchActivityData;
 import com.novsky.map.util.Utils;
+import com.novsky.map.util.VolumeChangeObserver;
 
 /**
  * 主界面
@@ -200,10 +201,8 @@ public class MainActivity extends Activity {
 			// 初始化系统参数
 			boolean tts_res = TTSAPI.getInstance().init(ttsOptions);
 			Log.e(TAG, "tts init is:" + tts_res);
-			 String welcome =
-			 mContext.getString(R.string.navilogo_welcomevoice);
-			 TTSAPI.getInstance().addPlayContent(welcome,
-			 Const.AGPRIORITY_CRITICAL);
+			 String welcome = mContext.getString(R.string.navilogo_welcomevoice);
+			TTSAPI.getInstance().addPlayContent(welcome, Const.AGPRIORITY_CRITICAL);
 			mHandler.sendEmptyMessageDelayed(FINISH_MAP_ENGINE, 500);
 		}
 	}

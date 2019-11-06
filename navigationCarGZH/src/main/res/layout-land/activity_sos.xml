@@ -1,0 +1,335 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    android:orientation="vertical" >
+
+   <include layout="@layout/include_bdsend_msg_land_scape_sos" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:background="@drawable/function_bg"
+    android:layout_height="match_parent">
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+
+       android:orientation="horizontal"
+       android:layout_marginTop="24dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_marginLeft="4dp"
+          android:layout_weight="1"
+          android:background="@drawable/txt_bg"
+          android:gravity="center"
+          android:text="@string/pt_num_str"
+          android:textSize="@dimen/txtSize" />
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_weight="3"
+          android:background="@drawable/edit_txt_bg"
+          android:gravity="center"
+          android:orientation="horizontal" >
+         <EditText
+             android:id="@+id/bdloc_userAddress_et"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="4"
+             android:background="@null"
+             android:gravity="center"
+             android:inputType="number"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+
+         <ImageView
+             android:id="@+id/bdloc_linker"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:contentDescription="@string/kou_lin_linker_str"
+             android:src="@drawable/msg_select_address" />
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+
+       android:orientation="horizontal"
+       android:layout_marginTop="4dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="68dp"
+          android:layout_weight="4"
+          android:gravity="center"
+          android:orientation="horizontal" >
+
+         <TextView
+             android:id="@+id/type1"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:text="自然灾害"
+
+             android:clickable="true"
+             android:padding="10dp"
+             android:layout_marginLeft="5dp"
+             android:layout_marginRight="50dp"
+             android:layout_gravity="center"
+             android:background="@drawable/shape_circle_white"
+             android:textSize="20sp" />
+
+         <TextView
+             android:id="@+id/type2"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:text="交通事故"
+             android:clickable="true"
+             android:padding="10dp"
+
+             android:layout_marginLeft="50dp"
+             android:layout_marginRight="50dp"
+             android:layout_gravity="center"
+             android:background="@drawable/shape_circle_white"
+             android:textSize="20sp" />
+
+         <TextView
+             android:id="@+id/type3"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:text="车辆故障"
+
+             android:padding="10dp"
+             android:clickable="true"
+             android:layout_marginLeft="50dp"
+             android:layout_marginRight="50dp"
+             android:layout_gravity="center"
+             android:background="@drawable/shape_circle_white"
+             android:textSize="20sp" />
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+
+       android:orientation="horizontal"
+       android:layout_marginTop="4dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="68dp"
+          android:layout_weight="4"
+          android:gravity="center"
+          android:orientation="horizontal" >
+
+         <TextView
+             android:id="@+id/type4"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:text="行车安全"
+
+             android:clickable="true"
+             android:padding="10dp"
+             android:layout_marginLeft="5dp"
+             android:layout_marginRight="50dp"
+             android:layout_gravity="center"
+             android:background="@drawable/shape_circle_white"
+             android:textSize="20sp" />
+
+         <TextView
+             android:id="@+id/type5"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:text="车辆被抢"
+             android:padding="10dp"
+             android:clickable="true"
+
+             android:layout_marginLeft="50dp"
+             android:layout_marginRight="50dp"
+             android:layout_gravity="center"
+             android:background="@drawable/shape_circle_white"
+             android:textSize="20sp" />
+
+         <TextView
+             android:id="@+id/type6"
+             android:layout_width="120dp"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginLeft="50dp"
+             android:layout_marginRight="50dp"
+             android:background="@drawable/shape_circle_white"
+             android:clickable="true"
+
+             android:padding="10dp"
+             android:text="人身安全"
+             android:textSize="20sp" />
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       android:orientation="horizontal"
+       android:layout_marginTop="4dp" >
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="48dp"
+          android:layout_weight="4"
+          android:background="@drawable/txt_bg"
+          android:gravity="center"
+          android:text="@string/jy_str"
+          android:textSize="@dimen/txtSize" />
+
+
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="150dp"
+       android:gravity="center"
+       android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="100dp"
+          android:layout_weight="4"
+          android:background="@drawable/edit_txt_bg"
+          android:gravity="center"
+          android:orientation="horizontal" >
+         <TextView
+             android:id="@+id/tv_str1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:hint="车辆遇到"
+             android:text="车辆遇到"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+         <EditText
+             android:id="@+id/tv_str"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:hint="****"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+         <TextView
+             android:id="@+id/tv_str2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@null"
+             android:text="紧急情况，请求立刻救援！"
+             android:hint="紧急情况，请求立刻救援！"
+             android:paddingLeft="4dp"
+             android:textSize="@dimen/txtSize" />
+
+      </LinearLayout>
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+   <!--确认按钮-->
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="20dp"
+       android:gravity="center"
+       android:orientation="horizontal" >
+
+      <Button
+          android:id="@+id/send_alarm_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:layout_marginRight="50dp"
+          android:background="@drawable/btn_bg_selector"
+          android:text="@string/common_submit_btn"
+          android:textSize="@dimen/txtSize" />
+      <Button
+          android:id="@+id/cancle_alarm_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="48dp"
+          android:layout_marginLeft="50dp"
+          android:background="@drawable/btn_bg_selector"
+          android:text="@string/common_cancle_btn"
+          android:textSize="@dimen/txtSize" />
+   </LinearLayout>
+
+</LinearLayout>
+</LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,6 +25,8 @@ import com.mapabc.naviapi.search.SearchOption;
 import com.mapabc.naviapi.tts.TTSOptions;
 import com.mapabc.naviapi.type.Const;
 import com.mapabc.naviapi.utils.SysParameterManager;
+import com.novsky.map.util.SCConstants;
+import com.novsky.map.util.VolumeChangeObserver;
 
 /**
  * 系统初始化线程
@@ -100,13 +103,18 @@ public class AsyncForward extends AsyncTask<Void, Void, Void>{
         boolean tts_res = TTSAPI.getInstance().init(ttsOptions);
         Log.e(TAG, "tts init is:"+tts_res);
 		SettingForLikeTools.initSystem(act);
+		SharedPreferences ttsVolumePrefs = act.getSharedPreferences("TTS_VOLUME", 0);
+		int volume = ttsVolumePrefs.getInt("TTS_VOLUME" , 5);
+		Log.i("TEST","=======================>mVolumeChangeObserver =" + volume);
+		TTSAPI.getInstance().setVolumn(volume);
 		String welcome = act.getString(R.string.navilogo_welcomevoice);
         TTSAPI.getInstance().addPlayContent(welcome, Const.AGPRIORITY_CRITICAL);
-        
+
 		SettingForLikeTools.systemStart_SetScreenBrightness(act);
 		CrashHandler.newInstance().init(act.getApplicationContext());
 		ToolsUtils.turnScreen_OffDown(act);
 		ToolsUtils.intentEvent(Constants.INTENT_ACTION, Constants.INTENT_TYPE_NEWNAVISTUDIO, null, null, act, target);
+		SCConstants.setIsLoaded(true);
 		act.finish();
 	}
 	

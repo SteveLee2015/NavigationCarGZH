@@ -2,6 +2,7 @@ package com.mapabc.android.activity.listener;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.base.NaviControl;
@@ -75,6 +76,7 @@ public class MyMapListener implements MapListener {
 			break;
 		case MapListener.MAP_STATUS_CAR:
 			CARNOTINCENTER=true;
+			Log.i("TEST" , "===============================>MAP_STATUS_CAR");
 			NaviControl.getInstance().isShowNaviInfo=true;
 			naviStudioActivity.carBackEvent.setButtonGone();
 			naviStudioActivity.currentPointListener.setFootView();

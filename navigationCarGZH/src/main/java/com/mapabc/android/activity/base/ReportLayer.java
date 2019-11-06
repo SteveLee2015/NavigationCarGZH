@@ -3,6 +3,7 @@ package com.mapabc.android.activity.base;
 import android.content.Context;
 import android.util.Log;
 
+import com.mapabc.android.activity.utils.ToolsUtils;
 import com.mapabc.naviapi.MapAPI;
 import com.mapabc.naviapi.type.Const;
 import com.mapabc.naviapi.type.NSLonLat;
@@ -47,17 +48,21 @@ public class ReportLayer {
 		    overlay.id = id;
 		}
 		Log.i(TAG, "--------------------------->type="+type);
-		
+
+		double[] lonlat = ToolsUtils.wgs84togcj02(pos.x, pos.y);
+		float lon = (float) lonlat[0];
+		float lat = (float) lonlat[1];
+		NSLonLat destLonLat = new NSLonLat(lon , lat);
 		overlay.type = Const.MAP_OVERLAY_POI;
 		overlay.hide = false;
-		overlay.lons = new float[]{pos.x};
-		overlay.lats = new float[]{pos.y};
-		Log.i(TAG, "------------------>lons="+pos.x+",lat="+pos.y);
+		overlay.lons = new float[]{lon};
+		overlay.lats = new float[]{lat};
+		Log.i(TAG, "------------------>lons="+lon+",lat="+lat);
 		overlay.labelText =fullName;
 		overlay.painterName ="";
 		overlay.labelName ="poi_point";		
 		boolean addret = MapAPI.getInstance().addOverlay(REPORT_LAY, overlay);
-		MapAPI.getInstance().setMapCenter(pos);
+		MapAPI.getInstance().setMapCenter(destLonLat);
 		return addret;
 	}
 	/**
@@ -80,17 +85,22 @@ public class ReportLayer {
 //			overlay.id = id;
 //		}
 		Log.i(TAG, "--------------------------->type="+type);
-		
+
+		double[] lonlat = ToolsUtils.wgs84togcj02(pos.x, pos.y);
+		float lon = (float) lonlat[0];
+		float lat = (float) lonlat[1];
+		NSLonLat destLonLat = new NSLonLat(lon , lat);
+
 		overlay.type = Const.MAP_OVERLAY_POI;
 		overlay.hide = false;
-		overlay.lons = new float[]{pos.x};
-		overlay.lats = new float[]{pos.y};
-		Log.i(TAG, "------------------>lons="+pos.x+",lat="+pos.y);
+		overlay.lons = new float[]{lon};
+		overlay.lats = new float[]{lat};
+		Log.i(TAG, "------------------>lons="+lon+",lat="+lat);
 		overlay.labelText =fullName;
 		overlay.painterName ="";
 		overlay.labelName ="poi_point";		
 		boolean addret = MapAPI.getInstance().addOverlay(REPORT_LAY, overlay);
-		MapAPI.getInstance().setMapCenter(pos);
+		MapAPI.getInstance().setMapCenter(destLonLat);
 		return addret;
 	}
 	

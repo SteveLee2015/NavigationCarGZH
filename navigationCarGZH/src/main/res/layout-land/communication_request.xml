@@ -77,7 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="发送至手机"
-            android:textSize="@dimen/txtSize" >
+            android:textSize="@dimen/txtSize"
+            android:visibility="invisible">
         </CheckBox>
     </LinearLayout>
 

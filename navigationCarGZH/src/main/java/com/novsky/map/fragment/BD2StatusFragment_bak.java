@@ -28,6 +28,8 @@ import com.bd.comm.protocal.BDSatellite;
 import com.bd.comm.protocal.BDSatelliteListener;
 import com.mapabc.android.activity.R;
 import com.mapabc.android.activity.utils.ReceiverAction;
+import com.mapabc.naviapi.MapAPI;
+import com.mapabc.naviapi.type.NSLonLat;
 import com.novsky.map.main.BDAvailableStatelliteManager;
 import com.novsky.map.main.LocationStatusManager;
 import com.novsky.map.main.VerticalProgressBar;
@@ -176,6 +178,9 @@ public class BD2StatusFragment_bak extends Fragment {
 				    if(locationModel==LocationStrategy.BD_ONLY_STRATEGY||locationModel==LocationStrategy.HYBRID_STRATEGY){
 				    	   if(ilocsture){
 							   locationStatus.setText("已定位");
+							   MapAPI.getInstance().setVehicleGPS(3);
+							   NSLonLat vehicleLonLat=new NSLonLat((float)location.getLongitude(), (float)location.getLatitude());
+							   MapAPI.getInstance().setVehiclePosInfo(vehicleLonLat,0);
 						   }else{
 							   locationStatus.setText("未定位");
 						   }
@@ -189,6 +194,7 @@ public class BD2StatusFragment_bak extends Fragment {
 			       if(locationModel==LocationStrategy.BD_ONLY_STRATEGY||locationModel==LocationStrategy.HYBRID_STRATEGY){
 			    	   if(isture){
 						   locationStatus.setText("已定位");
+						   MapAPI.getInstance().setVehicleGPS(3);
 					   }else{
 						   locationStatus.setText("未定位");
 					   }

@@ -54,17 +54,17 @@ public class BDMessageListFragment extends ListFragment{
 		usalWordItem.setCheck(false);
 		items.add(usalWordItem);
 		
-		MessageItem naviItem=new MessageItem();
+/*		MessageItem naviItem=new MessageItem();
 		naviItem.setId(4);
 		naviItem.setName("指令导航");
 		naviItem.setCheck(false);
-		items.add(naviItem);
+		items.add(naviItem);*/
 		
-		MessageItem lineItem=new MessageItem();
+/*		MessageItem lineItem=new MessageItem();
 		lineItem.setId(5);
 		lineItem.setName("路线导航");
 		lineItem.setCheck(false);
-		items.add(lineItem);
+		items.add(lineItem);*/
 		
 		MessageItem friendLocationItem=new MessageItem();
 		friendLocationItem.setId(6);

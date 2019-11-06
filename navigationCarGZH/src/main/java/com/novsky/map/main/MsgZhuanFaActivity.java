@@ -113,7 +113,7 @@ public class MsgZhuanFaActivity extends Activity {
 		this.setRequestedOrientation(Utils.isLand?Configuration.ORIENTATION_LANDSCAPE:Configuration.ORIENTATION_PORTRAIT);
 		Intent intent = getIntent();
 		int index = Integer.valueOf(intent.getStringExtra("MSG_DEL_ID"));
-		smsOperation= new DatabaseOperation(this);
+		smsOperation= DatabaseOperation.getInstance();
 		smsCursor= smsOperation.get(index);
 		timeManager=BDTimeCountManager.getInstance();
 		timeManager.registerBDTimeFreqListener(MsgZhuanFaActivity.class.getSimpleName(),timeFreqListener);
@@ -257,7 +257,8 @@ public class MsgZhuanFaActivity extends Activity {
 			   }
 			}
 			translateType = Utils.checkMsg(msgstr);
-			manager.sendSMSCmdBDV21(sendAddress, 1,translateType,"N", msgstr);
+			manager.sendSMSCmdBDStdV21(sendAddress, 1, translateType, "N",  msgstr);
+
 			Utils.COUNT_DOWN_TIME=BDCardInfoManager.getInstance().getCardInfo().mSericeFeq;
 		} catch (BDUnknownException e) {
 			e.printStackTrace();
@@ -265,7 +266,7 @@ public class MsgZhuanFaActivity extends Activity {
 			e.printStackTrace();
 		}
 		/* 在数据库中保存该数据 */
-		DatabaseOperation operation = new DatabaseOperation(mContext);
+		DatabaseOperation operation = DatabaseOperation.getInstance();
 		BDMSG msg = new BDMSG();
 		String address = userAddress.getText().toString();
 		msg.setColumnsUserAddress(address);
@@ -279,7 +280,6 @@ public class MsgZhuanFaActivity extends Activity {
 		msg.setColumnsCrc("0");
 		msg.setColumnsMsgFlag("1");
 		long id = operation.insert(msg);
-		operation.close();		
 	}
 
 	
@@ -341,9 +341,6 @@ public class MsgZhuanFaActivity extends Activity {
 		super.onDestroy();
 		if(smsCursor!=null){
 			smsCursor.close();
-		}
-		if(smsOperation!=null){
-		   smsOperation.close();	
 		}
 		timeManager.unRegisterBDTimeFreqListener(MsgZhuanFaActivity.class.getSimpleName());
 	}

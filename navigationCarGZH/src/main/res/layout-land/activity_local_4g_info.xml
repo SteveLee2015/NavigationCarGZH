@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bd_loc_bg"
+    android:orientation="vertical"
+    android:paddingLeft="100dp"
+    android:paddingRight="100dp">
+    <!-- 本机地址 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="44dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="手机号"
+            android:background="@drawable/txt_bg"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txtSize"/>
+
+        <TextView
+            android:id="@+id/local_address"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txtSize"
+            android:background="@drawable/edit_txt_bg"/>
+    </LinearLayout>
+    <!--IC卡状态 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/local_ic_card_status"
+            android:background="@drawable/txt_bg"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txtSize"/>
+
+        <TextView
+            android:id="@+id/local_iccard_status"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/txtSize"
+            android:background="@drawable/edit_txt_bg"/>
+    </LinearLayout>
+
+    <!--IC卡信号强度 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/phone_sign_status"
+            android:background="@drawable/txt_bg"
+            android:textSize="@dimen/txtSize"
+            android:textColor="@color/black" />
+
+        <com.novsky.map.main.CustomProgressView
+            android:id="@+id/auto_progress"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical">
+        </com.novsky.map.main.CustomProgressView>
+    </LinearLayout>
+
+</LinearLayout>

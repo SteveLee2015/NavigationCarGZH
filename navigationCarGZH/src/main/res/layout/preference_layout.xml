@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
    >
     <ImageView 
-        android:id="@+android:id/icon"
+        android:id="@android:id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -16,13 +16,13 @@
         android:layout_marginLeft="16dp"
         android:orientation="vertical">
 	    <TextView 
-	        android:id="@+android:id/title"
+	        android:id="@android:id/title"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textSize="@dimen/txtSize"
 	        />
 	    <TextView 
-	        android:id="@+android:id/summary"
+	        android:id="@android:id/summary"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textSize="16sp"

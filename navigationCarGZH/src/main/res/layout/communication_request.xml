@@ -73,7 +73,7 @@
             android:text="发送至手机"
             android:textSize="14sp"
             android:textColor="@color/black"
-            android:visibility="visible" />
+            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout

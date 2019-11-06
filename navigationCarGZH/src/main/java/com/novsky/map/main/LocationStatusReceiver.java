@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.mapabc.naviapi.MapAPI;
 import com.novsky.map.util.Utils;
 
 /**
@@ -30,6 +31,8 @@ public class LocationStatusReceiver extends BroadcastReceiver {
                 manager.updateLocationStatus(true);
                 manager.setLocationStatus(true);
                 Utils.INIT_LOCATION_STATUS="已定位";
+				MapAPI.getInstance().setVehicleGPS(3);
+
 	        } else if (action.equals("android.location.GPS_ENABLED_CHANGE") && !enabled) {
 	        	Log.i(TAG,"=======>GPS is off");
 	        } else {

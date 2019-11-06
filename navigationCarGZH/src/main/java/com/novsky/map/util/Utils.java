@@ -1,19 +1,5 @@
 package com.novsky.map.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -25,7 +11,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -47,14 +32,17 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bd.comm.protocal.BDRNSSLocation;
 import com.mapabc.android.activity.NaviStudioActivity;
 import com.mapabc.android.activity.R;
 import com.mapabc.android.activity.base.Constants;
+import com.mapabc.android.activity.utils.FMSharedPreferenceUtils;
 import com.novsky.map.main.BDLocationReportImp;
 import com.novsky.map.main.BDManagerHorizontalActivity;
 import com.novsky.map.main.BDSendMsgLandScapeActivity;
@@ -63,7 +51,21 @@ import com.novsky.map.main.CoodrinateDate;
 import com.novsky.map.main.FriendBDPoint;
 import com.novsky.map.main.FriendsLocationActivity;
 
-import static com.novsky.map.util.Config.MY_LOC_REPORT_NOTIFICATION;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 工具类
@@ -76,6 +78,9 @@ public class Utils {
      * 工具类日志标识
      */
     private static final String TAG = "Utils";
+
+    public static String MY_ADDRESS_SOSSET = FMSharedPreferenceUtils.getInstance().getString("MY_ADDRESS_SOSSET", "");
+    public static String MY_JYXX = FMSharedPreferenceUtils.getInstance().getString("MY_JYXX", "");
     /**
      * 创建进度条
      */
@@ -177,8 +182,10 @@ public class Utils {
      * 标识当前更多页面显示的页面的Index值
      */
     public static int BD_MANAGER_PAGER_INDEX = 1;
-
     public static boolean isLand = true;
+    private static int LENGTH_4G_MSG = 0;
+    private static BigDecimal bigDecimal = null;
+    private static BigDecimal lonBigDecimal = null , muniteBigDecimal = null , secondBigDecimal = null , millsecondBigDecimal = null;
 
     public static HashMap<String, String> getContractMap(Context mContext) {
         if (map == null) {
@@ -338,6 +345,24 @@ public class Utils {
                 list.remove(index);
             }
         }
+    }
+
+    public static byte[] long2Bytes(long num) {
+        byte[] byteNum = new byte[8];
+        for (int ix = 0; ix < 8; ++ix) {
+            int offset = 64 - (ix + 1) * 8;
+            byteNum[ix] = (byte) ((num >> offset) & 0xff);
+        }
+        return byteNum;
+    }
+
+    public static long bytes2Long(byte[] byteNum) {
+        long num = 0;
+        for (int ix = 0; ix < 8; ++ix) {
+            num <<= 8;
+            num |= (byteNum[ix] & 0xff);
+        }
+        return num;
     }
 
     /**
@@ -543,10 +568,10 @@ public class Utils {
      * @return
      */
     public static int checkMsg(String txt) {
-		/* 汉字统计参数 */
+        /* 汉字统计参数 */
         int count = 0;
         int flag = 0;
-		/* 正则表达式判断汉字 */
+        /* 正则表达式判断汉字 */
         String regEx = "[\\u4e00-\\u9fa5]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(txt);
@@ -555,19 +580,19 @@ public class Utils {
                 count = count + 1;
             }
         }
-		/* 包含汉字 */
+        /* 包含汉字 */
         if (count != 0) {
-			/* 全是汉字 */
+            /* 全是汉字 */
             if (count == txt.length()) {
                 flag = 0;
                 System.out.println("汉字!");
             } else {
-				/* 混合 */
+                /* 混合 */
                 flag = 2;
                 System.out.println("混合");
             }
         } else {
-			/* 不包含汉字 */
+            /* 不包含汉字 */
             // flag=1;
             // System.out.println("代码");
             String reg = "[0-9,A,B,C,D,E,F]*";
@@ -581,6 +606,7 @@ public class Utils {
         }
         return flag;
     }
+
 
     /**
      * 获得电话号码
@@ -631,11 +657,11 @@ public class Utils {
      */
     private static HashMap<String, String> getContentNew(Context mContext) {
         String[] projection = {ContactsContract.PhoneLookup.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER};
+                Phone.NUMBER};
         HashMap<String, String> map = new HashMap<String, String>();
         // 将自己添加到 msPeers 中
         Cursor cursor = mContext.getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                Phone.CONTENT_URI,
                 projection, null, // WHERE clause.
                 null, // WHERE clause value substitution
                 null); // Sort order.
@@ -648,7 +674,7 @@ public class Utils {
             int nameFieldColumnIndex = cursor
                     .getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
             String name = cursor.getString(nameFieldColumnIndex);
-            String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String number = cursor.getString(cursor.getColumnIndex(Phone.NUMBER));
             map.put(number.replaceAll(" ", ""), name);
             Log.i("Contacts", "" + name + " .... " + number.replaceAll(" ", "")); // 这里提示
         }
@@ -777,7 +803,6 @@ public class Utils {
     /**
      * 验证北斗是否打开
      *
-     * @param mContext
      * @retun
      */
     // public static boolean CheckGPS(Context mContext){
@@ -834,26 +859,26 @@ public class Utils {
     }
 
     /*
-	 * **************************************************************************************************
-	 * - 函数名称 : DD_GOSS(FP32 L, FP32 B, FP32 H, FP32 gcycz) - 函数说明 : 大地坐标转高斯坐标 -
-	 * 输入参数 : L:经度;B:纬度;H:高程;gcycz:高程异常值 - 输出参数 : 无
-	 * ******************************
-	 * ********************************************************************
-	 */
+     * **************************************************************************************************
+     * - 函数名称 : DD_GOSS(FP32 L, FP32 B, FP32 H, FP32 gcycz) - 函数说明 : 大地坐标转高斯坐标 -
+     * 输入参数 : L:经度;B:纬度;H:高程;gcycz:高程异常值 - 输出参数 : 无
+     * ******************************
+     * ********************************************************************
+     */
     public static LocationParam DD_GOSS1(double L /* in 经度 */
             , double B/* in 纬度 */, double H /* 高程 */, double gcycz /* 高程异常 */) {
         double SINB, COSB;
-		/* SINB=sinB,COSB=cosB */
+        /* SINB=sinB,COSB=cosB */
         double t;
-		/* t=tgB */
+        /* t=tgB */
         double e, ns;
-		/* e=(a*a-b*b)/(a*a),ns is n */
+        /* e=(a*a-b*b)/(a*a),ns is n */
         double ls, NL;
-		/* ls=l"/p", N */
+        /* ls=l"/p", N */
         double XL;
-		/* X */
+        /* X */
         double dataf1, dataf2, dataf3, dataf4, dataf5;
-		/* temp FP32 data */
+        /* temp FP32 data */
         double a;
         double f;
         // 54坐标系
@@ -867,63 +892,63 @@ public class Utils {
         // else
         // {
         a = 6378137;
-		/* a */
+        /* a */
         f = 0.003352810664;
         // }
         // a=6378149 ; /* a */
         // f=0.0033528 ;/* f */
-		/* f */
+        /* f */
         dataf1 = B * PI / 180.0;
         SINB = Math.sin(dataf1);
         COSB = Math.cos(dataf1);
         dataf2 = SINB / COSB;
         t = dataf2 * dataf2;
-		/* t=t^2=square(tgB); */
+        /* t=t^2=square(tgB); */
 
         dataf1 = a * (1.0 - f);
-		/* b */
+        /* b */
         e = (a * a - dataf1 * dataf1) / (a * a);
-		/* square(e) */
+        /* square(e) */
 
         dataf2 = Math.sqrt((a * a - dataf1 * dataf1) / (dataf1 * dataf1));
-		/* e' */
+        /* e' */
         dataf3 = dataf2 * COSB;
         ns = dataf3 * dataf3;
-		/* square(n) */
+        /* square(n) */
 
         dataf1 = Math.floor(L / 6) * 6 + 3;
-		/* L0 */
+        /* L0 */
         dataf2 = L - dataf1;
         ls = dataf2 * PI / 180.0;
-		/* ls=l"/p" */
+        /* ls=l"/p" */
 
         dataf1 = Math.sqrt(1.0 - e * SINB * SINB);
         NL = a / dataf1;
-		/* N */
+        /* N */
 
         dataf1 = 1.0 + e * 3.0 / 4.0;
         dataf1 += e * e * 45.0 / 64.0;
         dataf1 += e * e * e * 175.0 / 256.0;
         dataf1 += e * e * e * e * 11025.0 / 16384.0;
-		/* ~A */
+        /* ~A */
 
         dataf2 = e * 3.0 / 4.0;
         dataf2 += e * e * 15.0 / 16.0;
         dataf2 += e * e * e * 525.0 / 512.0;
         dataf2 += e * e * e * e * 2205.0 / 2048.0;
-		/* ~B */
+        /* ~B */
 
         dataf3 = e * e * 15.0 / 64.0;
         dataf3 += e * e * e * 105.0 / 256.0;
         dataf3 += e * e * e * e * 2205.0 / 4096.0;
-		/* ~C */
+        /* ~C */
 
         dataf4 = e * e * e * 35.0 / 512.0;
         dataf4 += e * e * e * e * 315.0 / 2048.0;
-		/* ~D */
+        /* ~D */
 
         dataf5 = e * e * e * e * 315.0 / 16384.0;
-		/* ~E */
+        /* ~E */
 
         XL = dataf1 * B * PI / 180.0;
         XL -= dataf2 * SINB * COSB;
@@ -932,7 +957,7 @@ public class Utils {
                 * (4.0 * COSB * COSB * COSB - 3.0 * COSB);
         XL *= a;
         XL *= 1.0 - e;
-		/* XL */
+        /* XL */
 
         dataf1 = XL;
         dataf1 += NL * ls * ls * SINB * COSB / 2.0;
@@ -942,7 +967,7 @@ public class Utils {
         dataf2 = 61.0 - 58.0 * t + t * t;
         dataf3 = NL * Math.pow(ls, 6.0) * SINB * Math.pow(COSB, 5.0) / 720.0;
         dataf1 += dataf3 * dataf2;
-		/* x */
+        /* x */
         dataf4 = NL * ls * COSB;
         dataf2 = NL * ls * ls * ls * COSB * COSB * COSB * (1 - t + ns) / 6.0;
         dataf4 += dataf2;
@@ -956,9 +981,9 @@ public class Utils {
         dataf2 = Math.floor(L / 6) + 1;
         dataf2 *= 1000000.0;
         dataf4 += dataf2;
-		/* y */
+        /* y */
         dataf3 = H - gcycz;
-		/* H */
+        /* H */
         LocationParam data = new LocationParam();
         data.setmLat(String.valueOf(dataf1));
         data.setmLon(String.valueOf(dataf4));
@@ -967,26 +992,26 @@ public class Utils {
     }
 
     /*
-	 * **************************************************************************************************
-	 * - 函数名称 : DD_GOSS(FP32 L, FP32 B, FP32 H, FP32 gcycz) - 函数说明 : 大地坐标转高斯坐标 -
-	 * 输入参数 : L:经度;B:纬度;H:高程;gcycz:高程异常值 - 输出参数 : 无
-	 * ******************************
-	 * ********************************************************************
-	 */
+     * **************************************************************************************************
+     * - 函数名称 : DD_GOSS(FP32 L, FP32 B, FP32 H, FP32 gcycz) - 函数说明 : 大地坐标转高斯坐标 -
+     * 输入参数 : L:经度;B:纬度;H:高程;gcycz:高程异常值 - 输出参数 : 无
+     * ******************************
+     * ********************************************************************
+     */
     public static CoodrinateDate DD_GOSS(double L /* in 经度 */
             , double B/* in 纬度 */, double H /* 高程 */, double gcycz /* 高程异常 */) {
         double SINB, COSB;
-		/* SINB=sinB,COSB=cosB */
+        /* SINB=sinB,COSB=cosB */
         double t;
-		/* t=tgB */
+        /* t=tgB */
         double e, ns;
-		/* e=(a*a-b*b)/(a*a),ns is n */
+        /* e=(a*a-b*b)/(a*a),ns is n */
         double ls, NL;
-		/* ls=l"/p", N */
+        /* ls=l"/p", N */
         double XL;
-		/* X */
+        /* X */
         double dataf1, dataf2, dataf3, dataf4, dataf5;
-		/* temp FP32 data */
+        /* temp FP32 data */
         double a;
         double f;
         // 54坐标系
@@ -1000,63 +1025,63 @@ public class Utils {
         // else
         // {
         a = 6378137;
-		/* a */
+        /* a */
         f = 0.003352810664;
         // }
         // a=6378149 ; /* a */
         // f=0.0033528 ;/* f */
-		/* f */
+        /* f */
         dataf1 = B * PI / 180.0;
         SINB = Math.sin(dataf1);
         COSB = Math.cos(dataf1);
         dataf2 = SINB / COSB;
         t = dataf2 * dataf2;
-		/* t=t^2=square(tgB); */
+        /* t=t^2=square(tgB); */
 
         dataf1 = a * (1.0 - f);
-		/* b */
+        /* b */
         e = (a * a - dataf1 * dataf1) / (a * a);
-		/* square(e) */
+        /* square(e) */
 
         dataf2 = Math.sqrt((a * a - dataf1 * dataf1) / (dataf1 * dataf1));
-		/* e' */
+        /* e' */
         dataf3 = dataf2 * COSB;
         ns = dataf3 * dataf3;
-		/* square(n) */
+        /* square(n) */
 
         dataf1 = Math.floor(L / 6) * 6 + 3;
-		/* L0 */
+        /* L0 */
         dataf2 = L - dataf1;
         ls = dataf2 * PI / 180.0;
-		/* ls=l"/p" */
+        /* ls=l"/p" */
 
         dataf1 = Math.sqrt(1.0 - e * SINB * SINB);
         NL = a / dataf1;
-		/* N */
+        /* N */
 
         dataf1 = 1.0 + e * 3.0 / 4.0;
         dataf1 += e * e * 45.0 / 64.0;
         dataf1 += e * e * e * 175.0 / 256.0;
         dataf1 += e * e * e * e * 11025.0 / 16384.0;
-		/* ~A */
+        /* ~A */
 
         dataf2 = e * 3.0 / 4.0;
         dataf2 += e * e * 15.0 / 16.0;
         dataf2 += e * e * e * 525.0 / 512.0;
         dataf2 += e * e * e * e * 2205.0 / 2048.0;
-		/* ~B */
+        /* ~B */
 
         dataf3 = e * e * 15.0 / 64.0;
         dataf3 += e * e * e * 105.0 / 256.0;
         dataf3 += e * e * e * e * 2205.0 / 4096.0;
-		/* ~C */
+        /* ~C */
 
         dataf4 = e * e * e * 35.0 / 512.0;
         dataf4 += e * e * e * e * 315.0 / 2048.0;
-		/* ~D */
+        /* ~D */
 
         dataf5 = e * e * e * e * 315.0 / 16384.0;
-		/* ~E */
+        /* ~E */
 
         XL = dataf1 * B * PI / 180.0;
         XL -= dataf2 * SINB * COSB;
@@ -1065,7 +1090,7 @@ public class Utils {
                 * (4.0 * COSB * COSB * COSB - 3.0 * COSB);
         XL *= a;
         XL *= 1.0 - e;
-		/* XL */
+        /* XL */
 
         dataf1 = XL;
         dataf1 += NL * ls * ls * SINB * COSB / 2.0;
@@ -1075,7 +1100,7 @@ public class Utils {
         dataf2 = 61.0 - 58.0 * t + t * t;
         dataf3 = NL * Math.pow(ls, 6.0) * SINB * Math.pow(COSB, 5.0) / 720.0;
         dataf1 += dataf3 * dataf2;
-		/* x */
+        /* x */
         dataf4 = NL * ls * COSB;
         dataf2 = NL * ls * ls * ls * COSB * COSB * COSB * (1 - t + ns) / 6.0;
         dataf4 += dataf2;
@@ -1089,9 +1114,9 @@ public class Utils {
         dataf2 = Math.floor(L / 6) + 1;
         dataf2 *= 1000000.0;
         dataf4 += dataf2;
-		/* y */
+        /* y */
         dataf3 = H - gcycz;
-		/* H */
+        /* H */
         CoodrinateDate data = new CoodrinateDate();
         data.setLat(dataf1);
         data.setLon(dataf4);
@@ -1103,12 +1128,12 @@ public class Utils {
     public static LocationParam DD_KJZJ(double L, double B, double H) {
         double dataf1, dataf2, dataf3, dataf4;
         // 84
-		/*
-		 * a= 6378137; f=0.003352810664
-		 *
-		 *
-		 * //54 a = 6378245 f = 0.0033523298692
-		 */
+        /*
+         * a= 6378137; f=0.003352810664
+         *
+         *
+         * //54 a = 6378245 f = 0.0033523298692
+         */
 
         // //54 zuobiaoxi
         // if (zbx == 0)
@@ -1124,32 +1149,32 @@ public class Utils {
         // }
 
         dataf2 = (1.0 - dataf1) * dataf3;/*
-										 * b = (1-0.0033523)*6378245 =
-										 * 6356863.2092865
-										 */
+         * b = (1-0.0033523)*6378245 =
+         * 6356863.2092865
+         */
 
         dataf1 = dataf3 * dataf3 - dataf2 * dataf2; /*
-													 * a^2-b^2 = 6378245*6378245
-													 * - 6356863.2092865*
-													 * 6356863.2092865 =
-													 * 272299418444.73970016091775
-													 */
+         * a^2-b^2 = 6378245*6378245
+         * - 6356863.2092865*
+         * 6356863.2092865 =
+         * 272299418444.73970016091775
+         */
         dataf1 /= dataf3 * dataf3; /* (a^2-b^2)/a^2 = 0.00669336208471 */
-		/* dataf1=e^2 */
+        /* dataf1=e^2 */
         dataf2 = B * PI / 180.0;
         dataf4 = Math.sin(dataf2);
-		/* sin(B) */
+        /* sin(B) */
         dataf2 = dataf3 / Math.sqrt(1.0 - dataf1 * dataf4 * dataf4);
-		/* N */
+        /* N */
 
         dataf3 = (dataf2 * (1.0 - dataf1) + H) * dataf4;
-		/* Z */
+        /* Z */
         dataf1 = (dataf2 + H) * Math.cos(B * PI / 180.0)
                 * Math.cos(L * PI / 180.0);
-		/* X */
+        /* X */
         dataf4 = (dataf2 + H) * Math.cos(B * PI / 180.0)
                 * Math.sin(L * PI / 180.0);
-		/* Y */
+        /* Y */
 
         // /* Z */
         // dblX = dataf1;
@@ -1179,7 +1204,7 @@ public class Utils {
         dataf1 = L / 6.0;
         dataf2 = Math.floor(dataf1) * 6.0;
         dataf2 += 3.0;
-		/* L0 */
+        /* L0 */
         lk = (L - dataf2) * PI / 180.0;
 
         // if (zbx == 0)
@@ -1192,14 +1217,14 @@ public class Utils {
         // else
         // {
         r0 = 6378137;
-		/* a */
+        /* a */
         dataf2 = 0.003352810664;
         // }
-		/* f */
+        /* f */
         dataf1 = r0 * (1 - dataf2);
-		/* b */
+        /* b */
         dataf2 = (r0 * r0 - dataf1 * dataf1) / (r0 * r0);
-		/* e^2 */
+        /* e^2 */
         r0 = Math.cos(PI / 6.0);
         // //54×ø±êÏµ
         // if (zbx == 0)
@@ -1215,13 +1240,13 @@ public class Utils {
         // }
 
         dataf3 = Math.sqrt(dataf2);
-		/* e */
+        /* e */
         dataf2 = Math.sin(B * PI / 180.0);
         U = (1 - dataf3 * dataf2) / (1 + dataf3 * dataf2);
         dataf1 = Math.sqrt(U);
         U = Math.pow(dataf1, dataf3);
         dataf2 = Math.tan(B * PI / 360.0);
-		/* tgB/2 */
+        /* tgB/2 */
         dataf1 = (1.0 + dataf2) / (1.0 - dataf2);
         U *= dataf1;
         // dblX = r0*log(U);
@@ -1261,8 +1286,8 @@ public class Utils {
     }
 
     /*
-	 * 判断是否是坐标类型
-	 */
+     * 判断是否是坐标类型
+     */
     public static boolean checkCoodrinate(String str) {
         return str.matches("[0-9°′″]+");
     }
@@ -1414,7 +1439,7 @@ public class Utils {
 //			coodrinate = DD_KJZJ(Double.valueOf(getLat(String.valueOf(lon))),
 //					Double.valueOf(getLat(String.valueOf(lat))), height);
 
-			/*bj54坐标系*/
+                /*bj54坐标系*/
                 //coodrinate=new BDLocation();
                 coodrinate = new LocationParam();
                 //double[] bj54lonlat=transWGS84ToBj54(bdlocation.mLongitude, bdlocation.mLatitude);
@@ -1465,8 +1490,8 @@ public class Utils {
         // 汉字个数
         int chCnt = 0;
         String regEx = "[\\u4e00-\\u9fa5]"; // 如果考虑繁体字，u9fa5-->u9fff
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(regEx);
-        java.util.regex.Matcher m = p.matcher(str);
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
         while (m.find()) {
             chCnt++;
         }
@@ -1560,7 +1585,7 @@ public class Utils {
      * 设置Activity的背景
      */
     public static void setActivityBackgroud(Context mContext, LinearLayout layout) {
-		/* 增加背景图片 */
+        /* 增加背景图片 */
         Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.bg);
         BitmapDrawable bd = new BitmapDrawable(bitmap);
@@ -1630,7 +1655,7 @@ public class Utils {
         byte[] report = new byte[27];
         report[0] = (byte) 0xAA;
         report[1] = 0x01;
-		/*时间处理*/
+        /*时间处理*/
         Calendar mCalendar = Calendar.getInstance();
         byte[] time = intToByteArray1(mCalendar.get(Calendar.HOUR_OF_DAY) * 3600 +
                 mCalendar.get(Calendar.MINUTE) * 60 +
@@ -1702,30 +1727,20 @@ public class Utils {
         report[10] = temp[1];
         for (int i = 0; i < locationReports.size(); i++) {
             BDLocationReportImp bdLocationReportImp = locationReports.get(i);
-            double lon = bdLocationReportImp.getLongitude();
-            byte lonDegressByte = (byte) lon;
-            double lonMinuteDouble = (lon - lonDegressByte) * 60;
-            byte lonMinuteByte = (byte) lonMinuteDouble;
-            double lonSecondDouble = (lonMinuteDouble - lonMinuteByte) * 60;
-            byte lonSecondByte = (byte) lonSecondDouble;
-            byte lonMillSecond = (byte) ((lonSecondDouble - lonSecondByte) * 10);
+            byte[] lonArr = getLonLatArr(bdLocationReportImp.getLongitude());
+
             report[11 + 13 * i] = 'E';
-            report[12 + 13 * i] = lonDegressByte;
-            report[13 + 13 * i] = lonMinuteByte;
-            report[14 + 13 * i] = lonSecondByte;
-            report[15 + 13 * i] = lonMillSecond;
-            double lat = bdLocationReportImp.getLatitude();
-            byte latDegressByte = (byte) lat;
-            double latMinuteDouble = (lat - latDegressByte) * 60;
-            byte latMinuteByte = (byte) latMinuteDouble;
-            double latSecondDouble = (latMinuteDouble - latMinuteByte) * 60;
-            byte latSecondByte = (byte) latSecondDouble;
-            byte latMillSecond = (byte) ((latSecondDouble - latSecondByte) * 60);
+            report[12 + 13 * i] = lonArr[0];
+            report[13 + 13 * i] = lonArr[1];
+            report[14 + 13 * i] = lonArr[2];
+            report[15 + 13 * i] = lonArr[3];
+
+            byte[] latArr = getLonLatArr(bdLocationReportImp.getLatitude());
             report[16 + 13 * i] = 'N';
-            report[17 + 13 * i] = latDegressByte;
-            report[18 + 13 * i] = latMinuteByte;
-            report[19 + 13 * i] = latSecondByte;
-            report[20 + 13 * i] = latMillSecond;
+            report[17 + 13 * i] = latArr[0];
+            report[18 + 13 * i] = latArr[1];
+            report[19 + 13 * i] = latArr[2];
+            report[20 + 13 * i] = latArr[3];
             report[21 + 13 * i] = (byte) bdLocationReportImp.getLocationReportSpeed();
             report[22 + 13 * i] = (byte) bdLocationReportImp.getLocationReportBearing();
             int status = 0;
@@ -1743,41 +1758,191 @@ public class Utils {
     public static String getPuShiCRCAlarm(BDLocationReportImp locationReports, byte alarmType) {
         if (locationReports == null)
             return "";
-        byte[] alarmArr = new byte[33];
-        alarmArr[0] = (byte) 0x00;
-        alarmArr[1] = (byte) 0xA2;
-        alarmArr[2] = alarmType;
-        String dateStr = locationReports.getReportTime();
-        byte[] timeArr = dateStr.getBytes();
-        System.arraycopy(timeArr, 0, alarmArr, 3, timeArr.length);
-        double lon = locationReports.getLongitude();
-        byte lonDegressByte = (byte) lon;
-        double lonMinuteDouble = (lon - lonDegressByte) * 60;
-        byte lonMinuteByte = (byte) lonMinuteDouble;
-        double lonSecondDouble = (lonMinuteDouble - lonMinuteByte) * 60;
-        byte lonSecondByte = (byte) lonSecondDouble;
-        byte lonMillSecond = (byte) ((lonSecondDouble - lonSecondByte) * 10);
-        alarmArr[3 + timeArr.length] = 'E';
-        alarmArr[4 + timeArr.length] = lonDegressByte;
-        alarmArr[5 + timeArr.length] = lonMinuteByte;
-        alarmArr[6 + timeArr.length] = lonSecondByte;
-        alarmArr[7 + timeArr.length] = lonMillSecond;
-        double lat = locationReports.getLatitude();
-        byte latDegressByte = (byte) lat;
-        double latMinuteDouble = (lat - latDegressByte) * 60;
-        byte latMinuteByte = (byte) latMinuteDouble;
-        double latSecondDouble = (latMinuteDouble - latMinuteByte) * 60;
-        byte latSecondByte = (byte) latSecondDouble;
-        byte latMillSecond = (byte) ((latSecondDouble - latSecondByte) * 60);
-        alarmArr[8 + timeArr.length] = 'N';
-        alarmArr[9 + timeArr.length] = latDegressByte;
-        alarmArr[10 + timeArr.length] = latMinuteByte;
-        alarmArr[11 + timeArr.length] = latSecondByte;
-        alarmArr[12 + timeArr.length] = latMillSecond;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        byte[] alarmArr = new byte[10];
+        byte[] lotArr = getLonLatArr(locationReports.getLongitude());
+        alarmArr[0] = 'E';
+        alarmArr[1] = lotArr[0];
+        alarmArr[2] = lotArr[1];
+        alarmArr[3] = lotArr[2];
+        alarmArr[4] = lotArr[3];
+
+        byte[] latArr = getLonLatArr(locationReports.getLatitude());
+        alarmArr[5] = 'N';
+        alarmArr[6] = latArr[0];
+        alarmArr[7] = latArr[1];
+        alarmArr[8] = latArr[2];
+        alarmArr[9] = latArr[3];
+
+        String hex = bytesToHexString2(alarmArr);
+        return hex;
+    }
+
+    public static String getPuShiCRCAlarm2(BDRNSSLocation bdrnssLocation, String message, byte type) {
+        if (bdrnssLocation == null) {
+            return "";
+        }
+        int msgLength = 0;
+        byte[] msgArr = null;
+        if (!TextUtils.isEmpty(message)) {
+            try {
+                msgArr = message.getBytes("GBK");
+                msgLength = msgArr.length;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        if (msgLength > SCConstants.ALARM_MSG_MAX_LENGTH) {
+            msgLength = SCConstants.ALARM_MSG_MAX_LENGTH;
+        }
+        byte[] alarmArr = new byte[14 + msgLength + 2];
+        alarmArr[0] = (byte) 0xA4;
+        alarmArr[1] = (byte) 0xA0;
+        alarmArr[2] = (byte) 0xF2;
+        alarmArr[3] = type;
+
+        byte[] lonArr = getLonLatArr(bdrnssLocation.getLongitude());
+
+        alarmArr[4] = 'E';
+        alarmArr[5] = lonArr[0];
+        alarmArr[6] = lonArr[1];
+        alarmArr[7] = lonArr[2];
+        alarmArr[8] = lonArr[3];
+
+        byte[] latArr = getLonLatArr(bdrnssLocation.getLatitude());
+        alarmArr[9] = 'N';
+        alarmArr[10] = latArr[0];
+        alarmArr[11] = latArr[1];
+        alarmArr[12] = latArr[2];
+        alarmArr[13] = latArr[3];
+
+        System.arraycopy(msgArr, 0, alarmArr, 14, msgLength);
+        alarmArr[alarmArr.length - 1] = getCRC(alarmArr, 0, alarmArr.length - 2);
+        String hex = bytesToHexString2(alarmArr);
+        return hex;
+    }
+
+
+//    public static byte[] getLonLatArr(double lonlat) {
+//        byte[] cmds = new byte[4];
+//
+//        byte lonDegreeByte = (byte) lonlat;
+//        double lonMinuteDouble = (lonlat - lonDegreeByte) * 60;
+//        byte lonMinuteByte = (byte) lonMinuteDouble;
+//        double lonSecondDouble = (lonMinuteDouble - lonMinuteByte) * 60;
+//        byte lonSecondByte = (byte) lonSecondDouble;
+//        byte lonMillSecond = (byte) ((lonSecondDouble - lonSecondByte) * 10);
+//
+//        cmds[0] = lonDegreeByte;
+//        cmds[1] = lonMinuteByte;
+//        cmds[2] = lonSecondByte;
+//        cmds[3] = lonMillSecond;
+//        for (int i = 0; i < cmds.length ;i ++) {
+//            Log.i("TEST","=======================>" + cmds[i]);
+//        }
+//        return cmds;
+//    }
+
+    private static BigDecimal getBigDecimal(byte num) {
+        bigDecimal = new BigDecimal(String.valueOf(num));
+        return bigDecimal;
+    }
+
+    private static BigDecimal getBigDecimal(double num) {
+        bigDecimal = new BigDecimal(String.valueOf(num));
+        return bigDecimal;
+    }
+
+
+    public static byte[] getLonLatArr(double lonlat) {
+//      long startTime = System.currentTimeMillis();
+        byte[] cmds = new byte[0];
+        try {
+            lonBigDecimal = getBigDecimal(lonlat);
+            byte lonDegreeByte = lonBigDecimal.byteValue();
+
+            muniteBigDecimal = lonBigDecimal.subtract(getBigDecimal(lonDegreeByte)).multiply(getBigDecimal((byte) 60));
+            byte lonMinuteByte = muniteBigDecimal.byteValue();
+
+            secondBigDecimal = muniteBigDecimal.subtract(getBigDecimal(lonMinuteByte)).multiply(getBigDecimal(60));
+            byte lonSecondByte = secondBigDecimal.byteValue();
+
+            byte lonMillSecond =  secondBigDecimal.subtract(getBigDecimal(lonSecondByte)).multiply(getBigDecimal(10)).byteValue();
+
+            cmds = new byte[4];
+            cmds[0] = lonDegreeByte;
+            cmds[1] = lonMinuteByte;
+            cmds[2] = lonSecondByte;
+            cmds[3] = lonMillSecond;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.i("TEST" ,"=====================>spend time : " + (System.currentTimeMillis() - startTime));
+//        for (int i = 0; i < cmds.length ;i ++) {
+//            Log.i("TEST","=======================>" + cmds[i]);
+//        }
+        return cmds;
+    }
+
+
+    public static String getDistanceCmd(UpDisTime upDisTime) {
+        byte[] alarmArr = new byte[12];
+        alarmArr[0] = (byte) 0xA4;
+        alarmArr[1] = (byte) 0xA0;
+        alarmArr[2] = (byte) 0xF3;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
-            date = sdf.parse(dateStr);
+            date = sdf.parse(upDisTime.getLocTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.setTime(date);
+
+        int year = mCalendar.get(Calendar.YEAR);
+        int month = mCalendar.get(Calendar.MONTH) + 1;
+        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+        alarmArr[3] = (byte) (year - 2000);
+        alarmArr[4] = (byte) month;
+        alarmArr[5] = (byte) day;
+
+        int num = string2Integer(upDisTime.getDistanceNum());
+        byte[] array = intToByteArray(num);
+        for (int i = 0; i < array.length; i++) {
+            alarmArr[6 + i] = array[i];
+        }
+        alarmArr[alarmArr.length - 1] = getCRC(alarmArr, 0, alarmArr.length - 2);
+        String hex = bytesToHexString2(alarmArr);
+        return hex;
+    }
+
+    public static double string2Double(String str) {
+        double value = 0;
+        if (!TextUtils.isEmpty(str)) {
+            value = Double.valueOf(str);
+        }
+        return value;
+    }
+
+    public static int string2Integer(String str) {
+        return (int) string2Double(str);
+    }
+
+    public static String getPuShiCRCAlarm2(List<BDRNSSLocation> list) {
+        if (list == null || list.isEmpty()) {
+            return "";
+        }
+        int size = 12 + SCConstants.MULTI_POINT_NUM * 13 + 2;
+        byte[] alarmArr = new byte[size];
+        alarmArr[0] = (byte) 0xA4;
+        alarmArr[1] = (byte) 0xA0;
+        alarmArr[2] = (byte) 0xF1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        try {
+            date = sdf.parse(sdf.format(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -1789,12 +1954,39 @@ public class Utils {
         int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = mCalendar.get(Calendar.MINUTE);
         int second = mCalendar.get(Calendar.SECOND);
-        alarmArr[13 + timeArr.length] = (byte) (year - 2000);
-        alarmArr[14 + timeArr.length] = (byte) month;
-        alarmArr[15 + timeArr.length] = (byte) day;
-        alarmArr[16 + timeArr.length] = (byte) hour;
-        alarmArr[17 + timeArr.length] = (byte) minute;
-        alarmArr[18 + timeArr.length] = getCRC(alarmArr, 0, alarmArr.length - 1);
+
+        alarmArr[3] = (byte) (year - 2000);
+        alarmArr[4] = (byte) month;
+        alarmArr[5] = (byte) day;
+        alarmArr[6] = (byte) hour;
+        alarmArr[7] = (byte) minute;
+        alarmArr[8] = (byte) second;
+        alarmArr[9] = SCConstants.MULTI_POINT_NUM;
+        alarmArr[10] = (byte) 0x00;
+        alarmArr[11] = (byte) 0x1E;
+
+        for (int i = 0; i < list.size(); i++) {
+            BDRNSSLocation bdrnssLocation = list.get(i);
+            byte[] lonArr = getLonLatArr(bdrnssLocation.getLongitude());
+            alarmArr[12 + i * 13] = 'E';
+            alarmArr[13 + i * 13] = lonArr[0];
+            alarmArr[14 + i * 13] = lonArr[1];
+            alarmArr[15 + i * 13] = lonArr[2];
+            alarmArr[16 + i * 13] = lonArr[3];
+
+            byte[] latArr = getLonLatArr(bdrnssLocation.getLatitude());
+
+            alarmArr[17 + i * 13] = 'N';
+            alarmArr[18 + i * 13] = latArr[0];
+            alarmArr[19 + i * 13] = latArr[1];
+            alarmArr[20 + i * 13] = latArr[2];
+            alarmArr[21 + i * 13] = latArr[3];
+
+            alarmArr[22 + i * 13] = (byte) (bdrnssLocation.getSpeed() * 10);
+            alarmArr[23 + i * 13] = (byte) (bdrnssLocation.getBearing() / 2);
+            alarmArr[24 + i * 13] = (byte) 0x86;
+        }
+        alarmArr[size - 1] = getCRC(alarmArr, 0, alarmArr.length - 2);
         String hex = bytesToHexString2(alarmArr);
         return hex;
     }
@@ -1891,8 +2083,8 @@ public class Utils {
      *
      * @param mContext
      */
-    public static void checkBDLocationPort(Context mContext, boolean isOpen, DialogInterface.OnClickListener positiveListener,
-                                           DialogInterface.OnClickListener negitiveListener) {
+    public static void checkBDLocationPort(Context mContext, boolean isOpen, OnClickListener positiveListener,
+                                           OnClickListener negitiveListener) {
         if (!isOpen && (checkBDLocationPortDialog == null || (checkBDLocationPortDialog != null && !checkBDLocationPortDialog.isShowing()))) {
             checkBDLocationPortDialog = createAlertDialog(mContext, "提示", "北斗导航未启用,是否进入启用?", false,
                     positiveListener, "是", negitiveListener, "否");
@@ -2026,7 +2218,7 @@ public class Utils {
     public static String buildeLocationReport1(BDLocationReport locationReport) {
         byte[] mReportArray = new byte[13];
         mReportArray[0] = (byte) 0xA0;
-		/*位置报告时间*/
+        /*位置报告时间*/
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -2044,7 +2236,7 @@ public class Utils {
         time = hour | minute | second | millSecond;
         byte[] mLocationTimeArray = intToByteArray(time);
         System.arraycopy(mLocationTimeArray, 1, mReportArray, 1, mLocationTimeArray.length - 1);
-		/*位置报告经度*/
+        /*位置报告经度*/
 
         int[] mReportLonArray = mTranslateLonLatUnit(locationReport.getLongitude());
         int mLonDegress = mReportLonArray[0];
@@ -2058,7 +2250,7 @@ public class Utils {
         byte[] mLocationLonArray = intToByteArray(mReportLongitude);
         System.arraycopy(mLocationLonArray, 1, mReportArray, 4, 3);
 
-		/*位置报告纬度*/
+        /*位置报告纬度*/
         int[] mReportLanArray = mTranslateLonLatUnit(locationReport.getLatitude());
         int mLatDegress = mReportLanArray[0];
         int mLatMinute = mReportLanArray[1];
@@ -2073,7 +2265,7 @@ public class Utils {
         mReportLatidute = mLatDegress | mLatMinute | mLatSecond | mLatMillSec | heightType;
         byte[] mLocationLatArray = intToByteArray(mReportLatidute);
         System.arraycopy(mLocationLatArray, 1, mReportArray, 7, 3);
-		/*高程*/
+        /*高程*/
         double reportHeight = locationReport.getHeight();
         int mHeightFlag = 0;
         int mHeightValue = (int) Math.abs(reportHeight);
@@ -2319,7 +2511,7 @@ public class Utils {
         BDLocation coodrinate = null;
         switch (flag) {
             case 0:
-			/* 大地坐标 */
+                /* 大地坐标 */
                 coodrinate = new BDLocation();
                 coodrinate.setLongitude(bdlocation.mLongitude);
                 coodrinate.setLatitude(bdlocation.mLatitude);
@@ -2334,17 +2526,17 @@ public class Utils {
                 coodrinate.setEarthHeight(bdlocation.getEarthHeight());
                 break;
             case 1:
-			/* 高斯平面坐标 */
+                /* 高斯平面坐标 */
                 coodrinate = LBToGaoSi(bdlocation.mLongitude, bdlocation.mLatitude,
                         bdlocation.getEarthHeight());
                 break;
             case 2:
-			/* 麦卡托平面坐标 */
+                /* 麦卡托平面坐标 */
                 coodrinate = Maikatou(bdlocation.mLongitude, bdlocation.mLatitude,
                         bdlocation.getEarthHeight());
                 break;
             case 3:
-			/* 空间直角坐标 */
+                /* 空间直角坐标 */
                 coodrinate = DD_KJZJ1(bdlocation.mLongitude, bdlocation.mLatitude,
                         bdlocation.getEarthHeight());
                 break;
@@ -2587,12 +2779,12 @@ public class Utils {
     public static BDLocation DD_KJZJ1(double L, double B, double H) {
         double dataf1, dataf2, dataf3, dataf4;
         // 84
-		/*
-		 * a= 6378137; f=0.003352810664
-		 *
-		 *
-		 * //54 a = 6378245 f = 0.0033523298692
-		 */
+        /*
+         * a= 6378137; f=0.003352810664
+         *
+         *
+         * //54 a = 6378245 f = 0.0033523298692
+         */
 
         // //54 zuobiaoxi
         // if (zbx == 0)
@@ -2608,32 +2800,32 @@ public class Utils {
         // }
 
         dataf2 = (1.0 - dataf1) * dataf3;/*
-										 * b = (1-0.0033523)*6378245 =
-										 * 6356863.2092865
-										 */
+         * b = (1-0.0033523)*6378245 =
+         * 6356863.2092865
+         */
 
         dataf1 = dataf3 * dataf3 - dataf2 * dataf2; /*
-													 * a^2-b^2 = 6378245*6378245
-													 * - 6356863.2092865*
-													 * 6356863.2092865 =
-													 * 272299418444.73970016091775
-													 */
+         * a^2-b^2 = 6378245*6378245
+         * - 6356863.2092865*
+         * 6356863.2092865 =
+         * 272299418444.73970016091775
+         */
         dataf1 /= dataf3 * dataf3; /* (a^2-b^2)/a^2 = 0.00669336208471 */
-		/* dataf1=e^2 */
+        /* dataf1=e^2 */
         dataf2 = B * PI / 180.0;
         dataf4 = Math.sin(dataf2);
-		/* sin(B) */
+        /* sin(B) */
         dataf2 = dataf3 / Math.sqrt(1.0 - dataf1 * dataf4 * dataf4);
-		/* N */
+        /* N */
 
         dataf3 = (dataf2 * (1.0 - dataf1) + H) * dataf4;
-		/* Z */
+        /* Z */
         dataf1 = (dataf2 + H) * Math.cos(B * PI / 180.0)
                 * Math.cos(L * PI / 180.0);
-		/* X */
+        /* X */
         dataf4 = (dataf2 + H) * Math.cos(B * PI / 180.0)
                 * Math.sin(L * PI / 180.0);
-		/* Y */
+        /* Y */
         BDLocation coodrinate = new BDLocation();
         coodrinate.setLongitude(dataf1);
         coodrinate.setLatitude(dataf4);
@@ -2651,44 +2843,41 @@ public class Utils {
         //Toast.makeText(mContext, "时间:"+report.getReportTime(), Toast.LENGTH_SHORT).show();
         NotificationManager mNotificationManager = (NotificationManager) mContext
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = buildReportNotification(mContext,
-                report.getUserAddress());
-		/* 点击该通知后要跳转的Activity */
+        Notification.Builder builder = buildReportNotification(mContext,
+                report.getUserAddress(),
+                new String("来自 " + report.mUserAddress + " 位置报告"),
+                "经度：" + report.mLongitude + "纬度:" + report.mLatitude);
+        /* 点击该通知后要跳转的Activity */
         Intent notificationIntent = null;
         if ("S500".equals(Utils.DEVICE_MODEL)) {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, FriendsLocationActivity.class);
         } else {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, BDManagerHorizontalActivity.class);
         }
         Utils.BD_MANAGER_PAGER_INDEX = 5; //显示友邻位置页面
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
                 notificationIntent, 0);
-        notification.setLatestEventInfo(
-                mContext,
-                new String("来自 " + report.mUserAddress + " 位置报告"),
-                "经度：" + report.mLongitude
-                        + "纬度:"
-                        + report.mLatitude,
-                contentIntent);
+        builder.setContentIntent(contentIntent);
         NOTIFICATION_ID++;
 
         //mNotificationManager.notify(NOTIFICATION_ID % 10, notification);
-        mNotificationManager.notify(Config.MY_LOC_REPORT_NOTIFICATION, notification);
+        mNotificationManager.notify(Config.MY_LOC_REPORT_NOTIFICATION, builder.build());
         friendLocationNotificationID = NOTIFICATION_ID % 10;
-        destoryNotification = notification;
+        destoryNotification = builder.build();
     }
 
-    private static Notification buildReportNotification(Context mContext,
-                                                        String tickerText) {
-        Notification notification = new Notification();
-        notification.tickerText = tickerText;
-        notification.icon = R.drawable.title_loc_flag;
-        notification.when = System.currentTimeMillis();
-        notification.defaults = Notification.DEFAULT_SOUND;
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        return notification;
+    private static Notification.Builder buildReportNotification(Context mContext, String tickerText, String contentTitle, String contentMsg) {
+        Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(R.drawable.title_loc_flag);
+        builder.setTicker(tickerText);
+        builder.setContentTitle(contentTitle);
+        builder.setContentText(contentMsg);
+        builder.setWhen(System.currentTimeMillis());
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setAutoCancel(true);
+        return builder;
     }
 
     public static double lonStr2Double(String lon) {
@@ -2824,27 +3013,28 @@ public class Utils {
      */
     public static void mShowMessageNotification(Context mContext,
                                                 BDMessageInfo message, String messagContent) {
-		/*发送Notification*/
+        /*发送Notification*/
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = buildMessageNotification(mContext, message.getmUserAddress());
+
         Intent notificationIntent = null;
         if ("S500".equals(Utils.DEVICE_MODEL)) {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, BDSendMsgPortActivity.class);
         } else {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, BDSendMsgLandScapeActivity.class);
         }
+        Notification.Builder builder = buildMessageNotification(mContext, message.getmUserAddress(), new String("来自 " + message.getmUserAddress() + " 信息"), messagContent);
         Utils.BD_MESSAGE_PAGER_INDEX = 2;
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(mContext, new String("来自 " + message.getmUserAddress() + " 信息"), messagContent, contentIntent);
+        builder.setContentIntent(contentIntent);
         NOTIFICATION_ID++;
         Utils.smsNotificationShow = true;
         //mNotificationManager.notify(NOTIFICATION_ID%10, notification);
-        mNotificationManager.notify(Config.SMS_NOTIFICATION, notification);
+        mNotificationManager.notify(Config.SMS_NOTIFICATION, builder.build());
 
         messageNotificationID = NOTIFICATION_ID % 10;
-        destoryNotification = notification;
+        destoryNotification = builder.build();
     }
 
     /**
@@ -2856,15 +3046,15 @@ public class Utils {
     @SuppressLint("NewApi")
     public static void mShowMessageNotification2(Context mContext,
                                                  BDMessageInfo message, String messagContent, ArrayList<FriendBDPoint> friendLocationList) {
-		/*发送Notification*/
+        /*发送Notification*/
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = buildMessageNotification(mContext, message.getmUserAddress());
+        Notification.Builder builder = buildMessageNotification(mContext, message.getmUserAddress(), new String("来自 " + message.getmUserAddress() + " 友邻位置"), messagContent);
         Intent notificationIntent = null;
         if ("S500".equals(Utils.DEVICE_MODEL)) {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, BDSendMsgPortActivity.class);
         } else {
-			/*点击该通知后要跳转的Activity*/
+            /*点击该通知后要跳转的Activity*/
             notificationIntent = new Intent(mContext, NaviStudioActivity.class);
             notificationIntent.putExtra("friendLocationList", friendLocationList);
             notificationIntent.putExtra(Constants.INTENT_ACTION, Constants.INTENT_TYPE_FRIEND_LOCATION_LIST_NOTIFYCATION);
@@ -2876,25 +3066,26 @@ public class Utils {
         bundle.putSerializable("friendLocationList", friendLocationList);
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0, bundle);
 //		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,notificationIntent, 0);
-        notification.setLatestEventInfo(mContext, new String("来自 " + message.getmUserAddress() + " 友邻位置"), messagContent, contentIntent);
+        builder.setContentIntent(contentIntent);
         NOTIFICATION_ID++;
         Utils.smsNotificationShow = true;
         //mNotificationManager.notify(NOTIFICATION_ID%10, notification);
-        mNotificationManager.notify(Config.FRIENDS_LOC_NOTIFICATION, notification);
+        mNotificationManager.notify(Config.FRIENDS_LOC_NOTIFICATION, builder.build());
 
         messageNotificationID = NOTIFICATION_ID % 10;
-        destoryNotification = notification;
+        destoryNotification = builder.build();
     }
 
-    private static Notification buildMessageNotification(Context mContext,
-                                                         String tickerText) {
-        Notification notification = new Notification();
-        notification.tickerText = tickerText;
-        notification.icon = R.drawable.title_msg_flag;
-        notification.when = System.currentTimeMillis();
-        notification.defaults = Notification.DEFAULT_SOUND;
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        return notification;
+    private static Notification.Builder buildMessageNotification(Context mContext, String tickerText, String contentTitle, String contentMsg) {
+        Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(R.drawable.title_msg_flag);
+        builder.setTicker(tickerText);
+        builder.setContentTitle(contentTitle);
+        builder.setContentText(contentMsg);
+        builder.setWhen(System.currentTimeMillis());
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setAutoCancel(true);
+        return builder;
     }
 
     /**
@@ -3187,5 +3378,188 @@ public class Utils {
         return beforePoint + afterPonint / 100;
     }
 
+    private static double rad(double d) {
+        return d * Math.PI / 180.00; //角度转换成弧度
+    }
+
+    /*
+     * 根据经纬度计算两点之间的距离（单位米）
+     * */
+    public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+        Log.i("TEST", "===========================>longitude1=" + longitude1 + ",latitude1 =" + latitude1 + ",longitude2 =" + longitude2 + "，latitude2=  " + latitude2);
+        double Lat1 = rad(latitude1);
+        double Lat2 = rad(latitude2);
+        double a = Lat1 - Lat2;
+        double b = rad(longitude1) - rad(longitude2);
+        double distance = 2 * Math.asin(Math
+                .sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(Lat1) * Math.cos(Lat2) * Math.pow(Math.sin(b / 2), 2)));
+        distance = distance * 6378137.0;
+        distance = Math.round(distance * 10000d) / 10000d;
+        //distance = distance / 1000;
+        return distance;
+    }
+
+    public static String getSOSSettings(String message) throws UnsupportedEncodingException {
+        byte[] array = message.getBytes("GBK");
+        //byte[] temp = new byte[array.length + 1];
+        //temp[0] = (byte) 0xA4;
+        //System.arraycopy(array, 0, temp, 1, array.length);
+//        return Utils.bytesToHexString2(temp);
+        return Utils.bytesToHexString2(array);
+    }
+
+    public static boolean isServiceWork(Context mContext, String serviceName) {
+        boolean isWork = false;
+        ActivityManager myAM = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(40);
+        if (myList.size() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < myList.size(); i++) {
+            String mName = myList.get(i).service.getClassName().toString();
+            if (mName.equals(serviceName)) {
+                isWork = true;
+                break;
+            }
+        }
+        return isWork;
+    }
+
+    public static String getMsg4GHeadCmd(int num) {
+        return SCConstants.SEND_4G_CMD + "=" + num;
+    }
+
+    public static byte[] getMsg4GBodyCmd(String body) {
+        try {
+            String temp = "";
+            byte[] arr = temp.getBytes("GBK");
+            byte[] bodyArr = body.getBytes("GBK");
+
+            byte[] cmdArr = new byte[arr.length + bodyArr.length + 1];
+            System.arraycopy(arr, 0, cmdArr, 0, arr.length);
+            cmdArr[arr.length] = (byte) 0x3E;
+            System.arraycopy(bodyArr, 0, cmdArr, arr.length +1 , bodyArr.length);
+
+           return cmdArr;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static byte[] getMsg4GConfirmCmd(boolean isSend) {
+        try {
+            String cmd =  "";
+            byte[] arr = cmd.getBytes("GBK");
+            byte[] cmdArr = new byte[arr.length + 2];
+            System.arraycopy(arr, 0, cmdArr, 0, arr.length);
+            cmdArr[arr.length] = (byte) 0x3E;
+            cmdArr[arr.length + 1] = (byte) (isSend ? 0x1A : 0x1B);
+            return cmdArr;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getQuery4GCmd() {
+        return SCConstants.QUERY_4G_MESSAGE;
+    }
+
+    public static String gbEncoding(final String gbString) {
+        char[] utfBytes = gbString.toCharArray();
+        String unicodeBytes = "";
+        for (int i = 0; i < utfBytes.length; i++) {
+            String hexB = Integer.toHexString(utfBytes[i]);
+            if (hexB.length() <= 2) {
+                hexB = "00" + hexB;
+            }
+            unicodeBytes = unicodeBytes + "" + hexB;
+        }
+        Log.i("TEST", "==========================>unicodeBytes =" + unicodeBytes.toUpperCase());
+        return unicodeBytes.toUpperCase();
+    }
+
+    public static byte[] get4GMsgArr(String centerPhoneNumber, String targetPhoneNumber, String content) {
+        Log.i("TEST" ,"==============>get4GMsgArr centerPhoneNumber =" +centerPhoneNumber +",targetPhoneNumber =" +targetPhoneNumber +",content="+content);
+        byte[] pduCmd = null;
+        try {
+            byte[] centerNumArr = new byte[1];
+            if (TextUtils.isEmpty(centerPhoneNumber)) {
+                centerNumArr[0] = (byte) 0;
+            }
+            byte[] targetNumArr = getTargetPhoneNumber(targetPhoneNumber);
+            byte[] contentArr = hexStringToBytes(gbEncoding(content));
+
+            pduCmd = new byte[centerNumArr.length + targetNumArr.length + contentArr.length + 2];
+            pduCmd[0] = centerNumArr[0];
+            System.arraycopy(targetNumArr, 0, pduCmd, 1, targetNumArr.length);
+            pduCmd[targetNumArr.length + 1] = (byte) 0xAA;
+            pduCmd[targetNumArr.length + 2] = (byte) contentArr.length;
+            System.arraycopy(contentArr, 0, pduCmd, 3 + targetNumArr.length, contentArr.length);
+
+            Log.i("TEST", "====================>get4GMsgLength =" + bytesToHexString2(pduCmd));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pduCmd;
+    }
+
+    public static int get4GMsgLength(String centerPhoneNumber, String targetPhoneNumber, String content) {
+        byte[] cmd = get4GMsgArr(centerPhoneNumber, targetPhoneNumber, content);
+        int length = 0;
+        if (cmd != null) {
+            length = cmd.length -1;
+        }
+        Log.i("TEST", "===========================> length =" + length);
+        return length;
+    }
+
+    public static byte[] getTargetPhoneNumber(String phoneNumber) {
+        if (TextUtils.isEmpty(phoneNumber)) {
+            return null;
+        }
+        if (phoneNumber.startsWith("+")) {
+            phoneNumber = phoneNumber.replaceAll("\\+", "");
+        }
+        if (phoneNumber.length() % 2 != 0) {
+            phoneNumber += "F";
+        }
+        StringBuffer oddBuffer = new StringBuffer();
+        StringBuffer evenBuffer = new StringBuffer();
+        StringBuffer translateBuffer = new StringBuffer();
+        for (int i = 0; i < phoneNumber.length(); i++) {
+            char temp = phoneNumber.charAt(i);
+            if (i % 2 == 0) {
+                evenBuffer.append(temp);
+            } else {
+                oddBuffer.append(temp);
+            }
+        }
+        if (oddBuffer.length() == evenBuffer.length()) {
+            for (int i = 0; i < oddBuffer.length(); i++) {
+                translateBuffer.append(oddBuffer.charAt(i));
+                translateBuffer.append(evenBuffer.charAt(i));
+            }
+        }
+        String cmd = "11000D91" + translateBuffer.toString() + "0008";
+        return hexStringToBytes(cmd);
+    }
+
+    public static String read4GCmd(int num) {
+        return ("AT+CMGR=" + num);
+    }
+
+    public static int getValueByStr(String valueStr) {
+        if (TextUtils.isEmpty(valueStr)) {
+            return 0;
+        }
+        if (TextUtils.isDigitsOnly(valueStr)) {
+            return Integer.valueOf(valueStr);
+        } else {
+            return Integer.parseInt(valueStr , 16);
+        }
+    }
 
 }

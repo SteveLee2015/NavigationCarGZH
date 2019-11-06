@@ -25,7 +25,11 @@ import com.bd.comm.protocal.BDRNSSLocationListener;
 import com.bd.comm.protocal.GPSatellite;
 import com.bd.comm.protocal.GPSatelliteListener;
 import com.mapabc.android.activity.R;
+import com.mapabc.android.activity.listener.CustomBDRNSSLocationListener;
 import com.mapabc.android.activity.utils.ReceiverAction;
+import com.mapabc.android.activity.utils.ToolsUtils;
+import com.mapabc.naviapi.MapAPI;
+import com.mapabc.naviapi.type.NSLonLat;
 import com.novsky.map.util.CollectionUtils;
 import com.novsky.map.view.CustomSatelliateMap;
 import com.novsky.map.view.CustomSatelliateSnr;
@@ -82,10 +86,10 @@ public class GPSStatusActivity extends Activity implements View.OnClickListener 
 
     List<GPSatellite> gplist = new ArrayList<>();
 
-    private BDRNSSLocationListener mBDRNSSLocationListener = new BDRNSSLocationListener() {
+    private BDRNSSLocationListener mBDRNSSLocationListener = new CustomBDRNSSLocationListener() {
         @Override
         public void onLocationChanged(BDRNSSLocation arg0) {
-
+            super.onLocationChanged(arg0);
             if (BDRNSSManager.LocationStrategy.BD_ONLY_STRATEGY != FLAG) {
 
                 Message message = mHandler.obtainMessage();
@@ -128,6 +132,10 @@ public class GPSStatusActivity extends Activity implements View.OnClickListener 
                     if (true) {//???
                         if (mBDRNSSLocation.isAvailable()){
                             mGPSLocationStatus.setText("状态:已定位");
+                            MapAPI.getInstance().setVehicleGPS(3);
+                            double[] lonlat = ToolsUtils.wgs84togcj02((float) mBDRNSSLocation.getLongitude(), (float) mBDRNSSLocation.getLatitude());
+                            NSLonLat vehicleLonLat = new NSLonLat((float) lonlat[0],(float) lonlat[1] );
+                            MapAPI.getInstance().setVehiclePosInfo(vehicleLonLat, 0);
                         }else {
                             mGPSLocationStatus.setText("状态:未定位");
                         }

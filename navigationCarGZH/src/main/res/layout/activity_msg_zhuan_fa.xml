@@ -96,8 +96,7 @@
            android:layout_height="wrap_content" 
            android:text="发送至手机"
            android:textSize="14sp"
-           android:visibility="visible"
-          />
+           android:visibility="invisible" />
        </LinearLayout>   
    
       <LinearLayout
